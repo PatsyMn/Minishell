@@ -5,22 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 19:21:46 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/15 19:30:32 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/08/15 22:39:15 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/08/15 22:45:13 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-Gérer ' ' qui doit empêcher le shell d’interpréter les méta-caractères
-présents dans la séquence entre guillemets.
->
-Gérer " " qui doit empêcher le shell d’interpréter les méta-caractères
-présents dans la séquence entre guillemets sauf le $.
->
-Gérer les pipes | en dehors des Quotes.
-*/
-
-#include "minishell.h"
 
 static int	check_unclosed_single_quote(char *str)
 {

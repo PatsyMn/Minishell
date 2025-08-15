@@ -1,8 +1,10 @@
 CC = cc
-NAME = philo
+NAME = minishell
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 
-SRCS =
+SRCS =	main.c \
+		parsing/parser_syntax.c \
+
 
 OBJS = $(SRCS:.c=.o)
 
