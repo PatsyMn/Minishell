@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/15 22:23:25 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/16 12:49:22 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ Ici nous avons 4 éléments :
 
 1 : -l */
 
-static char	*skip_spaces(char *str)
+/*static char	*skip_spaces(char *str)
 {
 	while (*str && (*str == ' ' || *str == '\t' || *str == '\n'))
 		str++;
 	return (str);
-}
+}*/
 
 static t_token_type	get_token_type(char c)
 {
