@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/15 22:24:29 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:21:24 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ int					count_tokens(t_token *tokens);
 
 /* ========== PARSER FUNCTIONS ========== */
 
-// parser_syntax.c
-int					check_unclosed_quotes(char *str);
-int					check_special_chars(char *str);
+
 
 
 #endif
