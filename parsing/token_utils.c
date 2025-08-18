@@ -6,11 +6,11 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:06:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/15 22:07:06 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:17:17 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_token	*create_token(t_token_type type, char *str)
 {

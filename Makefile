@@ -1,17 +1,26 @@
 CC = cc
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -g -I./Libft -fsanitize=address -g3
 
 SRCS =	main.c \
-		parsing/parser_syntax.c \
+		parsing/parser.c\
+		parsing/token_utils.c\
+		parsing/utility_functions.c\
+		parsing/lexer_utils.c\
+		parsing/lexer_check.c\
+		parsing/lexer_metachar.c\
+		parsing/lexer_tokenize.c\
 
 
 OBJS = $(SRCS:.c=.o)
 
-all: $(NAME)
+all: libft $(NAME)
 
 $(NAME): $(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L./Libft -lft
+
+libft:
+		make -C ./Libft
 
 .c.o:
 		$(CC) $(CFLAGS) -c $< -o $@

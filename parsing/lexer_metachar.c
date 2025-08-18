@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_metachar.c                                  :+:      :+:    :+:   */
+/*   lexer_metachar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:38:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/16 14:10:51 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:16:31 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	update_quote_context(t_quote_context *context, char c)
 {
