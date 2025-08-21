@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:39:15 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:24:02 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:32:39 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,3 @@ int	check_special_chars(char *str)
 	}
 	return (0);
 }
-

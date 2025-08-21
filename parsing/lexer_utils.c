@@ -6,13 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:50:54 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:41:53 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:47:13 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	free_split(char **split_input)
+void	free_split(char **split_input)
 {
 	int	i;
 
