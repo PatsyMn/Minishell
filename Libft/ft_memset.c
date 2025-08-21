@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility_functions.c                                :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/03/31 09:46:12 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/03/31 09:46:13 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-char	*ft_strndup(const char *s, size_t n)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	unsigned char	*new_s;
+	unsigned char	new_c;
+	size_t			i;
 
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
+	new_s = s;
+	new_c = c;
 	i = 0;
-	while (i < len)
+	while (i < n)
 	{
-		dup[i] = s[i];
+		new_s[i] = new_c;
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	return (s);
 }
 
+// int main()
+// {
+// 	size_t n = 42;
+// 	char test[42];
+// 	ft_memset(test, 'A', 42);
+// 	write(1, test, 42);
+// }

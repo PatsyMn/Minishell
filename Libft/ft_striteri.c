@@ -1,36 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility_functions.c                                :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/03/31 09:46:41 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/03/31 09:46:42 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-char	*ft_strndup(const char *s, size_t n)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	unsigned int	i;
 
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
 	i = 0;
-	while (i < len)
+	if (!s || !f)
+		return ;
+	while (s[i])
 	{
-		dup[i] = s[i];
+		f(i, &s[i]);
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
 }
 
+// void test_tolower(unsigned int i, char *s)
+// {
+// 	(void)i;
+// 	if (*s >= 'A' && *s <= 'Z')
+// 		*s += 32;
+// }
+
+// int main ()
+// {
+// 	char* s = ft_strdup("SUNSHINEAAAAAA");
+// 	ft_striteri(s, test_tolower);
+// 	printf("%s\n", s);
+// }

@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility_functions.c                                :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/03/31 09:46:21 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/03/31 09:46:22 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-char	*ft_strndup(const char *s, size_t n)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
-
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (i < len)
+	if (n == -2147483648)
 	{
-		dup[i] = s[i];
-		i++;
+		write (fd, "-2147483648", 11);
+		return ;
 	}
-	dup[i] = '\0';
-	return (dup);
+	if (n < 0)
+	{
+		n = -n;
+		ft_putchar_fd('-', fd);
+	}
+	if (n >= 10)
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr_fd(n % 10, fd);
+	}
+	else
+		ft_putchar_fd(n + '0', fd);
 }
 
+// int main()
+// {
+// 	int fd = 1;
+// 	ft_putnbr_fd(-42, fd);
+// }

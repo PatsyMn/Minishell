@@ -6,22 +6,22 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/18 15:17:04 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:39:53 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_token_type	get_token_type(char c)
-{
-	if (c == '\'')
-		return (T_SINGLE_QUOTE);
-	if (c == '"')
-		return (T_DOUBLE_QUOTE);
-	if (c == '|')
-		return (T_PIPE);
-	return (T_WORD);
-}
+// static t_token_type	get_token_type(char c)
+// {
+// 	if (c == '\'')
+// 		return (T_SINGLE_QUOTE);
+// 	if (c == '"')
+// 		return (T_DOUBLE_QUOTE);
+// 	if (c == '|')
+// 		return (T_PIPE);
+// 	return (T_WORD);
+// }
 static t_token_type	get_token_type_from_str(char *str)
 {
 	if (str[0] == '|' && str[1] == '\0')

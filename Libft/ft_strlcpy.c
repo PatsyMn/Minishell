@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility_functions.c                                :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/03/31 09:46:50 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/03/31 09:46:51 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-char	*ft_strndup(const char *s, size_t n)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dsize)
 {
-	char	*dup;
-	size_t	len;
 	size_t	i;
 
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
 	i = 0;
-	while (i < len)
+	if (dsize == 0)
 	{
-		dup[i] = s[i];
+		return (ft_strlen(src));
+	}
+	while (src[i] != '\0' && i + 1 < dsize)
+	{
+		dst[i] = src[i];
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	dst[i] = '\0';
+	return (ft_strlen(src));
 }
 
+// int main()
+// {
+// 	size_t dsize = 4;
+// 	const char *src = "sunshine";
+// 	char dst[4];
+// 	ft_strlcpy(dst, src, dsize);
+// 	printf("%zu\n", ft_strlen(src));
+// }

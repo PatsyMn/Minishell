@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility_functions.c                                :+:      :+:    :+:   */
+/*   ft_formats_putptr.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/04/07 11:42:11 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/04/07 11:49:11 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "ft_printf.h"
 
-char	*ft_strndup(const char *s, size_t n)
+void	ft_formats_putptr(va_list args, int *count)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	unsigned long	address;
 
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (i < len)
+	address = va_arg(args, unsigned long);
+	if (address == 0)
+		*count += write(1, "(nil)", 5);
+	else
 	{
-		dup[i] = s[i];
-		i++;
+		*count += write(1, "0x", 2);
+		ft_putptr_hex(address, count);
 	}
-	dup[i] = '\0';
-	return (dup);
 }
-

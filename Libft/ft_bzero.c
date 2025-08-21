@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility_functions.c                                :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/03/31 09:44:52 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/03/31 09:44:53 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-char	*ft_strndup(const char *s, size_t n)
+void	ft_bzero(void *s, size_t n)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	unsigned char	*new_s;
+	size_t			i;
 
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
+	new_s = s;
 	i = 0;
-	while (i < len)
+	while (i < n)
 	{
-		dup[i] = s[i];
+		new_s[i] = 0;
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
 }
 
+// int main()
+// {
+// 	char test[] = "sunshine";
+// 	ft_bzero(test, 9);
+// 	write(1, test, 9);
+// }

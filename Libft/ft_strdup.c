@@ -1,36 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility_functions.c                                :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/03/31 09:46:37 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/03/31 09:46:38 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-char	*ft_strndup(const char *s, size_t n)
+char	*ft_strdup(const char *s)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	char	*dest;
+	int		i;
 
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	dest = malloc(sizeof(char) * (i + 1));
+	if (dest == NULL)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (s[i] != '\0')
 	{
-		dup[i] = s[i];
+		dest[i] = s[i];
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	dest[i] = '\0';
+	return (dest);
 }
 
+// int main(void)
+// {
+// 	char *s = "sunshine";
+// 	printf("%s\n", ft_strdup(s));
+// 	return (0);
+// }

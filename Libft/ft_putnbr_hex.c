@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility_functions.c                                :+:      :+:    :+:   */
+/*   ft_putnbr_hex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/04/07 10:10:25 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/04/07 10:13:08 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "ft_printf.h"
 
-char	*ft_strndup(const char *s, size_t n)
+void	ft_putnbr_hex(unsigned int n, int uppercase, int *count)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	char	*strlow;
+	char	*strup;
 
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (i < len)
+	strlow = "0123456789abcdef";
+	strup = "0123456789ABCDEF";
+	if (n >= 16)
 	{
-		dup[i] = s[i];
-		i++;
+		ft_putnbr_hex(n / 16, uppercase, count);
+		ft_putnbr_hex(n % 16, uppercase, count);
 	}
-	dup[i] = '\0';
-	return (dup);
+	else
+	{
+		if (uppercase == 0)
+			ft_putchar(strlow[n], count);
+		else
+			ft_putchar(strup[n], count);
+	}
 }
-

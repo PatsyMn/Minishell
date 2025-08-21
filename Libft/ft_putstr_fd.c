@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility_functions.c                                :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/03/31 09:46:24 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/04/01 13:39:47 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-char	*ft_strndup(const char *s, size_t n)
+void	ft_putstr_fd(char *s, int fd)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	int	i;
 
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
 	i = 0;
-	while (i < len)
+	if (s == NULL)
+		return ;
+	while (s[i] != '\0')
 	{
-		dup[i] = s[i];
+		write(fd, &s[i], 1);
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
 }
 
+// int main()
+// {
+// int fd = 1;
+// ft_putstr_fd("NULL\n", fd);
+// }

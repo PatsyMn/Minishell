@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility_functions.c                                :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/03/31 09:46:33 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/03/31 09:52:29 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-char	*ft_strndup(const char *s, size_t n)
+char	*ft_strchr(const char *s, int c)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	int	i;
 
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
 	i = 0;
-	while (i < len)
+	while (s[i] != '\0')
 	{
-		dup[i] = s[i];
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	if ((char)c == '\0')
+		return ((char *)&s[i]);
+	return (NULL);
 }
 
+// int main()
+// {
+// 	char s[] = "hello sunshine";
+// 	int c = 'z';
+// 	printf("%s \n",ft_strchr(s, c));
+// 	return (0);
+// }

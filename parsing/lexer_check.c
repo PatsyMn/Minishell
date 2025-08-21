@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:39:15 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/18 15:16:58 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:24:02 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	check_unclosed_quotes(char *str)
 int	check_special_chars(char *str)
 {
 	int i = 0;
-
+	
 	while (str[i])
 	{
 		if (str[i] == '\\' || str[i] == ';')

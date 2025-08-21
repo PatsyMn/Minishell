@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 14:33:22 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/03/31 09:45:18 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/03/31 09:45:19 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+// #include <stdio.h>
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	ft_isalnum(int c)
 {
-	(void)ac;
-	(void)av;
-	char *input;
-
-	while (1)
+	if (ft_isalpha(c) == 1 || ft_isdigit(c) == 1)
 	{
-		input = readline("WhatTheShell$ ");
-		if(!input)
-			return(0);
+		return (1);
 	}
-	if (check_unclosed_quotes(input))
-		return (1);
-	if (check_special_chars(input))
-		return (1);
-	char **split_input = split_input_respecting_quotes(input);
-	if (!split_input)
-		return (1);
-	// t_token *token_list = tokenizer(split_input);
-	// free_split(split_input);
 	return (0);
 }
+
+// int main()
+// {
+// printf("%d\n", ft_isalnum(' '));
+// }

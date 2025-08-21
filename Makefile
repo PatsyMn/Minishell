@@ -17,7 +17,7 @@ OBJS = $(SRCS:.c=.o)
 all: libft $(NAME)
 
 $(NAME): $(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L./Libft -lft
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) ./Libft/libft.a -lreadline
 
 libft:
 		make -C ./Libft
