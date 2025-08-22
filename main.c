@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 16:06:33 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:49:15 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,21 @@ int	main(int ac, char **av)
 		}
 		if (check_unclosed_quotes(input))
 		{
-			printf("Error: unclosed quote detected\n");
+			printf("Error: invalid special characters detected\n");
 			free(input);
-			continue;
 		}
 		if (check_special_chars(input))
 		{
 			printf("Error: 2");
 			free(input);
-			continue;
 		}
 		char **split_input = split_input_respecting_quotes(input);
 		if (split_input)
 		{
 			t_token *token_list = tokenizer(split_input);
+			print_tokens(token_list);
+			t_command *commands = parser(token_list);
+			print_commands(commands);
 			if (!token_list)
 			{
 				printf("Error: 4");

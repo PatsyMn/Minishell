@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:06:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/18 15:17:17 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:00:04 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_token	*create_token(t_token_type type, char *str)
 	if (!token)
 		return (NULL);
 	token->type = type;
-	token->str = str;
+	token->value = str;
 	token->next = NULL;
 	return (token);
 }
@@ -34,8 +34,8 @@ void	free_tokens(t_token *tokens)
 	while (current)
 	{
 		next = current->next;
-		if (current->str)
-			free(current->str);
+		if (current->value)
+			free(current->value);
 		free(current);
 		current = next;
 	}
