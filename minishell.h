@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 17:31:49 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:43:25 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int					check_special_chars(char *str);
 // lexer_metachar.c
 void	update_quote_context(t_quote_context *context, char c);
 void	init_quote_context(t_quote_context *context);
-char	*ft_strndup(const char *s, size_t n);
+char *ft_strdup_with_escape(const char *input, int start, int end);
 
 
 // lexer_tokenize.c
@@ -102,6 +102,7 @@ t_command	*new_command(void);
 t_command	*parser(t_token *token);
 //debug
 void	print_commands(t_command *cmd);
+void	free_commands(t_command *cmd);
 
 //parser_utils.c
 char	*remove_quotes(char *str);

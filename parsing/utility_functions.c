@@ -6,31 +6,35 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 12:36:21 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:48:44 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strndup(const char *s, size_t n)
+char	*ft_strdup_with_escape(const char *input, int start, int end)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	char	*word;
+	int		i;
+	int		j;
 
-	len = ft_strlen(s);
-	if (len > n)
-		len = n;
-	dup = malloc(len + 1);
-	if (!dup)
+	if (!input || start < 0 || end <= start)
 		return (NULL);
-	i = 0;
-	while (i < len)
+	word = malloc((end - start + 1) * sizeof(char));
+	if (!word)
+		return (NULL);
+	i = start;
+	j = 0;
+	while (i < end)
 	{
-		dup[i] = s[i];
-		i++;
+		if (input[i] == '\\' && i + 1 < end)
+		{
+			i++;
+			word[j++] = input[i++];
+		}
+		else
+			word[j++] = input[i++];
 	}
-	dup[i] = '\0';
-	return (dup);
+	word[j] = '\0';
+	return (word);
 }
-

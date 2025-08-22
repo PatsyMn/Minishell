@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:27:03 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 17:35:01 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:49:07 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@ char	*remove_quotes(char *str)
 
 	if (!str)
 		return (NULL);
-	len = ft_strlen(str);
+	len = 0;
+	while (str[len])
+		len++;
 	if (len < 2)
 		return (str);
 	if ((str[0] == '\'' && str[len - 1] == '\'') ||
 		(str[0] == '"' && str[len - 1] == '"'))
 	{
-		new_str = ft_strndup(str + 1, len - 2);
+		new_str = ft_strdup_with_escape(str, 1, len - 1);
 		if (!new_str)
 		{
 			free(str);
@@ -87,20 +89,20 @@ void	handle_redirection(t_command *cmd, t_token **token)
 	t_token *file = (*token)->next;
 
 	if (redir->type == T_REDIR_IN)
-		cmd->infile = ft_strdup(file->value);
+		cmd->infile = ft_strdup_with_escape(file->value, 0, ft_strlen(file->value));
 	else if (redir->type == T_REDIR_OUT)
 	{
-		cmd->outfile = ft_strdup(file->value);
+		cmd->outfile = ft_strdup_with_escape(file->value, 0, ft_strlen(file->value));
 		cmd->append = 0;
 	}
 	else if (redir->type == T_APPEND_OUT)
 	{
-		cmd->outfile = ft_strdup(file->value);
+		cmd->outfile = ft_strdup_with_escape(file->value, 0, ft_strlen(file->value));
 		cmd->append = 1;
 	}
 	else if (redir->type == T_HEREDOC)
 	{
-		cmd->infile = ft_strdup(file->value);
+		cmd->infile = ft_strdup_with_escape(file->value, 0, ft_strlen(file->value));
 		cmd->heredoc = 1;
 	}
 	*token = file;

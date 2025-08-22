@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:50:54 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 15:47:13 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:38:28 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	**split_and_add_word(t_split_state *state)
 		end = state->i;
 	else
 		end = state->i + 1;
-	word = ft_strndup(state->input + state->start, end - state->start);
+	word = ft_strdup_with_escape(state->input, state->start, end);
 	if (!word)
 		return (free_split(state->result), NULL);
 	state->result = add_word_to_tab(state->result, word);

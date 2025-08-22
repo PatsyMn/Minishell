@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 17:27:44 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:47:21 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,28 @@ t_command	*parser(t_token *token)
 	return (head);
 }
 
+void	free_commands(t_command *cmd)
+{
+	int	i;
+
+	if (!cmd)
+		return ;
+	if (cmd->args)
+	{
+		i = 0;
+		while (cmd->args[i])
+		{
+			free(cmd->args[i]);
+			i++;
+		}
+		free(cmd->args);
+	}
+	if (cmd->infile)
+		free(cmd->infile);
+	if (cmd->outfile)
+		free(cmd->outfile);
+	free(cmd);
+}
 //debug 
 void	print_commands(t_command *cmd)
 {
@@ -60,7 +82,7 @@ void	print_commands(t_command *cmd)
 
 	while (cmd)
 	{
-		printf("=== Commande ===\n");
+		printf("=== Command ===\n");
 		if (cmd->args)
 		{
 			i = 0;
