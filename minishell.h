@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 15:50:32 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:31:49 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ t_command	*parser(t_token *token);
 //debug
 void	print_commands(t_command *cmd);
 
-
+//parser_utils.c
+char	*remove_quotes(char *str);
+void	add_arg(t_command *cmd, char *val);
+void	handle_redirection(t_command *cmd, t_token **token);
 
 
 #endif

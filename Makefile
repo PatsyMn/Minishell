@@ -4,6 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -g -I./Libft -fsanitize=address -g3
 
 SRCS =	main.c \
 		parsing/parser.c\
+		parsing/parser_utils.c\
 		parsing/token_utils.c\
 		parsing/utility_functions.c\
 		parsing/lexer_utils.c\

@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 15:48:51 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:27:44 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,55 +25,7 @@ t_command	*new_command(void)
 	cmd->next = NULL;
 	return (cmd);
 }
-static void add_arg(t_command *cmd, char *val)
-{
-	int size;
-	char **new_args;
-	int i;
 
-	size = 0;
-	while (cmd->args && cmd->args[size])
-		size++;
-	new_args = malloc(sizeof(char *) * (size + 2));
-	if (!new_args)
-		return ;
-	i = 0;
-	while (i < size)
-	{
-		new_args[i] = cmd->args[i];
-		i++;
-	}
-	new_args[size] = val;
-	new_args[size + 1] = NULL;
-	free(cmd->args);
-	cmd->args = new_args;
-}
-static void	handle_redirection(t_command *cmd, t_token **token)
-{
-	if (!(*token) || !(*token)->next)
-		return ;
-	t_token *redir = *token;
-	t_token *file = (*token)->next;
-
-	if (redir->type == T_REDIR_IN)
-		cmd->infile = ft_strdup(file->value);
-	else if (redir->type == T_REDIR_OUT)
-	{
-		cmd->outfile = ft_strdup(file->value);
-		cmd->append = 0;
-	}
-	else if (redir->type == T_APPEND_OUT)
-	{
-		cmd->outfile = ft_strdup(file->value);
-		cmd->append = 1;
-	}
-	else if (redir->type == T_HEREDOC)
-	{
-		cmd->infile = ft_strdup(file->value);
-		cmd->heredoc = 1;
-	}
-	*token = file;
-}
 t_command	*parser(t_token *token)
 {
 	t_command	*head = NULL;
