@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:39:15 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/21 15:32:39 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:04:19 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	check_unclosed_single_quote(char *str)
 	}
 	if (in_single_quote)
 	{
-		printf("Syntax error\n: unclosed single quote\n");
+		printf("Syntax error: unclosed single quote\n");
 		return (1);
 	}
 	return (0);
@@ -48,7 +48,7 @@ static int	check_unclosed_double_quote(char *str)
 	}
 	if (in_double_quote)
 	{
-		printf("Syntax error\n: unclosed double quote\n");
+		printf("Syntax error: unclosed double quote\n");
 		return (1);
 	}
 	return (0);
@@ -71,7 +71,7 @@ int	check_special_chars(char *str)
 	{
 		if (str[i] == '\\' || str[i] == ';')
 		{
-			printf("Syntax error\n: unexpected special character '%c'\n", str[i]);
+			printf("Syntax error: unexpected special character '%c'\n", str[i]);
 			return (1);
 		}
 		i++;

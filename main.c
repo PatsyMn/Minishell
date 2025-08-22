@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 15:49:15 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:15:08 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,17 @@ int	main(int ac, char **av)
 		input = readline("WhatTheShell$ ");
 		if (!input)
 		{
-			printf("exit\n");
 			return (0);
 		}
 		if (check_unclosed_quotes(input))
 		{
-			printf("Error: invalid special characters detected\n");
 			free(input);
+			return (0);
 		}
 		if (check_special_chars(input))
 		{
-			printf("Error: 2");
 			free(input);
+			return (0);
 		}
 		char **split_input = split_input_respecting_quotes(input);
 		if (split_input)
