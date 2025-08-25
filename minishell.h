@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 18:43:25 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/25 15:52:26 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define MINISHELL_H
 
 /* ========== LIBRARIES ========== */
-#include <stdio.h>
-#include <stdlib.h>
+# include "Libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-# include "Libft/libft.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /* ========== TOKEN ========== */
 
@@ -33,7 +33,7 @@ typedef enum e_token_type
 	T_APPEND_OUT, // >>
 	T_HEREDOC, // << 
 	T_FILENAME,
-	T_DOLLAR, 
+	T_DOLLAR_VAR, 
 }					t_token_type;
 
 typedef struct s_token
@@ -59,7 +59,6 @@ void				free_split(char **split_input);
 t_token				*create_token(t_token_type type, char *str);
 void				free_tokens(t_token *tokens);
 void				add_token_to_list(t_token **head, t_token *new_token);
-int					count_tokens(t_token *tokens);
 
 // lexer_check.c
 int					check_unclosed_quotes(char *str);
@@ -97,17 +96,42 @@ typedef struct s_command
 	struct s_command *next;    // chaînage pour les pipes
 }	t_command;
 
+typedef struct s_expansion
+{
+	int		dollar_pos;
+	char	*var_name;
+	char	*var_value;
+	char	*before;
+	char	*after;
+	char	*result;
+}	t_expansion;
+
+//init.c
+void		init_expansion(t_expansion *exp);
+
 //parser.c
 t_command	*new_command(void);
 t_command	*parser(t_token *token);
 //debug
-void	print_commands(t_command *cmd);
-void	free_commands(t_command *cmd);
+void		print_commands(t_command *cmd);
+void		free_commands(t_command *cmd);
 
 //parser_utils.c
-char	*remove_quotes(char *str);
-void	add_arg(t_command *cmd, char *val);
-void	handle_redirection(t_command *cmd, t_token **token);
+char		*remove_quotes(char *str);
+void		add_arg(t_command *cmd, char *val);
+void		handle_redirection(t_command *cmd, t_token **token);
+
+//env_utils.c
+char 		**copy_env(char **envp);
+char		*get_env_value(char *var_name, char **env_copy);
+int			find_dollar(char *str);
+char		*extract_var_name(char *str);
+void 		free_env(char **env);
+
+//env.c
+t_expansion	prepare_expansion(char *token, char **env_copy);
+char		*build_expansion(t_expansion *exp);
+void		expand_tokens(t_token *tokens, char **env_copy);
 
 
 #endif

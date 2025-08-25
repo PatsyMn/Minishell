@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:06:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 15:00:04 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/25 15:39:57 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,3 @@ void	add_token_to_list(t_token **head, t_token *new_token)
 	current->next = new_token;
 }
 
-int	count_tokens(t_token *tokens)
-{
-	t_token	*current;
-	int		count;
-
-	current = tokens;
-	count = 0;
-	while (current)
-	{
-		count++;
-		current = current->next;
-	}
-	return (count);
-}

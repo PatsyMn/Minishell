@@ -11,6 +11,9 @@ SRCS =	main.c \
 		parsing/lexer_check.c\
 		parsing/lexer_metachar.c\
 		parsing/lexer_tokenize.c\
+		parsing/env_utils.c\
+		parsing/env.c\
+		parsing/init.c\
 
 
 OBJS = $(SRCS:.c=.o)
