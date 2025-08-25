@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/25 15:51:28 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/25 22:26:13 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ t_expansion prepare_expansion(char *token, char **env_copy)
 {
 	t_expansion exp;
 
-	init_expansion(&exp);  // ✅ plus propre
-
+	init_expansion(&exp);
 	exp.dollar_pos = find_dollar(token);
 	if (exp.dollar_pos == -1)
 	{
