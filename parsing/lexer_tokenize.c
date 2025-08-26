@@ -6,12 +6,22 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/26 15:57:45 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/26 16:47:00 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static int	operator_length(char *str)
+{
+	if (!ft_strncmp(str, ">>", 2))
+		return (2);
+	if (!ft_strncmp(str, "<<", 2))
+		return (2);
+	if (*str == '>' || *str == '<' || *str == '|')
+		return (1);
+	return (0);
+}
 static t_token_type	get_token_type_from_str(char *str)
 {
 	if (!str)
@@ -29,6 +39,55 @@ static t_token_type	get_token_type_from_str(char *str)
 	if (str[0] == '$' && ft_strlen(str) > 1)
 		return (T_DOLLAR_VAR);
 	return (T_WORD);
+}
+
+static int	tokenize_str(char *str, t_token **token_list)
+{
+	int		i = 0;
+	int		op_len;
+	char	*sub;
+
+	while (str[i])
+	{
+		op_len = operator_length(&str[i]);
+		if (op_len > 0)
+		{
+			sub = ft_substr(str, i, op_len);
+			if (!sub)
+				return (0);
+			add_token_to_list(token_list, create_token(get_token_type_from_str(sub), sub));
+			i += op_len;
+		}
+		else
+		{
+			int	start = i;
+			while (str[i] && operator_length(&str[i]) == 0)
+				i++;
+			sub = ft_substr(str, start, i - start);
+			if (!sub)
+				return (0);
+			add_token_to_list(token_list, create_token(T_WORD, sub));
+		}
+	}
+	return (1);
+}
+
+t_token	*tokenizer(char **split_input)
+{
+	t_token	*token_list = NULL;
+	int		i = 0;
+
+	while (split_input[i])
+	{
+		if (!tokenize_str(split_input[i], &token_list))
+		{
+			free_tokens(token_list);
+			return (NULL);
+		}
+		i++;
+	}
+	mark_commands(token_list);
+	return (token_list);
 }
 
 int	count_tokens(t_token *tokens)
@@ -69,7 +128,7 @@ char	**tokens_to_tab(t_token *tokens)
 	return (tab);
 }
 
-static void	mark_commands(t_token *tokens)
+void	mark_commands(t_token *tokens)
 {
 	int	expect_command = 1;
 
@@ -87,31 +146,6 @@ static void	mark_commands(t_token *tokens)
 		tokens = tokens->next;
 	}
 }
-
-t_token *tokenizer(char **split_input)
-{
-	t_token *token_list = NULL;
-	t_token *new_token = NULL;
-	int i;
-	char *dup;
-
-	i = 0;
-	while (split_input[i])
-	{
-		dup = ft_strdup(split_input[i]);
-		if (!dup)
-		{
-			free_tokens(token_list);
-			return (NULL);
-		}
-		new_token = create_token(get_token_type_from_str(split_input[i]), dup);
-		add_token_to_list(&token_list, new_token);
-		i++;
-	}
-	mark_commands(token_list);
-	return (token_list);
-}
-
 //debug
 void	print_tokens(t_token *tokens)
 {

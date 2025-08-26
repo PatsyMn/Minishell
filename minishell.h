@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/26 15:38:30 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/26 16:47:11 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ char *ft_strdup_with_escape(const char *input, int start, int end);
 
 // lexer_tokenize.c
 t_token	*tokenizer(char **split_input);
+void	mark_commands(t_token *tokens);
+char	**tokens_to_tab(t_token *tokens);
 //debug
 void	print_tokens(t_token *tokens);
 
