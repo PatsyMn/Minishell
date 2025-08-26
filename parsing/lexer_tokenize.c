@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/25 16:01:55 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/26 15:57:45 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,25 @@ char	**tokens_to_tab(t_token *tokens)
 	return (tab);
 }
 
+static void	mark_commands(t_token *tokens)
+{
+	int	expect_command = 1;
+
+	while (tokens)
+	{
+		if (tokens->type == T_WORD && expect_command)
+		{
+			tokens->type = T_COMMAND;
+			expect_command = 0;
+		}
+		else if (tokens->type == T_PIPE)
+		{
+			expect_command = 1;
+		}
+		tokens = tokens->next;
+	}
+}
+
 t_token *tokenizer(char **split_input)
 {
 	t_token *token_list = NULL;
@@ -89,6 +108,7 @@ t_token *tokenizer(char **split_input)
 		add_token_to_list(&token_list, new_token);
 		i++;
 	}
+	mark_commands(token_list);
 	return (token_list);
 }
 
@@ -98,6 +118,7 @@ void	print_tokens(t_token *tokens)
 	while (tokens)
 	{
 		printf("Token: %-12s | Value: %s\n",
+			(tokens->type == T_COMMAND) ? "COMMAND" :
 			(tokens->type == T_DOLLAR_VAR) ? "DOLLAR_VAR" :
 			(tokens->type == T_WORD) ? "WORD" :
 			(tokens->type == T_PIPE) ? "PIPE" :
@@ -110,4 +131,3 @@ void	print_tokens(t_token *tokens)
 		tokens = tokens->next;
 	}
 }
-

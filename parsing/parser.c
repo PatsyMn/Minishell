@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 18:47:21 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/26 15:53:10 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@ t_command	*new_command(void)
 	cmd->next = NULL;
 	return (cmd);
 }
-
 t_command	*parser(t_token *token)
 {
-	t_command	*head = NULL;
-	t_command	*cur = NULL;
+	t_command	*head;
+	t_command	*cur;
+	int			expect_command;
 
+	head = NULL;
+	cur = NULL;
+	expect_command = 1;
 	while (token)
 	{
 		if (!cur)
@@ -40,11 +43,19 @@ t_command	*parser(t_token *token)
 				head = cur;
 		}
 		if (token->type == T_WORD)
+		{
+			if (expect_command)
+			{
+				token->type = T_COMMAND;
+				expect_command = 0;
+			}
 			add_arg(cur, ft_strdup(token->value));
+		}
 		else if (token->type == T_PIPE)
 		{
 			cur->next = new_command();
 			cur = cur->next;
+			expect_command = 1;
 		}
 		else if (token->type >= T_REDIR_IN && token->type <= T_HEREDOC)
 			handle_redirection(cur, &token);

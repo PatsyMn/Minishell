@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/25 15:52:26 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/26 15:38:30 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ typedef enum e_token_type
 {
 	T_SINGLE_QUOTE,
 	T_DOUBLE_QUOTE,
-	T_WORD, //cmd ou arg
+	T_WORD,
+	T_COMMAND,
 	T_PIPE, // |
 	T_REDIR_IN, // <
 	T_REDIR_OUT, // >
