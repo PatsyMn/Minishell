@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:27:03 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 18:49:07 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:12:04 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char	*remove_quotes(char *str)
 		len++;
 	if (len < 2)
 		return (str);
-	if ((str[0] == '\'' && str[len - 1] == '\'') ||
-		(str[0] == '"' && str[len - 1] == '"'))
+	if ((str[0] == '\'' && str[len - 1] == '\'') || (str[0] == '"' && str[len
+			- 1] == '"'))
 	{
 		new_str = ft_strdup_with_escape(str, 1, len - 1);
 		if (!new_str)
@@ -41,7 +41,9 @@ char	*remove_quotes(char *str)
 
 static int	get_args_size(char **args)
 {
-	int size = 0;
+	int	size;
+
+	size = 0;
 	while (args && args[size])
 		size++;
 	return (size);
@@ -49,7 +51,9 @@ static int	get_args_size(char **args)
 
 static void	copy_args(char **dest, char **src, int size)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (i < size)
 	{
 		dest[i] = src[i];
@@ -89,20 +93,24 @@ void	handle_redirection(t_command *cmd, t_token **token)
 	t_token *file = (*token)->next;
 
 	if (redir->type == T_REDIR_IN)
-		cmd->infile = ft_strdup_with_escape(file->value, 0, ft_strlen(file->value));
+		cmd->infile = ft_strdup_with_escape(file->value, 0,
+				ft_strlen(file->value));
 	else if (redir->type == T_REDIR_OUT)
 	{
-		cmd->outfile = ft_strdup_with_escape(file->value, 0, ft_strlen(file->value));
+		cmd->outfile = ft_strdup_with_escape(file->value, 0,
+				ft_strlen(file->value));
 		cmd->append = 0;
 	}
 	else if (redir->type == T_APPEND_OUT)
 	{
-		cmd->outfile = ft_strdup_with_escape(file->value, 0, ft_strlen(file->value));
+		cmd->outfile = ft_strdup_with_escape(file->value, 0,
+				ft_strlen(file->value));
 		cmd->append = 1;
 	}
 	else if (redir->type == T_HEREDOC)
 	{
-		cmd->infile = ft_strdup_with_escape(file->value, 0, ft_strlen(file->value));
+		cmd->infile = ft_strdup_with_escape(file->value, 0,
+				ft_strlen(file->value));
 		cmd->heredoc = 1;
 	}
 	*token = file;

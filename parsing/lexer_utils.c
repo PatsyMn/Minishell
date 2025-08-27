@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:50:54 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/27 16:55:25 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:11:23 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,22 @@ static char	**add_word_to_tab(char **tab, char *word)
 	return (new_tab);
 }
 
-static char **split_and_add_word(t_split_state *state)
+static char	**split_and_add_word(t_split_state *state)
 {
-    int     end;
-    char    *word;
-    if (state->input[state->i] == ' ')
-        end = state->i;
-    else
-        end = state->i + 1;
-    word = ft_substr(state->input, state->start, end - state->start);
-    if (!word)
-        return (free_split(state->result), NULL);
-    state->result = add_word_to_tab(state->result, word);
-    if (!state->result)
-        return (NULL);
-    return (state->result);
+	int		end;
+	char	*word;
+
+	if (state->input[state->i] == ' ')
+		end = state->i;
+	else
+		end = state->i + 1;
+	word = ft_substr(state->input, state->start, end - state->start);
+	if (!word)
+		return (free_split(state->result), NULL);
+	state->result = add_word_to_tab(state->result, word);
+	if (!state->result)
+		return (NULL);
+	return (state->result);
 }
 
 static char	**split_loop(t_split_state *state)

@@ -6,24 +6,23 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/25 15:51:17 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:11:46 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char **copy_env(char **envp)
+char	**copy_env(char **envp)
 {
-	int		i = 0;
+	int		i;
 	char	**copy;
 
+	i = 0;
 	while (envp[i])
 		i++;
-
 	copy = malloc(sizeof(char *) * (i + 1));
 	if (!copy)
 		return (NULL);
-
 	i = 0;
 	while (envp[i])
 	{
@@ -43,8 +42,8 @@ char **copy_env(char **envp)
 
 char	*get_env_value(char *var_name, char **env_copy)
 {
-	int		i;
-	int		len;
+	int	i;
+	int	len;
 
 	if (!var_name || !env_copy)
 		return (NULL);
@@ -93,9 +92,11 @@ char	*extract_var_name(char *str)
 	return (var_name);
 }
 
-void free_env(char **env)
+void	free_env(char **env)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (env[i])
 	{
 		free(env[i]);
