@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/26 16:47:11 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:15:00 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_expansion
 	char	*before;
 	char	*after;
 	char	*result;
+	char	*expanded;
 }	t_expansion;
 
 //init.c
@@ -135,7 +136,6 @@ void 		free_env(char **env);
 t_expansion	prepare_expansion(char *token, char **env_copy);
 char		*build_expansion(t_expansion *exp);
 void		expand_tokens(t_token *tokens, char **env_copy);
-
 
 #endif
 
