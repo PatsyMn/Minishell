@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/26 16:47:00 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:57:00 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ static t_token_type	get_token_type_from_str(char *str)
 {
 	if (!str)
 		return (T_WORD);
+	if (is_single_quote(str))
+		return (T_SINGLE_QUOTE);
+	if (is_double_quote(str))
+		return (T_DOUBLE_QUOTE);
 	if (!ft_strncmp(str, ">>", 3))
 		return (T_APPEND_OUT);
 	if (!ft_strncmp(str, "<<", 3))
@@ -43,10 +47,12 @@ static t_token_type	get_token_type_from_str(char *str)
 
 static int	tokenize_str(char *str, t_token **token_list)
 {
-	int		i = 0;
+	int		i;
 	int		op_len;
 	char	*sub;
+	int		start;
 
+	i = 0;
 	while (str[i])
 	{
 		op_len = operator_length(&str[i]);
@@ -55,18 +61,20 @@ static int	tokenize_str(char *str, t_token **token_list)
 			sub = ft_substr(str, i, op_len);
 			if (!sub)
 				return (0);
-			add_token_to_list(token_list, create_token(get_token_type_from_str(sub), sub));
+			add_token_to_list(token_list,
+				create_token(get_token_type_from_str(sub), sub));
 			i += op_len;
 		}
 		else
 		{
-			int	start = i;
+			start = i;
 			while (str[i] && operator_length(&str[i]) == 0)
 				i++;
 			sub = ft_substr(str, start, i - start);
 			if (!sub)
 				return (0);
-			add_token_to_list(token_list, create_token(T_WORD, sub));
+			add_token_to_list(token_list,
+				create_token(get_token_type_from_str(str), sub));
 		}
 	}
 	return (1);
@@ -74,9 +82,11 @@ static int	tokenize_str(char *str, t_token **token_list)
 
 t_token	*tokenizer(char **split_input)
 {
-	t_token	*token_list = NULL;
-	int		i = 0;
+	t_token	*token_list;
+	int		i;
 
+	token_list = NULL;
+	i = 0;
 	while (split_input[i])
 	{
 		if (!tokenize_str(split_input[i], &token_list))
@@ -92,7 +102,9 @@ t_token	*tokenizer(char **split_input)
 
 int	count_tokens(t_token *tokens)
 {
-	int	count = 0;
+	int	count;
+
+	count = 0;
 	while (tokens)
 	{
 		count++;
@@ -130,8 +142,9 @@ char	**tokens_to_tab(t_token *tokens)
 
 void	mark_commands(t_token *tokens)
 {
-	int	expect_command = 1;
+	int	expect_command;
 
+	expect_command = 1;
 	while (tokens)
 	{
 		if (tokens->type == T_WORD && expect_command)
@@ -146,21 +159,13 @@ void	mark_commands(t_token *tokens)
 		tokens = tokens->next;
 	}
 }
-//debug
+// debug
 void	print_tokens(t_token *tokens)
 {
 	while (tokens)
 	{
 		printf("Token: %-12s | Value: %s\n",
-			(tokens->type == T_COMMAND) ? "COMMAND" :
-			(tokens->type == T_DOLLAR_VAR) ? "DOLLAR_VAR" :
-			(tokens->type == T_WORD) ? "WORD" :
-			(tokens->type == T_PIPE) ? "PIPE" :
-			(tokens->type == T_REDIR_IN) ? "REDIR_IN" :
-			(tokens->type == T_REDIR_OUT) ? "REDIR_OUT" :
-			(tokens->type == T_APPEND_OUT) ? "APPEND_OUT" :
-			(tokens->type == T_HEREDOC) ? "HEREDOC" :
-			"UNKNOWN",
+			(tokens->type == T_COMMAND) ? "COMMAND" : (tokens->type == T_DOLLAR_VAR) ? "DOLLAR_VAR" : (tokens->type == T_WORD) ? "WORD" : (tokens->type == T_PIPE) ? "PIPE" : (tokens->type == T_REDIR_IN) ? "REDIR_IN" : (tokens->type == T_REDIR_OUT) ? "REDIR_OUT" : (tokens->type == T_APPEND_OUT) ? "APPEND_OUT" : (tokens->type == T_HEREDOC) ? "HEREDOC" : "UNKNOWN",
 			tokens->value);
 		tokens = tokens->next;
 	}

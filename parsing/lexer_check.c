@@ -6,11 +6,35 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:39:15 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/22 18:04:19 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:33:20 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	is_double_quote(char *str)
+{
+	size_t	len;
+
+	if (!str)
+		return (0);
+	len = ft_strlen(str);
+	if (len < 2)
+		return (0);
+	return (str[0] == '"' && str[len - 1] == '"');
+}
+
+int	is_single_quote(char *str)
+{
+	size_t	len;
+
+	if (!str)
+		return (0);
+	len = ft_strlen(str);
+	if (len < 2)
+		return (0);
+	return (str[0] == '\'' && str[len - 1] == '\'');
+}
 
 static int	check_unclosed_single_quote(char *str)
 {
@@ -65,8 +89,9 @@ int	check_unclosed_quotes(char *str)
 
 int	check_special_chars(char *str)
 {
-	int i = 0;
-	
+	int	i;
+
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '\\' || str[i] == ';')
