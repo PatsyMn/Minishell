@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/27 16:32:32 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:55:18 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ char				*extract_var_name(char *str);
 void				free_env(char **env);
 
 // env.c
+char				*strip_outer_single_quotes(const char *token);
+char				*strip_outer_double_quotes(const char *token);
 t_expansion			prepare_expansion(char *token, char **env_copy);
 char				*build_expansion(t_expansion *exp);
 void				expand_tokens(t_token *tokens, char **env_copy);

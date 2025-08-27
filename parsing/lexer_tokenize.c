@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/27 16:57:00 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/27 18:36:58 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,38 +44,52 @@ static t_token_type	get_token_type_from_str(char *str)
 		return (T_DOLLAR_VAR);
 	return (T_WORD);
 }
+static int	handle_operator(char *str, int *i, t_token **token_list)
+{
+	int		op_len;
+	char	*sub;
+
+	op_len = operator_length(&str[*i]);
+	if (op_len <= 0)
+		return (0);
+	sub = ft_substr(str, *i, op_len);
+	if (!sub)
+		return (-1);
+	add_token_to_list(token_list, create_token(get_token_type_from_str(sub),
+			sub));
+	*i += op_len;
+	return (1);
+}
+
+static int	handle_word(char *str, int *i, t_token **token_list)
+{
+	int		start;
+	char	*sub;
+
+	start = *i;
+	while (str[*i] && operator_length(&str[*i]) == 0)
+		(*i)++;
+	sub = ft_substr(str, start, *i - start);
+	if (!sub)
+		return (0);
+	add_token_to_list(token_list, create_token(get_token_type_from_str(sub),
+			sub));
+	return (1);
+}
 
 static int	tokenize_str(char *str, t_token **token_list)
 {
-	int		i;
-	int		op_len;
-	char	*sub;
-	int		start;
+	int	i;
+	int	ret;
 
 	i = 0;
 	while (str[i])
 	{
-		op_len = operator_length(&str[i]);
-		if (op_len > 0)
-		{
-			sub = ft_substr(str, i, op_len);
-			if (!sub)
-				return (0);
-			add_token_to_list(token_list,
-				create_token(get_token_type_from_str(sub), sub));
-			i += op_len;
-		}
-		else
-		{
-			start = i;
-			while (str[i] && operator_length(&str[i]) == 0)
-				i++;
-			sub = ft_substr(str, start, i - start);
-			if (!sub)
-				return (0);
-			add_token_to_list(token_list,
-				create_token(get_token_type_from_str(str), sub));
-		}
+		ret = handle_operator(str, &i, token_list);
+		if (ret == -1)
+			return (0);
+		if (ret == 0 && !handle_word(str, &i, token_list))
+			return (0);
 	}
 	return (1);
 }

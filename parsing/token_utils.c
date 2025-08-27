@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:06:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/25 15:39:57 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/27 18:25:43 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ void	add_token_to_list(t_token **head, t_token *new_token)
 {
 	t_token	*current;
 
+	if (!new_token)
+		return ;
+	new_token->next = NULL;
 	if (!*head)
 	{
 		*head = new_token;
@@ -55,4 +58,3 @@ void	add_token_to_list(t_token **head, t_token *new_token)
 		current = current->next;
 	current->next = new_token;
 }
-

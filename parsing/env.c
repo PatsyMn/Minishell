@@ -6,11 +6,31 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/27 17:14:00 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/27 18:53:23 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*strip_outer_single_quotes(const char *token)
+{
+	size_t	len;
+	char	*new_str;
+
+	if (!token)
+		return (NULL);
+	len = ft_strlen(token);
+	if (len >= 2 && token[0] == '\'' && token[len - 1] == '\'')
+	{
+		new_str = malloc(len - 1);
+		if (!new_str)
+			return (NULL);
+		ft_memcpy(new_str, token + 1, len - 2);
+		new_str[len - 2] = '\0';
+		return (new_str);
+	}
+	return (ft_strdup(token));
+}
 
 char	*strip_outer_double_quotes(const char *token)
 {
@@ -25,11 +45,11 @@ char	*strip_outer_double_quotes(const char *token)
 		new_str = malloc(len - 1);
 		if (!new_str)
 			return (NULL);
-		memcpy(new_str, token + 1, len - 2);
+		ft_memcpy(new_str, token + 1, len - 2);
 		new_str[len - 2] = '\0';
 		return (new_str);
 	}
-	return (strdup(token));
+	return (ft_strdup(token));
 }
 
 t_expansion	prepare_expansion(char *token, char **env_copy)
@@ -77,6 +97,16 @@ char	*build_expansion(t_expansion *exp)
 	return (res);
 }
 
+void	free_exp(t_expansion *exp)
+{
+	if (exp->before)
+		free(exp->before);
+	if (exp->var_name)
+		free(exp->var_name);
+	if (exp->after)
+		free(exp->after);
+}
+
 void	expand_tokens(t_token *tokens, char **env_copy)
 {
 	t_expansion	exp;
@@ -95,13 +125,11 @@ void	expand_tokens(t_token *tokens, char **env_copy)
 				free(tokens->value);
 				tokens->value = exp.expanded;
 			}
-			if (exp.before)
-				free(exp.before);
-			if (exp.var_name)
-				free(exp.var_name);
-			if (exp.after)
-				free(exp.after);
+			free_exp(&exp);
 		}
+		else if (tokens->type == 0)
+			tokens->value = strip_outer_single_quotes(tokens->value);
 		tokens = tokens->next;
 	}
 }
+
