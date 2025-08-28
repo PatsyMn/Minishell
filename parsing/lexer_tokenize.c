@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 16:16:30 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:40:35 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,21 @@ static int	operator_length(char *str)
 }
 static int	is_invalid_operator(char *str)
 {
-	size_t len = ft_strlen(str);
-	size_t i = 0;
+	size_t	len;
+	size_t	i;
 
+	len = ft_strlen(str);
+	i = 0;
 	if (len > 2)
 	{
 		while (str[i] && (str[i] == '>' || str[i] == '<' || str[i] == '|'))
 			i++;
 		if (i == len)
-			return 1;
+			return (1);
 	}
 	if (len == 2 && !ft_strncmp(str, "||", 3))
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 }
 
 static t_token_type	get_token_type_from_str(char *str)
@@ -103,20 +105,34 @@ static int	handle_operator(char *str, int *i, t_token **token_list)
 	return (1);
 }
 
-static int	handle_word(char *str, int *i, t_token **token_list)
+static int	add_word_token(char *str, int start, int *i, t_token **token_list)
 {
-	int		start;
 	char	*sub;
 
-	start = *i;
-	while (str[*i] && operator_length(&str[*i]) == 0)
-		(*i)++;
 	sub = ft_substr(str, start, *i - start);
 	if (!sub)
 		return (0);
 	add_token_to_list(token_list, create_token(get_token_type_from_str(sub),
 			sub));
 	return (1);
+}
+static int	handle_word(char *str, int *i, t_token **token_list)
+{
+	int	start;
+
+	start = *i;
+	while (str[*i])
+	{
+		if (operator_length(&str[*i]) > 0)
+		{
+			return (add_word_token(str, start, i, token_list));
+		}
+		if (str[*i] == '\\' && str[*i + 1])
+			*i += 2;
+		else
+			(*i)++;
+	}
+	return (add_word_token(str, start, i, token_list));
 }
 
 static int	tokenize_str(char *str, t_token **token_list)

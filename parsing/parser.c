@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/26 15:53:10 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:59:21 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 t_command	*new_command(void)
 {
-	t_command *cmd = malloc(sizeof(t_command));
+	t_command	*cmd;
+
+	cmd = malloc(sizeof(t_command));
 	if (!cmd)
 		return (NULL);
 	cmd->args = NULL;
@@ -66,30 +68,35 @@ t_command	*parser(t_token *token)
 
 void	free_commands(t_command *cmd)
 {
-	int	i;
+	t_command	*tmp;
+	int			i;
 
-	if (!cmd)
-		return ;
-	if (cmd->args)
+	while (cmd)
 	{
-		i = 0;
-		while (cmd->args[i])
+		tmp = cmd->next;
+		if (cmd->args)
 		{
-			free(cmd->args[i]);
-			i++;
+			i = 0;
+			while (cmd->args[i])
+			{
+				free(cmd->args[i]);
+				i++;
+			}
+			free(cmd->args);
 		}
-		free(cmd->args);
+		if (cmd->infile)
+			free(cmd->infile);
+		if (cmd->outfile)
+			free(cmd->outfile);
+		free(cmd);
+		cmd = tmp;
 	}
-	if (cmd->infile)
-		free(cmd->infile);
-	if (cmd->outfile)
-		free(cmd->outfile);
-	free(cmd);
 }
-//debug 
+
+// debug
 void	print_commands(t_command *cmd)
 {
-	int i;
+	int	i;
 
 	while (cmd)
 	{

@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 15:10:01 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:51:33 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int ac, char **av, char **envp)
 		input = readline("WhatTheShell$ ");
 		if (!input)
 			break ;
+		add_history(input);
 		if (!check_unclosed_quotes(input) && !check_special_chars(input))
 		{
 			split_input = split_input_respecting_quotes(input);
