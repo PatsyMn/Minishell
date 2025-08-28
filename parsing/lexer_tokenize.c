@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/27 18:36:58 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/28 13:34:44 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,13 +174,23 @@ void	mark_commands(t_token *tokens)
 	}
 }
 // debug
-void	print_tokens(t_token *tokens)
+void    print_tokens(t_token *tokens)
 {
-	while (tokens)
-	{
-		printf("Token: %-12s | Value: %s\n",
-			(tokens->type == T_COMMAND) ? "COMMAND" : (tokens->type == T_DOLLAR_VAR) ? "DOLLAR_VAR" : (tokens->type == T_WORD) ? "WORD" : (tokens->type == T_PIPE) ? "PIPE" : (tokens->type == T_REDIR_IN) ? "REDIR_IN" : (tokens->type == T_REDIR_OUT) ? "REDIR_OUT" : (tokens->type == T_APPEND_OUT) ? "APPEND_OUT" : (tokens->type == T_HEREDOC) ? "HEREDOC" : "UNKNOWN",
-			tokens->value);
-		tokens = tokens->next;
-	}
+    while (tokens)
+    {
+        printf("Token: %-12s | Value: %s\n",
+            (tokens->type == T_COMMAND) ? "COMMAND" :
+            (tokens->type == T_DOLLAR_VAR) ? "DOLLAR_VAR" :
+            (tokens->type == T_WORD) ? "WORD" :
+            (tokens->type == T_PIPE) ? "PIPE" :
+            (tokens->type == T_REDIR_IN) ? "REDIR_IN" :
+            (tokens->type == T_REDIR_OUT) ? "REDIR_OUT" :
+            (tokens->type == T_APPEND_OUT) ? "APPEND_OUT" :
+            (tokens->type == T_HEREDOC) ? "HEREDOC" :
+            (tokens->type == T_SINGLE_QUOTE) ? "SINGLE_QUOTE" :
+            (tokens->type == T_DOUBLE_QUOTE) ? "DOUBLE_QUOTE" :
+            "UNKNOWN",
+            tokens->value);
+        tokens = tokens->next;
+    }
 }

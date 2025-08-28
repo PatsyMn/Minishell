@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:50:54 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/27 17:11:23 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:45:11 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,38 @@ char	**split_input_respecting_quotes(char *input)
 	if (!split_loop(&state))
 		return (NULL);
 	return (state.result);
+}
+int	has_syntax_error_first_pipe(char **split_input)
+{
+	if (!split_input || !split_input[0])
+		return (0);
+	if (ft_strncmp(split_input[0], "|", 2) == 0)
+	{
+		printf("minishell: syntax error near unexpected token '|'\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	check_syntax_operators(char **split_input)
+{
+	int i;
+
+	i = 0;
+	while (split_input[i] && split_input[i + 1])
+	{
+		if ((ft_strncmp(split_input[i], ">", 2) == 0
+				|| ft_strncmp(split_input[i], "<", 2) == 0
+				|| ft_strncmp(split_input[i], "|", 2) == 0)
+			&& (ft_strncmp(split_input[i + 1], ">", 2) == 0
+				|| ft_strncmp(split_input[i + 1], "<", 2) == 0
+				|| ft_strncmp(split_input[i + 1], "|", 2) == 0))
+		{
+			printf("syntax error near unexpected token '%s'\n",
+				split_input[i + 1]);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }

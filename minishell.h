@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/27 17:55:18 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:43:08 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_quote_context
 // lexer_utils.c
 char				**split_input_respecting_quotes(char *input);
 void				free_split(char **split_input);
+int					has_syntax_error_first_pipe(char **split_input);
+int					check_syntax_operators(char **split_input);
 
 // token_utils.c
 t_token				*create_token(t_token_type type, char *str);
