@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 14:43:08 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:35:01 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef enum e_token_type
 	T_REDIR_OUT,  // >
 	T_APPEND_OUT, // >>
 	T_HEREDOC,    // <<
+	T_INVALID_OPERATOR,
 	T_FILENAME,
 	T_DOLLAR_VAR,
 }					t_token_type;
@@ -56,6 +57,7 @@ typedef struct s_quote_context
 char				**split_input_respecting_quotes(char *input);
 void				free_split(char **split_input);
 int					has_syntax_error_first_pipe(char **split_input);
+int					has_syntax_error_last_pipe(char **split_input);
 int					check_syntax_operators(char **split_input);
 
 // token_utils.c

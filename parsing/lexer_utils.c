@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:50:54 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 14:45:11 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:00:16 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,24 +119,56 @@ int	has_syntax_error_first_pipe(char **split_input)
 	}
 	return (0);
 }
+int	has_syntax_error_last_pipe(char **split_input)
+{
+	int	i;
+
+	i = 0;
+	if (!split_input)
+		return (0);
+	while (split_input[i])
+		i++;
+	if (i > 0 && ft_strncmp(split_input[i - 1], "|", 2) == 0)
+	{
+		printf("syntax error near unexpected token '|'\n");
+		return (1);
+	}
+	return (0);
+}
+
+static int	is_operator(char *token)
+{
+	if (!ft_strncmp(token, ">>", 3) || !ft_strncmp(token, "<<", 3)
+		|| !ft_strncmp(token, ">", 2) || !ft_strncmp(token, "<", 2)
+		|| !ft_strncmp(token, "|", 2))
+		return (1);
+	return (0);
+}
+
+static int	check_operator_at_end(char *token)
+{
+	(void)token;
+	printf("syntax error near unexpected token\n");
+	return (1);
+}
 
 int	check_syntax_operators(char **split_input)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (split_input[i] && split_input[i + 1])
+	while (split_input[i])
 	{
-		if ((ft_strncmp(split_input[i], ">", 2) == 0
-				|| ft_strncmp(split_input[i], "<", 2) == 0
-				|| ft_strncmp(split_input[i], "|", 2) == 0)
-			&& (ft_strncmp(split_input[i + 1], ">", 2) == 0
-				|| ft_strncmp(split_input[i + 1], "<", 2) == 0
-				|| ft_strncmp(split_input[i + 1], "|", 2) == 0))
+		if (is_operator(split_input[i]))
 		{
-			printf("syntax error near unexpected token '%s'\n",
-				split_input[i + 1]);
-			return (1);
+			if (!split_input[i + 1])
+				return (check_operator_at_end(split_input[i]));
+			if (is_operator(split_input[i + 1]))
+			{
+				printf("syntax error near unexpected token '%s'\n",
+					split_input[i + 1]);
+				return (1);
+			}
 		}
 		i++;
 	}

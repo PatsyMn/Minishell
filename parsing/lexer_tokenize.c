@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 13:34:44 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:16:30 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,44 @@
 
 static int	operator_length(char *str)
 {
-	if (!ft_strncmp(str, ">>", 2))
-		return (2);
-	if (!ft_strncmp(str, "<<", 2))
-		return (2);
-	if (*str == '>' || *str == '<' || *str == '|')
-		return (1);
+	int	i;
+
+	i = 0;
+	if (str[i] == '>' || str[i] == '<')
+	{
+		while (str[i] == '>' || str[i] == '<')
+			i++;
+		if (i > 2)
+			return (-1);
+		return (i); // 1 ou 2
+	}
+	else if (str[i] == '|')
+	{
+		while (str[i] == '|')
+			i++;
+		if (i > 1)
+			return (-1);
+		return (i);
+	}
 	return (0);
 }
+static int	is_invalid_operator(char *str)
+{
+	size_t len = ft_strlen(str);
+	size_t i = 0;
+
+	if (len > 2)
+	{
+		while (str[i] && (str[i] == '>' || str[i] == '<' || str[i] == '|'))
+			i++;
+		if (i == len)
+			return 1;
+	}
+	if (len == 2 && !ft_strncmp(str, "||", 3))
+		return 1;
+	return 0;
+}
+
 static t_token_type	get_token_type_from_str(char *str)
 {
 	if (!str)
@@ -30,6 +60,8 @@ static t_token_type	get_token_type_from_str(char *str)
 		return (T_SINGLE_QUOTE);
 	if (is_double_quote(str))
 		return (T_DOUBLE_QUOTE);
+	if (is_invalid_operator(str))
+		return (T_INVALID_OPERATOR);
 	if (!ft_strncmp(str, ">>", 3))
 		return (T_APPEND_OUT);
 	if (!ft_strncmp(str, "<<", 3))
@@ -44,12 +76,22 @@ static t_token_type	get_token_type_from_str(char *str)
 		return (T_DOLLAR_VAR);
 	return (T_WORD);
 }
+
 static int	handle_operator(char *str, int *i, t_token **token_list)
 {
 	int		op_len;
 	char	*sub;
 
 	op_len = operator_length(&str[*i]);
+	if (op_len == -1)
+	{
+		sub = ft_substr(str, *i, 2);
+		if (!sub)
+			return (-1);
+		add_token_to_list(token_list, create_token(T_INVALID_OPERATOR, sub));
+		*i += ft_strlen(sub);
+		return (1);
+	}
 	if (op_len <= 0)
 		return (0);
 	sub = ft_substr(str, *i, op_len);
@@ -94,6 +136,23 @@ static int	tokenize_str(char *str, t_token **token_list)
 	return (1);
 }
 
+static int	check_invalid_tokens(t_token *token_list)
+{
+	t_token	*tmp;
+
+	tmp = token_list;
+	while (tmp)
+	{
+		if (tmp->type == T_INVALID_OPERATOR)
+		{
+			printf("syntax error near unexpected token '%s'\n", tmp->value);
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 t_token	*tokenizer(char **split_input)
 {
 	t_token	*token_list;
@@ -111,6 +170,11 @@ t_token	*tokenizer(char **split_input)
 		i++;
 	}
 	mark_commands(token_list);
+	if (check_invalid_tokens(token_list))
+	{
+		free_tokens(token_list);
+		return (NULL);
+	}
 	return (token_list);
 }
 
@@ -174,23 +238,13 @@ void	mark_commands(t_token *tokens)
 	}
 }
 // debug
-void    print_tokens(t_token *tokens)
+void	print_tokens(t_token *tokens)
 {
-    while (tokens)
-    {
-        printf("Token: %-12s | Value: %s\n",
-            (tokens->type == T_COMMAND) ? "COMMAND" :
-            (tokens->type == T_DOLLAR_VAR) ? "DOLLAR_VAR" :
-            (tokens->type == T_WORD) ? "WORD" :
-            (tokens->type == T_PIPE) ? "PIPE" :
-            (tokens->type == T_REDIR_IN) ? "REDIR_IN" :
-            (tokens->type == T_REDIR_OUT) ? "REDIR_OUT" :
-            (tokens->type == T_APPEND_OUT) ? "APPEND_OUT" :
-            (tokens->type == T_HEREDOC) ? "HEREDOC" :
-            (tokens->type == T_SINGLE_QUOTE) ? "SINGLE_QUOTE" :
-            (tokens->type == T_DOUBLE_QUOTE) ? "DOUBLE_QUOTE" :
-            "UNKNOWN",
-            tokens->value);
-        tokens = tokens->next;
-    }
+	while (tokens)
+	{
+		printf("Token: %-12s | Value: %s\n",
+			(tokens->type == T_COMMAND) ? "COMMAND" : (tokens->type == T_DOLLAR_VAR) ? "DOLLAR_VAR" : (tokens->type == T_WORD) ? "WORD" : (tokens->type == T_PIPE) ? "PIPE" : (tokens->type == T_REDIR_IN) ? "REDIR_IN" : (tokens->type == T_REDIR_OUT) ? "REDIR_OUT" : (tokens->type == T_APPEND_OUT) ? "APPEND_OUT" : (tokens->type == T_HEREDOC) ? "HEREDOC" : (tokens->type == T_SINGLE_QUOTE) ? "SINGLE_QUOTE" : (tokens->type == T_DOUBLE_QUOTE) ? "DOUBLE_QUOTE" : "UNKNOWN",
+			tokens->value);
+		tokens = tokens->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 14:47:08 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:10:01 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int ac, char **av, char **envp)
 			if (split_input)
 			{
 				if (has_syntax_error_first_pipe(split_input)
-				|| check_syntax_operators(split_input))
+				|| check_syntax_operators(split_input) || has_syntax_error_last_pipe(split_input))
 					free_split(split_input);
 				else
 				{
