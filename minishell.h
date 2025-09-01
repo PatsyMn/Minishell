@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/01 13:38:22 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/01 14:19:39 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef enum e_token_type
 	T_INVALID_OPERATOR,
 	T_FILENAME,
 	T_DOLLAR_VAR,
-}					t_token_type;
+}						t_token_type;
 
 typedef struct s_token
 {
@@ -55,34 +55,34 @@ typedef struct s_quote_context
 }						t_quote_context;
 
 // lexer_utils.c
-char				**split_input_respecting_quotes(char *input);
-void				free_split(char **split_input);
-int					has_syntax_error_first_pipe(char **split_input);
-int					has_syntax_error_last_pipe(char **split_input);
-int					check_syntax_operators(char **split_input);
+char					**split_input_respecting_quotes(char *input);
+void					free_split(char **split_input);
+int						has_syntax_error_first_pipe(char **split_input);
+int						has_syntax_error_last_pipe(char **split_input);
+int						check_syntax_operators(char **split_input);
 
 // token_utils.c
-t_token				*create_token(t_token_type type, char *str);
-void				free_tokens(t_token *tokens);
-void				add_token_to_list(t_token **head, t_token *new_token);
+t_token					*create_token(t_token_type type, char *str);
+void					free_tokens(t_token *tokens);
+void					add_token_to_list(t_token **head, t_token *new_token);
 
 // lexer_check.c
-int					is_double_quote(char *str);
-int					is_single_quote(char *str);
-int					check_unclosed_quotes(char *str);
-int					check_special_chars(char *str);
+int						is_double_quote(char *str);
+int						is_single_quote(char *str);
+int						check_unclosed_quotes(char *str);
+int						check_special_chars(char *str);
 // lexer_metachar.c
-void				update_quote_context(t_quote_context *context, char c);
-void				init_quote_context(t_quote_context *context);
-char				*ft_strdup_with_escape(const char *input, int start,
+void					update_quote_context(t_quote_context *context, char c);
+void					init_quote_context(t_quote_context *context);
+char					*ft_strdup_with_escape(const char *input, int start, \
 						int end);
 
 // lexer_tokenize.c
-t_token				*tokenizer(char **split_input);
-void				mark_commands(t_token *tokens);
-char				**tokens_to_tab(t_token *tokens);
+t_token					*tokenizer(char **split_input);
+void					mark_commands(t_token *tokens);
+char					**tokens_to_tab(t_token *tokens);
 // debug
-void				print_tokens(t_token *tokens);
+void					print_tokens(t_token *tokens);
 
 typedef struct s_split_state
 {
@@ -107,44 +107,44 @@ typedef struct s_command
 
 typedef struct s_expansion
 {
-	int				dollar_pos;
-	char			*var_name;
-	char			*var_value;
-	char			*before;
-	char			*after;
-	char			*result;
-	char			*expanded;
-}					t_expansion;
+	int					dollar_pos;
+	char				*var_name;
+	char				*var_value;
+	char				*before;
+	char				*after;
+	char				*result;
+	char				*expanded;
+}						t_expansion;
 
 // init.c
-void				init_expansion(t_expansion *exp);
+void					init_expansion(t_expansion *exp);
 
 // parser.c
-t_command			*new_command(void);
-t_command			*parser(t_token *token);
+t_command				*new_command(void);
+t_command				*parser(t_token *token);
 // debug
-void				print_commands(t_command *cmd);
-void				free_commands(t_command *cmd);
+void					print_commands(t_command *cmd);
+void					free_commands(t_command *cmd);
 
 // parser_utils.c
-char				*remove_quotes(char *str);
-void				add_arg(t_command *cmd, char *val);
-void				handle_redirection_in(t_command *cmd, t_token **token);
-void				handle_redirection_out(t_command *cmd, t_token **token);
-void				handle_redirection(t_command *cmd, t_token **token);
+char					*remove_quotes(char *str);
+void					add_arg(t_command *cmd, char *val);
+void					handle_redirection_in(t_command *cmd, t_token **token);
+void					handle_redirection_out(t_command *cmd, t_token **token);
+void					handle_redirection(t_command *cmd, t_token **token);
 
 // env_utils.c
-char				**copy_env(char **envp);
-char				*get_env_value(char *var_name, char **env_copy);
-int					find_dollar(char *str);
-char				*extract_var_name(char *str);
-void				free_env(char **env);
+char					**copy_env(char **envp);
+char					*get_env_value(char *var_name, char **env_copy);
+int						find_dollar(char *str);
+char					*extract_var_name(char *str);
+void					free_env(char **env);
 
 // env.c
-char				*strip_outer_single_quotes(const char *token);
-char				*strip_outer_double_quotes(const char *token);
-t_expansion			prepare_expansion(char *token, char **env_copy);
-char				*build_expansion(t_expansion *exp);
-void				expand_tokens(t_token *tokens, char **env_copy);
+char					*strip_outer_single_quotes(const char *token);
+char					*strip_outer_double_quotes(const char *token);
+t_expansion				prepare_expansion(char *token, char **env_copy);
+char					*build_expansion(t_expansion *exp);
+void					expand_tokens(t_token *tokens, char **env_copy);
 
 #endif

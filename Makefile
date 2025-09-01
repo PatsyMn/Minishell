@@ -2,7 +2,7 @@ CC = cc
 NAME = minishell
 CFLAGS = -Wall -Wextra -Werror -g -I./Libft -fsanitize=address -g3
 
-LIBFT_DIR = libft
+LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 OBJ_DIR = obj
 
@@ -19,12 +19,12 @@ SRCS = main.c \
 	parsing/env.c\
 	parsing/init.c\
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -33,6 +33,9 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+$(OBJ_DIR)/%.o: parsing/%.c | $(OBJ_DIR)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
