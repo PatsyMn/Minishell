@@ -2,38 +2,46 @@ CC = cc
 NAME = minishell
 CFLAGS = -Wall -Wextra -Werror -g -I./Libft -fsanitize=address -g3
 
-SRCS =	main.c \
-		parsing/parser.c\
-		parsing/parser_utils.c\
-		parsing/token_utils.c\
-		parsing/utility_functions.c\
-		parsing/lexer_utils.c\
-		parsing/lexer_check.c\
-		parsing/lexer_metachar.c\
-		parsing/lexer_tokenize.c\
-		parsing/env_utils.c\
-		parsing/env.c\
-		parsing/init.c\
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+OBJ_DIR = obj
 
+SRCS = main.c \
+	parsing/parser.c\
+	parsing/parser_utils.c\
+	parsing/token_utils.c\
+	parsing/utility_functions.c\
+	parsing/lexer_utils.c\
+	parsing/lexer_check.c\
+	parsing/lexer_metachar.c\
+	parsing/lexer_tokenize.c\
+	parsing/env_utils.c\
+	parsing/env.c\
+	parsing/init.c\
 
 OBJS = $(SRCS:.c=.o)
 
-all: libft $(NAME)
+all: $(NAME)
 
-$(NAME): $(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) ./Libft/libft.a -lreadline
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(OBJS) $(LIBFT)
 
-libft:
-		make -C ./Libft
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
 
-.c.o:
-		$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
-		rm -f $(OBJS)
+	$(MAKE) clean -C $(LIBFT_DIR)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
-		rm -f $(NAME)
+	$(MAKE) fclean -s -C $(LIBFT_DIR)
+	rm -f $(NAME)
 
 re: fclean all
 

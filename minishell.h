@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/01 13:18:27 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
+/*   Updated: 2025/09/01 13:38:22 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ typedef enum e_token_type
 	T_DOUBLE_QUOTE,
 	T_WORD,
 	T_COMMAND,
-	T_PIPE,       // |
-	T_REDIR_IN,   // <
-	T_REDIR_OUT,  // >
-	T_APPEND_OUT, // >>
-	T_HEREDOC,    // <<
+	T_PIPE,			// |
+	T_REDIR_IN,		// <
+	T_REDIR_OUT,	// >
+	T_APPEND_OUT,	// >>
+	T_HEREDOC,		// <<
 	T_INVALID_OPERATOR,
 	T_FILENAME,
 	T_DOLLAR_VAR,
@@ -41,18 +41,18 @@ typedef enum e_token_type
 
 typedef struct s_token
 {
-	t_token_type	type;
-	char			*value;
-	struct s_token	*next;
-}					t_token;
+	t_token_type		type;
+	char				*value;
+	struct s_token		*next;
+}						t_token;
 
 /* ========== LEXER ========== */
 
 typedef struct s_quote_context
 {
-	int				in_single_quote;
-	int				in_double_quote;
-}					t_quote_context;
+	int					in_single_quote;
+	int					in_double_quote;
+}						t_quote_context;
 
 // lexer_utils.c
 char				**split_input_respecting_quotes(char *input);
@@ -86,24 +86,24 @@ void				print_tokens(t_token *tokens);
 
 typedef struct s_split_state
 {
-	char			**result;
-	char			*input;
-	t_quote_context	*context;
-	int				start;
-	int				i;
-}					t_split_state;
+	char				**result;
+	char				*input;
+	t_quote_context		*context;
+	int					start;
+	int					i;
+}						t_split_state;
 
 /* ========== PARSER ========== */
 
 typedef struct s_command
 {
-	char **args;            // argv style (cmd + args)
-	char *infile;           // nom du fichier si '<'
-	char *outfile;          // nom du fichier si '>'
-	int append;             // 1 si >> (ajout)
-	int heredoc;            // 1 si <<
-	struct s_command *next; // chaînage pour les pipes
-}					t_command;
+	char				**args;		// argv style (cmd + args)
+	char				*infile;	// nom du fichier si '<'
+	char				*outfile;	// nom du fichier si '>'
+	int					append;		// 1 si >> (ajout)
+	int					heredoc;	// 1 si <<
+	struct s_command	*next;		// chaînage pour les pipes
+}						t_command;
 
 typedef struct s_expansion
 {
