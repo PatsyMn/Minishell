@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/01 14:19:39 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/01 14:30:48 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,17 +120,15 @@ typedef struct s_expansion
 void					init_expansion(t_expansion *exp);
 
 // parser.c
-t_command				*new_command(void);
 t_command				*parser(t_token *token);
 // debug
 void					print_commands(t_command *cmd);
 void					free_commands(t_command *cmd);
 
 // parser_utils.c
-char					*remove_quotes(char *str);
 void					add_arg(t_command *cmd, char *val);
-void					handle_redirection_in(t_command *cmd, t_token **token);
-void					handle_redirection_out(t_command *cmd, t_token **token);
+
+//parser_redirections.c
 void					handle_redirection(t_command *cmd, t_token **token);
 
 // env_utils.c
