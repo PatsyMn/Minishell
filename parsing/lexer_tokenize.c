@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 16:40:35 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/01 14:49:06 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	operator_length(char *str)
 			i++;
 		if (i > 2)
 			return (-1);
-		return (i); // 1 ou 2
+		return (i); 
 	}
 	else if (str[i] == '|')
 	{

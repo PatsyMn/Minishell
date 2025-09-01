@@ -15,11 +15,11 @@ SRCS = main.c \
 	parsing/lexer_check.c\
 	parsing/lexer_metachar.c\
 	parsing/lexer_tokenize.c\
-	parsing/env_utils.c\
-	parsing/env.c\
+	parsing/expansion_utils.c\
+	parsing/expansion.c\
 	parsing/quote_utils.c\
 	parsing/init.c\
-	parsing/parser_redirections.c\
+	parsing/parser_redirection.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
 
