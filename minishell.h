@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 15:35:01 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:18:27 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stdbool.h>
 
 /* ========== TOKEN ========== */
 
@@ -128,6 +129,8 @@ void				free_commands(t_command *cmd);
 // parser_utils.c
 char				*remove_quotes(char *str);
 void				add_arg(t_command *cmd, char *val);
+void				handle_redirection_in(t_command *cmd, t_token **token);
+void				handle_redirection_out(t_command *cmd, t_token **token);
 void				handle_redirection(t_command *cmd, t_token **token);
 
 // env_utils.c

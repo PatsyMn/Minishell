@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 16:59:21 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:23:49 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,39 @@ t_command	*new_command(void)
 	cmd->next = NULL;
 	return (cmd);
 }
+bool	process_token(t_token **token, t_command **cur, int *expect_command)
+{
+	if ((*token)->type == T_WORD)
+	{
+		if (*expect_command)
+		{
+			(*token)->type = T_COMMAND;
+			*expect_command = 0;
+		}
+		add_arg(*cur, ft_strdup((*token)->value));
+		return (false);
+	}
+	else if ((*token)->type == T_PIPE)
+	{
+		(*cur)->next = new_command();
+		*cur = (*cur)->next;
+		*expect_command = 1;
+		return (false);
+	}
+	else if ((*token)->type >= T_REDIR_IN && (*token)->type <= T_HEREDOC)
+	{
+		handle_redirection(*cur, token);
+		return (true);
+	}
+	return (false);
+}
+
 t_command	*parser(t_token *token)
 {
 	t_command	*head;
 	t_command	*cur;
 	int			expect_command;
+	bool		advanced;
 
 	head = NULL;
 	cur = NULL;
@@ -44,24 +72,9 @@ t_command	*parser(t_token *token)
 			if (!head)
 				head = cur;
 		}
-		if (token->type == T_WORD)
-		{
-			if (expect_command)
-			{
-				token->type = T_COMMAND;
-				expect_command = 0;
-			}
-			add_arg(cur, ft_strdup(token->value));
-		}
-		else if (token->type == T_PIPE)
-		{
-			cur->next = new_command();
-			cur = cur->next;
-			expect_command = 1;
-		}
-		else if (token->type >= T_REDIR_IN && token->type <= T_HEREDOC)
-			handle_redirection(cur, &token);
-		token = token->next;
+		advanced = process_token(&token, &cur, &expect_command);
+		if (!advanced)
+			token = token->next;
 	}
 	return (head);
 }
