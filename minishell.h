@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/15 17:30:54 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/08/15 17:33:22 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/09/01 12:54:49 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*⭐ Lexer
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-Séparer les éléments avec les "espace" pour avoir toutes les instruction.
+/* ========== LIBRARIES ========== */
+# include "Libft/libft.h"
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <stdio.h>
+# include <stdlib.h>
 
-Exemple :
-ls | wc -l
-Ici nous avons 4 éléments :
-
-1 : ls
-
-1 : |
-
-1 : wc
-
-1 : -l*/
+#endif
