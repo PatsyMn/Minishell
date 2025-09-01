@@ -17,6 +17,7 @@ SRCS = main.c \
 	parsing/lexer_tokenize.c\
 	parsing/env_utils.c\
 	parsing/env.c\
+	parsing/quote_utils.c\
 	parsing/init.c\
 	parsing/parser_redirections.c\
 
