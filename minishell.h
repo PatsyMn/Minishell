@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/02 11:16:05 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/02 13:17:01 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@ typedef struct s_token
 	char				*value;
 	struct s_token		*next;
 }						t_token;
+
+typedef struct s_input
+{
+	const char	*str;
+	int			index;
+	int			end;
+}	t_input;
+
+typedef struct s_output
+{
+	char	*str;
+	int		index;
+}	t_output;
+
 
 /* ========== LEXER ========== */
 
