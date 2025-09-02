@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:29:50 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/01 14:30:01 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/02 11:04:15 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	handle_redirection_out(t_command *cmd, t_token **token)
 	}
 	*token = file;
 }
+
 void	handle_redirection(t_command *cmd, t_token **token)
 {
 	if (!token || !(*token))

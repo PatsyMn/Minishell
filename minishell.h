@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/01 14:44:58 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/02 11:16:05 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,51 @@ typedef struct s_quote_context
 }						t_quote_context;
 
 // lexer_utils.c
+int						count_tokens(t_token *tokens);
+int						check_invalid_tokens(t_token *token_list);
+void					mark_commands(t_token *tokens);
+
+//lexer_split_str.c
 char					**split_input_respecting_quotes(char *input);
 void					free_split(char **split_input);
-int						has_syntax_error_first_pipe(char **split_input);
-int						has_syntax_error_last_pipe(char **split_input);
-int						check_syntax_operators(char **split_input);
 
 // token_utils.c
 t_token					*create_token(t_token_type type, char *str);
 void					free_tokens(t_token *tokens);
 void					add_token_to_list(t_token **head, t_token *new_token);
 
-// lexer_check.c
+// lexer_check_quotes.c
 int						is_double_quote(char *str);
 int						is_single_quote(char *str);
 int						check_unclosed_quotes(char *str);
+
+// lexer_check_.c
 int						check_special_chars(char *str);
+
 // lexer_metachar.c
 void					update_quote_context(t_quote_context *context, char c);
 void					init_quote_context(t_quote_context *context);
-char					*ft_strdup_with_escape(const char *input, int start, \
-						int end);
+
+//utiliy_functions.c
+char					*ft_strdup_with_escape(const char *input, int start, int end);
+
+//lexer_operator.c
+int						operator_length(char *str);
+int						is_invalid_operator(char *str);
+int						handle_operator(char *str, int *i, t_token **token_list);
+
+//lexer_errors.c
+int						has_syntax_error_first_pipe(char **split_input);
+int						has_syntax_error_last_pipe(char **split_input);
+int						check_syntax_operators(char **split_input);
+
+//lexer_word.c
+int						add_word_token(char *str, int start, int *i, t_token **token_list);
+int						handle_word(char *str, int *i, t_token **token_list);
 
 // lexer_tokenize.c
+t_token_type			get_token_type_from_str(char *str);
 t_token					*tokenizer(char **split_input);
-void					mark_commands(t_token *tokens);
 char					**tokens_to_tab(t_token *tokens);
 // debug
 void					print_tokens(t_token *tokens);

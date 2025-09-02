@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:27:03 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/01 14:29:38 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/02 11:09:56 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*remove_quotes(char *str)
 	if (len < 2)
 		return (str);
 	if ((str[0] == '\'' && str[len - 1] == '\'') || (str[0] == '"' && str[len
-			- 1] == '"'))
+				- 1] == '"'))
 	{
 		new_str = ft_strdup_with_escape(str, 1, len - 1);
 		if (!new_str)
@@ -85,4 +85,3 @@ void	add_arg(t_command *cmd, char *val)
 	free(cmd->args);
 	cmd->args = new_args;
 }
-

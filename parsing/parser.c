@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/01 14:23:27 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/02 11:06:02 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_command	*new_command(void)
 	cmd->next = NULL;
 	return (cmd);
 }
+
 static bool	process_token(t_token **token, t_command **cur, int *expect_command)
 {
 	if ((*token)->type == T_WORD)
