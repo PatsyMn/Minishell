@@ -6,13 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/01 13:23:49 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/02 11:06:02 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_command	*new_command(void)
+static t_command	*new_command(void)
 {
 	t_command	*cmd;
 
@@ -27,7 +27,8 @@ t_command	*new_command(void)
 	cmd->next = NULL;
 	return (cmd);
 }
-bool	process_token(t_token **token, t_command **cur, int *expect_command)
+
+static bool	process_token(t_token **token, t_command **cur, int *expect_command)
 {
 	if ((*token)->type == T_WORD)
 	{

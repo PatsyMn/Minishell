@@ -1,56 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/27 18:53:23 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/01 14:45:45 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*strip_outer_single_quotes(const char *token)
-{
-	size_t	len;
-	char	*new_str;
-
-	if (!token)
-		return (NULL);
-	len = ft_strlen(token);
-	if (len >= 2 && token[0] == '\'' && token[len - 1] == '\'')
-	{
-		new_str = malloc(len - 1);
-		if (!new_str)
-			return (NULL);
-		ft_memcpy(new_str, token + 1, len - 2);
-		new_str[len - 2] = '\0';
-		return (new_str);
-	}
-	return (ft_strdup(token));
-}
-
-char	*strip_outer_double_quotes(const char *token)
-{
-	size_t	len;
-	char	*new_str;
-
-	if (!token)
-		return (NULL);
-	len = ft_strlen(token);
-	if (len >= 2 && token[0] == '"' && token[len - 1] == '"')
-	{
-		new_str = malloc(len - 1);
-		if (!new_str)
-			return (NULL);
-		ft_memcpy(new_str, token + 1, len - 2);
-		new_str[len - 2] = '\0';
-		return (new_str);
-	}
-	return (ft_strdup(token));
-}
 
 t_expansion	prepare_expansion(char *token, char **env_copy)
 {
@@ -132,4 +92,3 @@ void	expand_tokens(t_token *tokens, char **env_copy)
 		tokens = tokens->next;
 	}
 }
-

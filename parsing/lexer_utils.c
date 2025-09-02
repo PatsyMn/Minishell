@@ -5,172 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/18 13:50:54 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 16:00:16 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/09/02 10:40:18 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/09/02 11:06:17 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_split(char **split_input)
+int	count_tokens(t_token *tokens)
 {
-	int	i;
+	int	count;
 
-	if (!split_input)
-		return ;
-	i = 0;
-	while (split_input[i])
+	count = 0;
+	while (tokens)
 	{
-		free(split_input[i]);
-		i++;
+		count++;
+		tokens = tokens->next;
 	}
-	free(split_input);
+	return (count);
 }
 
-static char	**add_word_to_tab(char **tab, char *word)
+int	check_invalid_tokens(t_token *token_list)
 {
-	int		size;
-	char	**new_tab;
-	int		i;
+	t_token	*tmp;
 
-	size = 0;
-	while (tab && tab[size])
-		size++;
-	new_tab = malloc(sizeof(char *) * (size + 2));
-	if (!new_tab)
+	tmp = token_list;
+	while (tmp)
 	{
-		free(word);
-		free_split(tab);
-		return (NULL);
-	}
-	i = 0;
-	while (i < size)
-	{
-		new_tab[i] = tab[i];
-		i++;
-	}
-	new_tab[size] = word;
-	new_tab[size + 1] = NULL;
-	free(tab);
-	return (new_tab);
-}
-
-static char	**split_and_add_word(t_split_state *state)
-{
-	int		end;
-	char	*word;
-
-	if (state->input[state->i] == ' ')
-		end = state->i;
-	else
-		end = state->i + 1;
-	word = ft_substr(state->input, state->start, end - state->start);
-	if (!word)
-		return (free_split(state->result), NULL);
-	state->result = add_word_to_tab(state->result, word);
-	if (!state->result)
-		return (NULL);
-	return (state->result);
-}
-
-static char	**split_loop(t_split_state *state)
-{
-	while (state->input[state->i])
-	{
-		update_quote_context(state->context, state->input[state->i]);
-		if (state->input[state->i] != ' ' && state->start < 0)
-			state->start = state->i;
-		if (((state->input[state->i] == ' ' && !state->context->in_single_quote
-					&& !state->context->in_double_quote)
-				|| state->input[state->i + 1] == '\0') && state->start >= 0)
+		if (tmp->type == T_INVALID_OPERATOR)
 		{
-			state->result = split_and_add_word(state);
-			if (!state->result)
-				return (NULL);
-			state->start = -1;
+			printf("syntax error near unexpected token '%s'\n", tmp->value);
+			return (1);
 		}
-		state->i++;
-	}
-	return (state->result);
-}
-char	**split_input_respecting_quotes(char *input)
-{
-	t_quote_context	context;
-	t_split_state	state;
-
-	init_quote_context(&context);
-	state.result = NULL;
-	state.input = input;
-	state.context = &context;
-	state.start = -1;
-	state.i = 0;
-	if (!split_loop(&state))
-		return (NULL);
-	return (state.result);
-}
-int	has_syntax_error_first_pipe(char **split_input)
-{
-	if (!split_input || !split_input[0])
-		return (0);
-	if (ft_strncmp(split_input[0], "|", 2) == 0)
-	{
-		printf("minishell: syntax error near unexpected token '|'\n");
-		return (1);
-	}
-	return (0);
-}
-int	has_syntax_error_last_pipe(char **split_input)
-{
-	int	i;
-
-	i = 0;
-	if (!split_input)
-		return (0);
-	while (split_input[i])
-		i++;
-	if (i > 0 && ft_strncmp(split_input[i - 1], "|", 2) == 0)
-	{
-		printf("syntax error near unexpected token '|'\n");
-		return (1);
+		tmp = tmp->next;
 	}
 	return (0);
 }
 
-static int	is_operator(char *token)
+void	mark_commands(t_token *tokens)
 {
-	if (!ft_strncmp(token, ">>", 3) || !ft_strncmp(token, "<<", 3)
-		|| !ft_strncmp(token, ">", 2) || !ft_strncmp(token, "<", 2)
-		|| !ft_strncmp(token, "|", 2))
-		return (1);
-	return (0);
-}
+	int	expect_command;
 
-static int	check_operator_at_end(char *token)
-{
-	(void)token;
-	printf("syntax error near unexpected token\n");
-	return (1);
-}
-
-int	check_syntax_operators(char **split_input)
-{
-	int	i;
-
-	i = 0;
-	while (split_input[i])
+	expect_command = 1;
+	while (tokens)
 	{
-		if (is_operator(split_input[i]))
+		if (tokens->type == T_WORD && expect_command)
 		{
-			if (!split_input[i + 1])
-				return (check_operator_at_end(split_input[i]));
-			if (is_operator(split_input[i + 1]))
-			{
-				printf("syntax error near unexpected token '%s'\n",
-					split_input[i + 1]);
-				return (1);
-			}
+			tokens->type = T_COMMAND;
+			expect_command = 0;
 		}
-		i++;
+		else if (tokens->type == T_PIPE)
+		{
+			expect_command = 1;
+		}
+		tokens = tokens->next;
 	}
-	return (0);
 }
