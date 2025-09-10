@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/02 11:03:47 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:03:43 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token_type	get_token_type_from_str(char *str)
 	return (T_WORD);
 }
 
-static int	tokenize_str(char *str, t_token **token_list)
+static int	tokenize_str(char *str, t_token **token_list, char **env_copy)
 {
 	int	i;
 	int	ret;
@@ -48,13 +48,13 @@ static int	tokenize_str(char *str, t_token **token_list)
 		ret = handle_operator(str, &i, token_list);
 		if (ret == -1)
 			return (0);
-		if (ret == 0 && !handle_word(str, &i, token_list))
+		if (ret == 0 && !handle_word(str, &i, token_list, env_copy))
 			return (0);
 	}
 	return (1);
 }
 
-t_token	*tokenizer(char **split_input)
+t_token	*tokenizer(char **split_input, char **env_copy)
 {
 	t_token	*token_list;
 	int		i;
@@ -63,7 +63,7 @@ t_token	*tokenizer(char **split_input)
 	i = 0;
 	while (split_input[i])
 	{
-		if (!tokenize_str(split_input[i], &token_list))
+		if (!tokenize_str(split_input[i], &token_list, env_copy))
 		{
 			free_tokens(token_list);
 			return (NULL);

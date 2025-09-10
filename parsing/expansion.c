@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/01 14:45:45 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:57:35 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,3 +92,20 @@ void	expand_tokens(t_token *tokens, char **env_copy)
 		tokens = tokens->next;
 	}
 }
+char	*expand_variables(char *str, char **env_copy)
+{
+	t_expansion	exp;
+	char		*expanded;
+
+	exp = prepare_expansion(str, env_copy);
+	if (exp.result)
+	{
+		expanded = ft_strdup(exp.result);
+		free_exp(&exp);
+		return (expanded);
+	}
+	expanded = build_expansion(&exp);
+	free_exp(&exp);
+	return (expanded);
+}
+

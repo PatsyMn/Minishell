@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/02 13:17:01 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:04:19 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,12 @@ int						has_syntax_error_last_pipe(char **split_input);
 int						check_syntax_operators(char **split_input);
 
 //lexer_word.c
-int						add_word_token(char *str, int start, int *i, t_token **token_list);
-int						handle_word(char *str, int *i, t_token **token_list);
+int						handle_word(char *str, int *i, t_token **token_list, char **env_copy);
+
 
 // lexer_tokenize.c
 t_token_type			get_token_type_from_str(char *str);
-t_token					*tokenizer(char **split_input);
+t_token *tokenizer(char **split_input, char **env_copy);
 char					**tokens_to_tab(t_token *tokens);
 // debug
 void					print_tokens(t_token *tokens);
@@ -175,6 +175,7 @@ char					*get_env_value(char *var_name, char **env_copy);
 int						find_dollar(char *str);
 char					*extract_var_name(char *str);
 void					free_env(char **env);
+char					*expand_variables(char *str, char **env_copy);
 
 // expension.c
 t_expansion				prepare_expansion(char *token, char **env_copy);

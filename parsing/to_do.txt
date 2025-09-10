@@ -1,0 +1,4 @@
+
+-  echo"hello" ne devrait pas fonctionner
+- echo ""hello"" --> compter les auotes paire set impair
+- si variable env existe ou pas, si non rien afficher
