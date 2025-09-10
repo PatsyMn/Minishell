@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/10 14:57:35 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:31:02 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	free_exp(t_expansion *exp)
 		free(exp->var_name);
 	if (exp->after)
 		free(exp->after);
+	if (exp->result)
+		free(exp->result);
 }
 
 void	expand_tokens(t_token *tokens, char **env_copy)
