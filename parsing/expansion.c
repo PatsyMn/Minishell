@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/10 15:31:02 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:29:46 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,21 @@
 t_expansion	prepare_expansion(char *token, char **env_copy)
 {
 	t_expansion	exp;
+	char		*tmp;
 
 	init_expansion(&exp);
-	token = strip_outer_double_quotes(token);
+	tmp = ft_strdup(token);
+	if (!tmp)
+		return (exp);
+	token = strip_outer_double_quotes(tmp);
+	free(tmp);
+	if (!token)
+		return (exp);
 	exp.dollar_pos = find_dollar(token);
 	if (exp.dollar_pos == -1)
 	{
 		exp.result = ft_strdup(token);
+		free(token);
 		return (exp);
 	}
 	exp.before = ft_substr(token, 0, exp.dollar_pos);
@@ -30,6 +38,7 @@ t_expansion	prepare_expansion(char *token, char **env_copy)
 	{
 		free(exp.before);
 		exp.result = ft_strdup(token);
+		free(token);
 		return (exp);
 	}
 	exp.var_value = get_env_value(exp.var_name, env_copy);
@@ -37,6 +46,7 @@ t_expansion	prepare_expansion(char *token, char **env_copy)
 		exp.var_value = "";
 	exp.after = ft_strdup(token + exp.dollar_pos + 1 + ft_strlen(exp.var_name));
 	exp.result = NULL;
+	free(token);
 	return (exp);
 }
 
@@ -90,10 +100,16 @@ void	expand_tokens(t_token *tokens, char **env_copy)
 			free_exp(&exp);
 		}
 		else if (tokens->type == 0)
-			tokens->value = strip_outer_single_quotes(tokens->value);
+		{
+			char *tmp = tokens->value;
+			tokens->value = strip_outer_double_quotes(tokens->value);
+			if (tmp != tokens->value)
+				free(tmp);
+		}
 		tokens = tokens->next;
 	}
 }
+
 char	*expand_variables(char *str, char **env_copy)
 {
 	t_expansion	exp;
