@@ -6,58 +6,80 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 16:51:33 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:18:12 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+static int	handle_syntax_errors(char **split_input)
 {
-	char		*input;
-	char		**env_copy;
-	char		**split_input;
+	if (has_syntax_error_first_pipe(split_input)
+		|| check_syntax_operators(split_input)
+		|| has_syntax_error_last_pipe(split_input))
+	{
+		free_split(split_input);
+		return (1);
+	}
+	return (0);
+}
+
+static int	handle_tokens(char **split_input, char **env_copy)
+{
 	t_token		*token_list;
 	t_command	*commands;
+
+	token_list = tokenizer(split_input, env_copy);
+	free_split(split_input);
+	if (!token_list)
+		return (1);
+	expand_tokens(token_list, env_copy);
+	print_tokens(token_list);
+	commands = parser(token_list);
+	print_commands(commands);
+	free_commands(commands);
+	free_tokens(token_list);
+	return (0);
+}
+
+static int	handle_input(char *input, char **env_copy)
+{
+	char	**split_input;
+
+	if (!input)
+		return (0);
+	if (check_unclosed_quotes(input) || check_special_chars(input))
+	{
+		free(input);
+		return (1);
+	}
+	split_input = split_input_respecting_quotes(input);
+	free(input);
+	if (!split_input)
+		return (1);
+	if (handle_syntax_errors(split_input))
+		return (1);
+	return (handle_tokens(split_input, env_copy));
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	char	*input;
+	char	**env_copy;
+	int		ret;
 
 	(void)ac;
 	(void)av;
 	env_copy = copy_env(envp);
 	if (!env_copy)
 		return (1);
-	while (1)
+	ret = 1;
+	while (ret)
 	{
 		input = readline("WhatTheShell$ ");
-		if (!input)
-			break ;
-		add_history(input);
-		if (!check_unclosed_quotes(input) && !check_special_chars(input))
-		{
-			split_input = split_input_respecting_quotes(input);
-			if (split_input)
-			{
-				if (has_syntax_error_first_pipe(split_input)
-				|| check_syntax_operators(split_input) || has_syntax_error_last_pipe(split_input))
-					free_split(split_input);
-				else
-				{
-					token_list = tokenizer(split_input);
-					expand_tokens(token_list, env_copy);
-					print_tokens(token_list);
-					commands = parser(token_list);
-					print_commands(commands);
-					free_commands(commands);
-					free_tokens(token_list);
-					free_split(split_input);
-					free(input);
-				}
-			}
-		}
-		else
-		{
-			free(input);
-		}
+		ret = handle_input(input, env_copy);
 	}
 	free_env(env_copy);
 	return (0);
 }
+

@@ -6,55 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 16:40:35 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:03:43 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	operator_length(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '>' || str[i] == '<')
-	{
-		while (str[i] == '>' || str[i] == '<')
-			i++;
-		if (i > 2)
-			return (-1);
-		return (i); // 1 ou 2
-	}
-	else if (str[i] == '|')
-	{
-		while (str[i] == '|')
-			i++;
-		if (i > 1)
-			return (-1);
-		return (i);
-	}
-	return (0);
-}
-static int	is_invalid_operator(char *str)
-{
-	size_t	len;
-	size_t	i;
-
-	len = ft_strlen(str);
-	i = 0;
-	if (len > 2)
-	{
-		while (str[i] && (str[i] == '>' || str[i] == '<' || str[i] == '|'))
-			i++;
-		if (i == len)
-			return (1);
-	}
-	if (len == 2 && !ft_strncmp(str, "||", 3))
-		return (1);
-	return (0);
-}
-
-static t_token_type	get_token_type_from_str(char *str)
+t_token_type	get_token_type_from_str(char *str)
 {
 	if (!str)
 		return (T_WORD);
@@ -79,63 +37,7 @@ static t_token_type	get_token_type_from_str(char *str)
 	return (T_WORD);
 }
 
-static int	handle_operator(char *str, int *i, t_token **token_list)
-{
-	int		op_len;
-	char	*sub;
-
-	op_len = operator_length(&str[*i]);
-	if (op_len == -1)
-	{
-		sub = ft_substr(str, *i, 2);
-		if (!sub)
-			return (-1);
-		add_token_to_list(token_list, create_token(T_INVALID_OPERATOR, sub));
-		*i += ft_strlen(sub);
-		return (1);
-	}
-	if (op_len <= 0)
-		return (0);
-	sub = ft_substr(str, *i, op_len);
-	if (!sub)
-		return (-1);
-	add_token_to_list(token_list, create_token(get_token_type_from_str(sub),
-			sub));
-	*i += op_len;
-	return (1);
-}
-
-static int	add_word_token(char *str, int start, int *i, t_token **token_list)
-{
-	char	*sub;
-
-	sub = ft_substr(str, start, *i - start);
-	if (!sub)
-		return (0);
-	add_token_to_list(token_list, create_token(get_token_type_from_str(sub),
-			sub));
-	return (1);
-}
-static int	handle_word(char *str, int *i, t_token **token_list)
-{
-	int	start;
-
-	start = *i;
-	while (str[*i])
-	{
-		if (operator_length(&str[*i]) > 0)
-		{
-			return (add_word_token(str, start, i, token_list));
-		}
-		if (str[*i] == '\\' && str[*i + 1])
-			*i += 2;
-		else
-			(*i)++;
-	}
-	return (add_word_token(str, start, i, token_list));
-}
-
-static int	tokenize_str(char *str, t_token **token_list)
+static int	tokenize_str(char *str, t_token **token_list, char **env_copy)
 {
 	int	i;
 	int	ret;
@@ -146,30 +48,13 @@ static int	tokenize_str(char *str, t_token **token_list)
 		ret = handle_operator(str, &i, token_list);
 		if (ret == -1)
 			return (0);
-		if (ret == 0 && !handle_word(str, &i, token_list))
+		if (ret == 0 && !handle_word(str, &i, token_list, env_copy))
 			return (0);
 	}
 	return (1);
 }
 
-static int	check_invalid_tokens(t_token *token_list)
-{
-	t_token	*tmp;
-
-	tmp = token_list;
-	while (tmp)
-	{
-		if (tmp->type == T_INVALID_OPERATOR)
-		{
-			printf("syntax error near unexpected token '%s'\n", tmp->value);
-			return (1);
-		}
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-t_token	*tokenizer(char **split_input)
+t_token	*tokenizer(char **split_input, char **env_copy)
 {
 	t_token	*token_list;
 	int		i;
@@ -178,7 +63,7 @@ t_token	*tokenizer(char **split_input)
 	i = 0;
 	while (split_input[i])
 	{
-		if (!tokenize_str(split_input[i], &token_list))
+		if (!tokenize_str(split_input[i], &token_list, env_copy))
 		{
 			free_tokens(token_list);
 			return (NULL);
@@ -194,18 +79,6 @@ t_token	*tokenizer(char **split_input)
 	return (token_list);
 }
 
-int	count_tokens(t_token *tokens)
-{
-	int	count;
-
-	count = 0;
-	while (tokens)
-	{
-		count++;
-		tokens = tokens->next;
-	}
-	return (count);
-}
 char	**tokens_to_tab(t_token *tokens)
 {
 	int		len;
@@ -234,25 +107,6 @@ char	**tokens_to_tab(t_token *tokens)
 	return (tab);
 }
 
-void	mark_commands(t_token *tokens)
-{
-	int	expect_command;
-
-	expect_command = 1;
-	while (tokens)
-	{
-		if (tokens->type == T_WORD && expect_command)
-		{
-			tokens->type = T_COMMAND;
-			expect_command = 0;
-		}
-		else if (tokens->type == T_PIPE)
-		{
-			expect_command = 1;
-		}
-		tokens = tokens->next;
-	}
-}
 // debug
 void	print_tokens(t_token *tokens)
 {
