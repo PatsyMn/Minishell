@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/28 16:51:33 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:06:14 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int ac, char **av, char **envp)
 					free_split(split_input);
 				else
 				{
-					token_list = tokenizer(split_input);
+					token_list = tokenizer(split_input, env_copy);
 					expand_tokens(token_list, env_copy);
 					print_tokens(token_list);
 					commands = parser(token_list);

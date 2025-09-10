@@ -6,13 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/10 14:43:17 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:55:14 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*handle_quoted_word(char *str, int *i)
+static char	*extract_quoted_substring(char *str, int *i)
 {
 	char	quote;
 	int		start;
@@ -35,6 +35,24 @@ static char	*handle_quoted_word(char *str, int *i)
 	return (sub);
 }
 
+static char	*extract_unquoted_segment(char *str, int *i)
+{
+	int		start;
+	char	*sub;
+
+	start = *i;
+	while (str[*i] && str[*i] != '\'' && str[*i] != '"'
+		&& str[*i] != ' ' && operator_length(&str[*i]) == 0)
+	{
+		if (str[*i] == '\\' && str[*i + 1])
+			*i += 2;
+		else
+			(*i)++;
+	}
+	sub = ft_substr(str, start, *i - start);
+	return (sub);
+}
+
 static char	*append_and_free(char *s1, char *s2)
 {
 	char	*new_str;
@@ -45,65 +63,62 @@ static char	*append_and_free(char *s1, char *s2)
 	return (new_str);
 }
 
-static int	handle_unquoted_word(char *str, int *i, char **buffer)
+static char	*process_segment(char *str, int *i, char **env_copy)
 {
-	int		start;
 	char	*tmp;
+	char	*expanded;
 
-	start = *i;
-	while (str[*i] && str[*i] != '\'' && str[*i] != '"' &&
-			str[*i] != ' ' && operator_length(&str[*i]) == 0)
+	if (str[*i] == '\'')
 	{
-		if (str[*i] == '\\' && str[*i + 1])
-			*i += 2;
-		else
-			(*i)++;
+		tmp = extract_quoted_substring(str, i);
+		if (!tmp)
+			return (NULL);
+		return (tmp);
 	}
-	tmp = ft_substr(str, start, *i - start);
+	if (str[*i] == '"')
+	{
+		tmp = extract_quoted_substring(str, i);
+		if (!tmp)
+			return (NULL);
+		expanded = expand_variables(tmp, env_copy);
+		free(tmp);
+		return (expanded);
+	}
+	tmp = extract_unquoted_segment(str, i);
 	if (!tmp)
-		return (0);
-	*buffer = append_and_free(*buffer, tmp);
-	return (1);
+		return (NULL);
+	expanded = expand_variables(tmp, env_copy);
+	free(tmp);
+	return (expanded);
 }
 
-static int	build_word_buffer(char *str, int *i, char **buffer)
-{
-	char	*tmp;
-
-	while (str[*i] && str[*i] != ' ' && operator_length(&str[*i]) == 0)
-	{
-		if (str[*i] == '\'' || str[*i] == '"')
-		{
-			tmp = handle_quoted_word(str, i);
-			if (!tmp)
-				return (0);
-			*buffer = append_and_free(*buffer, tmp);
-		}
-		else
-		{
-			if (!handle_unquoted_word(str, i, buffer))
-				return (0);
-		}
-	}
-	return (1);
-}
-
-int	handle_word(char *str, int *i, t_token **token_list)
+int	handle_word(char *str, int *i, t_token **token_list, char **env_copy)
 {
 	char	*buffer;
-	int		ret;
+	char	*segment;
+	int		continue_loop;
 
 	buffer = ft_strdup("");
 	if (!buffer)
 		return (0);
-	ret = build_word_buffer(str, i, &buffer);
-	if (ret)
+	continue_loop = 1;
+	while (str[*i] && str[*i] != ' ' && operator_length(&str[*i]) == 0 && continue_loop)
 	{
-		add_token_to_list(token_list, create_token(T_WORD, buffer));
-		ret = 1;
+		segment = process_segment(str, i, env_copy);
+		if (!segment)
+			continue_loop = 0;
+		else
+			buffer = append_and_free(buffer, segment);
 	}
-	return (ret);
+	if (!*buffer)
+	{
+		free(buffer);
+		return (0);
+	}
+	add_token_to_list(token_list, create_token(T_WORD, buffer));
+	return (1);
 }
+
 
 
 
