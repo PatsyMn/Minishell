@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/10 15:04:19 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/11 13:57:00 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,17 +169,23 @@ void					handle_redirection(t_command *cmd, t_token **token);
 char					*strip_outer_single_quotes(const char *token);
 char					*strip_outer_double_quotes(const char *token);
 
-// expansion_utils.c
+//env_utils.c
 char					**copy_env(char **envp);
 char					*get_env_value(char *var_name, char **env_copy);
+void					free_env(char **env);
+
+//expansion_utils.c
 int						find_dollar(char *str);
 char					*extract_var_name(char *str);
-void					free_env(char **env);
-char					*expand_variables(char *str, char **env_copy);
-
-// expension.c
-t_expansion				prepare_expansion(char *token, char **env_copy);
 char					*build_expansion(t_expansion *exp);
+char					*clean_and_strip_token(char *token);
+void					free_exp(t_expansion *exp);
+
+//expand_tokens.c
 void					expand_tokens(t_token *tokens, char **env_copy);
+
+//expension.c
+char					*expand_variables(char *str, char **env_copy);
+t_expansion				prepare_expansion(char *token, char **env_copy);
 
 #endif

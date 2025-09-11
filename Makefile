@@ -20,7 +20,9 @@ SRCS = main.c \
 	parsing/lexer_errors.c\
 	parsing/lexer_word.c\
 	parsing/lexer_tokenize.c\
+	parsing/env_utils.c\
 	parsing/expansion_utils.c\
+	parsing/expand_tokens.c\
 	parsing/expansion.c\
 	parsing/quote_utils.c\
 	parsing/init.c\

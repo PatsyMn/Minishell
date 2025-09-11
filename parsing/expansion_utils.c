@@ -1,63 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/01 14:28:38 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/11 13:56:01 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	**copy_env(char **envp)
-{
-	int		i;
-	char	**copy;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	copy = malloc(sizeof(char *) * (i + 1));
-	if (!copy)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		copy[i] = ft_strdup(envp[i]);
-		if (!copy[i])
-		{
-			while (i--)
-				free(copy[i]);
-			free(copy);
-			return (NULL);
-		}
-		i++;
-	}
-	copy[i] = NULL;
-	return (copy);
-}
-
-char	*get_env_value(char *var_name, char **env_copy)
-{
-	int	i;
-	int	len;
-
-	if (!var_name || !env_copy)
-		return (NULL);
-	len = ft_strlen(var_name);
-	i = 0;
-	while (env_copy[i])
-	{
-		if (ft_strncmp(env_copy[i], var_name, len) == 0
-			&& env_copy[i][len] == '=')
-			return (env_copy[i] + len + 1);
-		i++;
-	}
-	return (NULL);
-}
 
 int	find_dollar(char *str)
 {
@@ -91,16 +44,44 @@ char	*extract_var_name(char *str)
 		var_name[i] = str[i];
 	return (var_name);
 }
-
-void	free_env(char **env)
+char	*clean_and_strip_token(char *token)
 {
-	int	i;
+	char	*tmp;
+	char	*stripped;
 
-	i = 0;
-	while (env[i])
-	{
-		free(env[i]);
-		i++;
-	}
-	free(env);
+	tmp = ft_strdup(token);
+	if (!tmp)
+		return (NULL);
+	stripped = strip_outer_double_quotes(tmp);
+	free(tmp);
+	return (stripped);
+}
+
+char	*build_expansion(t_expansion *exp)
+{
+	char	*res;
+	size_t	total_len;
+
+	total_len = ft_strlen(exp->before) + ft_strlen(exp->var_value)
+		+ ft_strlen(exp->after) + 1;
+	res = malloc(total_len);
+	if (!res)
+		return (NULL);
+	res[0] = '\0';
+	ft_strlcat(res, exp->before, total_len);
+	ft_strlcat(res, exp->var_value, total_len);
+	ft_strlcat(res, exp->after, total_len);
+	return (res);
+}
+
+void	free_exp(t_expansion *exp)
+{
+	if (exp->before)
+		free(exp->before);
+	if (exp->var_name)
+		free(exp->var_name);
+	if (exp->after)
+		free(exp->after);
+	if (exp->result)
+		free(exp->result);
 }

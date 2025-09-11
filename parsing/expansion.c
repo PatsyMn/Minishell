@@ -6,108 +6,71 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/10 16:29:46 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:04:05 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_expansion	prepare_expansion(char *token, char **env_copy)
+static bool	extract_before_and_var(char *token, t_expansion *exp)
 {
-	t_expansion	exp;
-	char		*tmp;
+	exp->before = ft_substr(token, 0, exp->dollar_pos);
+	if (!exp->before)
+		return (false);
 
-	init_expansion(&exp);
-	tmp = ft_strdup(token);
-	if (!tmp)
-		return (exp);
-	token = strip_outer_double_quotes(tmp);
-	free(tmp);
-	if (!token)
-		return (exp);
-	exp.dollar_pos = find_dollar(token);
-	if (exp.dollar_pos == -1)
+	exp->var_name = extract_var_name(token + exp->dollar_pos + 1);
+	if (!exp->var_name)
 	{
-		exp.result = ft_strdup(token);
-		free(token);
-		return (exp);
-	}
-	exp.before = ft_substr(token, 0, exp.dollar_pos);
-	exp.var_name = extract_var_name(token + exp.dollar_pos + 1);
-	if (!exp.var_name)
-	{
-		free(exp.before);
-		exp.result = ft_strdup(token);
-		free(token);
-		return (exp);
-	}
-	exp.var_value = get_env_value(exp.var_name, env_copy);
-	if (!exp.var_value)
-		exp.var_value = "";
-	exp.after = ft_strdup(token + exp.dollar_pos + 1 + ft_strlen(exp.var_name));
-	exp.result = NULL;
-	free(token);
-	return (exp);
-}
-
-char	*build_expansion(t_expansion *exp)
-{
-	char	*res;
-	size_t	total_len;
-
-	total_len = ft_strlen(exp->before) + ft_strlen(exp->var_value)
-		+ ft_strlen(exp->after) + 1;
-	res = malloc(total_len);
-	if (!res)
-		return (NULL);
-	res[0] = '\0';
-	ft_strlcat(res, exp->before, total_len);
-	ft_strlcat(res, exp->var_value, total_len);
-	ft_strlcat(res, exp->after, total_len);
-	return (res);
-}
-
-void	free_exp(t_expansion *exp)
-{
-	if (exp->before)
 		free(exp->before);
-	if (exp->var_name)
-		free(exp->var_name);
-	if (exp->after)
-		free(exp->after);
-	if (exp->result)
-		free(exp->result);
+		return (false);
+	}
+	return (true);
 }
 
-void	expand_tokens(t_token *tokens, char **env_copy)
+static bool	extract_var_and_after(char *token, t_expansion *exp, char **env_copy)
 {
-	t_expansion	exp;
+	size_t	var_name_len;
+	size_t	var_end_index;
+	char	*after_start;
 
-	while (tokens)
+	exp->var_value = get_env_value(exp->var_name, env_copy);
+	if (!exp->var_value)
+		exp->var_value = "";
+
+	var_name_len = ft_strlen(exp->var_name);
+	var_end_index = (size_t)exp->dollar_pos + 1 + var_name_len;
+	after_start = token + var_end_index;
+
+	exp->after = ft_strdup(after_start);
+	if (!exp->after)
 	{
-		if (tokens->type == 1)
-		{
-			exp = prepare_expansion(tokens->value, env_copy);
-			if (!exp.result)
-				exp.expanded = build_expansion(&exp);
-			else
-				exp.expanded = exp.result;
-			if (exp.expanded)
-			{
-				free(tokens->value);
-				tokens->value = exp.expanded;
-			}
-			free_exp(&exp);
-		}
-		else if (tokens->type == 0)
-		{
-			char *tmp = tokens->value;
-			tokens->value = strip_outer_double_quotes(tokens->value);
-			if (tmp != tokens->value)
-				free(tmp);
-		}
-		tokens = tokens->next;
+		free(exp->before);
+		free(exp->var_name);
+		return (false);
 	}
+	return (true);
+}
+
+static bool	handle_dollar(char *token, t_expansion *exp, char **env_copy)
+{
+	exp->dollar_pos = find_dollar(token);
+	if (exp->dollar_pos == -1)
+	{
+		exp->result = ft_strdup(token);
+		return (false);
+	}
+	if (!extract_before_and_var(token, exp))
+	{
+		exp->result = ft_strdup(token);
+		return (false);
+	}
+	if (!extract_var_and_after(token, exp, env_copy))
+	{
+		exp->result = ft_strdup(token);
+		return (false);
+	}
+	exp->result = NULL;
+	return (true);
 }
 
 char	*expand_variables(char *str, char **env_copy)
@@ -126,4 +89,22 @@ char	*expand_variables(char *str, char **env_copy)
 	free_exp(&exp);
 	return (expanded);
 }
+t_expansion	prepare_expansion(char *token, char **env_copy)
+{
+	t_expansion	exp;
+	char		*clean_token;
+
+	init_expansion(&exp);
+	clean_token = clean_and_strip_token(token);
+	if (!clean_token)
+		return (exp);
+	if (!handle_dollar(clean_token, &exp, env_copy))
+	{
+		free(clean_token);
+		return (exp);
+	}
+	free(clean_token);
+	return (exp);
+}
+
 
