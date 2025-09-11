@@ -1,8 +1,0 @@
-
--  echo"hello" ne devrait pas fonctionner
-- echo ""hello"" --> compter les auotes paire set impair
-- si variable env existe ou pas, si non rien afficher
-
-
-WhatTheShell$ >>>
-syntax error near unexpected token '>>' ca quitte juste apres 
