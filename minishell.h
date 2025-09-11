@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/11 13:57:00 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:21:16 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void					free_exp(t_expansion *exp);
 //expand_tokens.c
 void					expand_tokens(t_token *tokens, char **env_copy);
 
-//expension.c
+//expension_preparation.c
 char					*expand_variables(char *str, char **env_copy);
 t_expansion				prepare_expansion(char *token, char **env_copy);
 

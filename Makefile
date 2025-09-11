@@ -23,7 +23,7 @@ SRCS = main.c \
 	parsing/env_utils.c\
 	parsing/expansion_utils.c\
 	parsing/expand_tokens.c\
-	parsing/expansion.c\
+	parsing/expansion_preparation.c\
 	parsing/quote_utils.c\
 	parsing/init.c\
 	parsing/parser_redirection.c\
