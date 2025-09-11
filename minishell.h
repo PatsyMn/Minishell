@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/10 15:32:28 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/11 16:04:55 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ typedef struct s_command
 	char				**args;		// argv style (cmd + args)
 	char				*infile;	// nom du fichier si '<'
 	char				*outfile;	// nom du fichier si '>'
+	int					infile_fd;
+	int					outfile_fd;
 	int					append;		// 1 si >> (ajout)
 	int					heredoc;	// 1 si <<
 	struct s_command	*next;		// chaînage pour les pipes
@@ -181,5 +183,8 @@ char					*expand_variables(char *str, char **env_copy);
 t_expansion				prepare_expansion(char *token, char **env_copy);
 char					*build_expansion(t_expansion *exp);
 void					expand_tokens(t_token *tokens, char **env_copy);
+
+// execute_cmd.c
+int    					execute_cmd(char **envp, t_token *token_list, t_command *commands);
 
 #endif
