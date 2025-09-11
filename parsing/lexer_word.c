@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/10 16:31:21 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:51:20 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ static char	*process_segment(char *str, int *i, char **env_copy)
 	if (!tmp)
 		return (NULL);
 	expanded = expand_variables(tmp, env_copy);
+	free(tmp);
 	return (expanded);
 }
 
