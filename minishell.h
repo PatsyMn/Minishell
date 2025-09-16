@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/11 16:21:16 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:23:11 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ int						check_syntax_operators(char **split_input);
 //lexer_word.c
 int						handle_word(char *str, int *i, t_token **token_list, char **env_copy);
 
+//lexer_files.c
+void					assign_filename_types(t_token *tokens);
 
 // lexer_tokenize.c
 t_token_type			get_token_type_from_str(char *str);

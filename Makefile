@@ -19,6 +19,7 @@ SRCS = main.c \
 	parsing/lexer_split_str.c\
 	parsing/lexer_errors.c\
 	parsing/lexer_word.c\
+	parsing/lexer_files.c\
 	parsing/lexer_tokenize.c\
 	parsing/env_utils.c\
 	parsing/expansion_utils.c\
