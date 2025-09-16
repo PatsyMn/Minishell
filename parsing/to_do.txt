@@ -1,0 +1,6 @@
+WhatTheShell$ <test cat
+Token: REDIR_IN     | Value: <
+Token: FILENAME     | Value: test
+Token: COMMAND      | Value: cat \
+
+ca ne doit pas marcher :)
