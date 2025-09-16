@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/11 16:09:08 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/12 13:30:03 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,10 +186,17 @@ void					free_exp(t_expansion *exp);
 //expand_tokens.c
 void					expand_tokens(t_token *tokens, char **env_copy);
 
-// execute_cmd.c
-int    					execute_cmd(char **envp, t_token *token_list, t_command *commands);
 //expension.c
 char					*expand_variables(char *str, char **env_copy);
 t_expansion				prepare_expansion(char *token, char **env_copy);
+
+// execute_cmd.c
+int    					execute_cmd(char **envp, t_token *token_list, t_command *commands);
+
+typedef struct s_exec
+{
+	int					cmd_start;
+	int					cmd_count;
+}						t_exec;
 
 #endif
