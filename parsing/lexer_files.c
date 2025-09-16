@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:01:47 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/16 13:17:46 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:07:55 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ void	assign_filename_types(t_token *tokens)
 	curr = tokens;
 	while (curr)
 	{
-		if (curr->type == T_REDIR_OUT || curr->type == T_APPEND_OUT
-			|| curr->type == T_REDIR_IN || curr->type == T_HEREDOC)
+		if ((curr->type == T_REDIR_OUT || curr->type == T_APPEND_OUT
+			 || curr->type == T_REDIR_IN || curr->type == T_HEREDOC)
+			&& curr->next && curr->next->type == T_WORD)
 		{
-			if (curr->next && curr->next->type == T_WORD)
-				curr->next->type = T_FILENAME;
+			curr->next->type = T_FILENAME;
 		}
 		curr = curr->next;
 	}
 }
+
 
 

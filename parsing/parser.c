@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/11 12:26:44 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:11:31 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,25 @@ static t_command	*new_command(void)
 	return (cmd);
 }
 
-static bool	process_token(t_token **token, t_command **cur, int *expect_command)
+static bool process_redirection(t_token **token, t_command **cur, int *expect_command)
 {
+	if (!token || !(*token))
+		return false;
+
+	if ((*token)->type >= T_REDIR_IN && (*token)->type <= T_HEREDOC)
+	{
+		handle_redirection(*cur, token);
+		*expect_command = 1;
+		return true;
+	}
+	return false;
+}
+
+static bool process_command_word_pipe(t_token **token, t_command **cur, int *expect_command)
+{
+	if (!token || !(*token))
+		return false;
+
 	if ((*token)->type == T_WORD || (*token)->type == T_COMMAND)
 	{
 		if (*expect_command)
@@ -38,33 +55,34 @@ static bool	process_token(t_token **token, t_command **cur, int *expect_command)
 			*expect_command = 0;
 		}
 		add_arg(*cur, ft_strdup((*token)->value));
-		return (false);
+		*token = (*token)->next;
+		return true;
 	}
 	else if ((*token)->type == T_PIPE)
 	{
 		(*cur)->next = new_command();
 		*cur = (*cur)->next;
 		*expect_command = 1;
-		return (false);
+		*token = (*token)->next;
+		return true;
 	}
-	else if ((*token)->type >= T_REDIR_IN && (*token)->type <= T_HEREDOC)
-	{
-		handle_redirection(*cur, token);
-		return (true);
-	}
-	return (false);
+	return false;
+}
+static bool	process_token(t_token **token, t_command **cur, int *expect_command)
+{
+	if (process_redirection(token, cur, expect_command))
+		return true;
+	if (process_command_word_pipe(token, cur, expect_command))
+		return true;
+	return false;
 }
 
-t_command	*parser(t_token *token)
+t_command *parser(t_token *token)
 {
-	t_command	*head;
-	t_command	*cur;
-	int			expect_command;
-	bool		advanced;
+	t_command *head = NULL;
+	t_command *cur = NULL;
+	int expect_command = 1;
 
-	head = NULL;
-	cur = NULL;
-	expect_command = 1;
 	while (token)
 	{
 		if (!cur)
@@ -73,38 +91,10 @@ t_command	*parser(t_token *token)
 			if (!head)
 				head = cur;
 		}
-		advanced = process_token(&token, &cur, &expect_command);
-		if (!advanced)
+		if (!process_token(&token, &cur, &expect_command))
 			token = token->next;
 	}
-	return (head);
-}
-
-void	free_commands(t_command *cmd)
-{
-	t_command	*tmp;
-	int			i;
-
-	while (cmd)
-	{
-		tmp = cmd->next;
-		if (cmd->args)
-		{
-			i = 0;
-			while (cmd->args[i])
-			{
-				free(cmd->args[i]);
-				i++;
-			}
-			free(cmd->args);
-		}
-		if (cmd->infile)
-			free(cmd->infile);
-		if (cmd->outfile)
-			free(cmd->outfile);
-		free(cmd);
-		cmd = tmp;
-	}
+	return head;
 }
 
 // debug

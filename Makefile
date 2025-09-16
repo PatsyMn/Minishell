@@ -28,7 +28,7 @@ SRCS = main.c \
 	parsing/quote_utils.c\
 	parsing/init.c\
 	parsing/parser_redirection.c\
-	signals/signals.c\
+	#signals/signals.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
 
