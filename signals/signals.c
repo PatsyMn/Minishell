@@ -1,23 +1,76 @@
-/*
-Un shell est un programme interactif où l’utilisateur tape des commandes.
-Pendant son fonctionnement :
-- L’utilisateur peut appuyer sur Ctrl+C pour interrompre une commande (envoyer un signal SIGINT).
-- Il peut appuyer sur Ctrl+Z pour suspendre un processus (SIGTSTP).
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/09/16 14:26:42 by pmeimoun         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-Le shell doit réagir :
-- Interrompre la commande en cours sans fermer le shell.
-- Ignorer certains signaux quand il est en mode lecture.
-- Gérer proprement les processus enfants (les commandes lancées).
+#include "../minishell.h"
 
-SIGINT	Interruption (Ctrl+C)	Interrompt la commande en cours
-SIGQUIT	Quit (Ctrl+)	Quitte un processus, crée core dump
-SIGTSTP	Suspend (Ctrl+Z)	Suspend un processus (stop)
-SIGCHLD	Un processus enfant s’est terminé	Permet au shell de gérer la fin
+volatile sig_atomic_t g_sig = 0;
 
-en resume :
-- Dans le shell (parent) :
-Installer un handler custom pour SIGINT (Ctrl+C) comme dans l’exemple que je t’ai donné, pour que Ctrl+C n’arrête pas le shell mais seulement la commande en cours.
+void	handle_signal_prompt(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_sig = 130;
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+void	signal_heredoc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		close(0); // ferme stdin pour casser readline dans le heredoc
+		rl_on_new_line();
+		g_sig = 99; // 99 = code spécial pour que le shell sache qu'on a interrompu un heredoc
+	}
+}
 
-- Dans le processus enfant (fork + exec) :
-Remettre le comportement par défaut des signaux (signal(SIGINT, SIG_DFL)) pour que Ctrl+C interrompe la commande enfant.
-*/
+int	child_signal(int status, int last_status)
+{
+	if (WIFEXITED(status))
+	{
+		last_status = WEXITSTATUS(status);
+		return (last_status);
+	}
+	else if (WIFSIGNALED(status))
+	{
+		last_status = 128 + WTERMSIG(status);
+		if (WTERMSIG(status) == SIGQUIT)
+		{
+			write(1, "Quit (core dumped)\n", 20);
+			g_sig = 131;
+		}
+		else if (WTERMSIG(status) == SIGINT)
+		{
+			write(1, "\n", 1);
+			g_sig = 130;
+		}
+	}
+	return (last_status);
+}
+void	setup_signals_shell(void)
+{
+	signal(SIGINT, handle_signal_prompt);
+	signal(SIGQUIT, SIG_IGN);
+}
+void	setup_signals_heredoc(void)
+{
+	signal(SIGINT, signal_heredoc);
+	signal(SIGQUIT, SIG_IGN);
+}
+void	setup_signals_exec(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
