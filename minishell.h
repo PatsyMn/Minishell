@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/16 15:11:47 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:14:28 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int						check_unclosed_quotes(char *str);
 
 // lexer_check_.c
 int						check_special_chars(char *str);
+int						is_space_or_tab(char c);
+int						is_special_single_char(char *input);
 
 // lexer_metachar.c
 void					update_quote_context(t_quote_context *context, char c);
@@ -116,7 +118,7 @@ void					assign_filename_types(t_token *tokens);
 
 // lexer_tokenize.c
 t_token_type			get_token_type_from_str(char *str);
-t_token *tokenizer(char **split_input, char **env_copy);
+t_token					*tokenizer(char **split_input, char **env_copy);
 char					**tokens_to_tab(t_token *tokens);
 // debug
 void					print_tokens(t_token *tokens);

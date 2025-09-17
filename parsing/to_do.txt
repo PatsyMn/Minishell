@@ -6,6 +6,6 @@ Token: COMMAND      | Value: cat \
 ca ne doit pas marcher :)
 
 - Les tabulations doivent être gérées comme les espaces
-- Ces caractères mis tout seul, ne doivent rien retourner ! : #
-- Toutes les erreurs doivent commencer par "bash: "
-- > < >> << <> mis tout seul, doivent renvoyer "bash: syntax error near unexpected token `newline'"
+- Ces caractères mis tout seul, ne doivent rien retourner ! : # = challah cest bon
+- Toutes les erreurs doivent commencer par "bash: " ok
+- > < >> << <> mis tout seul, doivent renvoyer "bash: syntax error near unexpected token `newline'" ok 

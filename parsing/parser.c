@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/16 15:11:31 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:05:42 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_command	*new_command(void)
 	return (cmd);
 }
 
-static bool process_redirection(t_token **token, t_command **cur, int *expect_command)
+static bool	process_redirection(t_token **token, t_command **cur, int *expect_command)
 {
 	if (!token || !(*token))
 		return false;
@@ -42,7 +42,7 @@ static bool process_redirection(t_token **token, t_command **cur, int *expect_co
 	return false;
 }
 
-static bool process_command_word_pipe(t_token **token, t_command **cur, int *expect_command)
+static bool	process_command_word_pipe(t_token **token, t_command **cur, int *expect_command)
 {
 	if (!token || !(*token))
 		return false;
