@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:50:54 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/17 14:17:06 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/17 22:50:16 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,13 @@ static char	**split_and_add_word(t_split_state *state)
 	int		end;
 	char	*word;
 
-	if (is_space_or_tab(state->input[state->i]))
+	if (state->input[state->i] == ' ')
 		end = state->i;
 	else
 		end = state->i + 1;
 	word = ft_substr(state->input, state->start, end - state->start);
 	if (!word)
-	{
-		free_split(state->result);
-		return (NULL);
-	}
+		return (free_split(state->result), NULL);
 	state->result = add_word_to_tab(state->result, word);
 	if (!state->result)
 		return (NULL);
@@ -81,20 +78,16 @@ static char	**split_loop(t_split_state *state)
 	while (state->input[state->i])
 	{
 		update_quote_context(state->context, state->input[state->i]);
-		if (!is_space_or_tab(state->input[state->i]) && state->start < 0)
+		if (state->input[state->i] != ' ' && state->start < 0)
 			state->start = state->i;
-		if ((is_space_or_tab(state->input[state->i])
-				&& !state->context->in_single_quote
-				&& !state->context->in_double_quote)
-			|| state->input[state->i + 1] == '\0')
+		if (((state->input[state->i] == ' ' && !state->context->in_single_quote
+					&& !state->context->in_double_quote)
+				|| state->input[state->i + 1] == '\0') && state->start >= 0)
 		{
-			if (state->start >= 0)
-			{
-				state->result = split_and_add_word(state);
-				if (!state->result)
-					return (NULL);
-				state->start = -1;
-			}
+			state->result = split_and_add_word(state);
+			if (!state->result)
+				return (NULL);
+			state->start = -1;
 		}
 		state->i++;
 	}

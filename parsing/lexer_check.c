@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 11:00:05 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/17 14:29:25 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/17 22:49:41 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_special_chars(char *str)
 	{
 		if (str[i] == '\\' || str[i] == ';')
 		{
-			printf("minishell: syntax error near unexpected token `%c'\n", str[i]);
+			printf("Syntax error: unexpected special character '%c'\n", str[i]);
 			return (1);
 		}
 		i++;
@@ -29,12 +29,7 @@ int	check_special_chars(char *str)
 	return (0);
 }
 
-int	is_space_or_tab(char c)
-{
-	return (c == ' ' || c == '\t');
-}
-
-int	is_special_single_char(char *input)
+int is_special_single_char(char *input)
 {
 	const char *special_chars = "!#:;&|";
 
@@ -47,3 +42,4 @@ int	is_special_single_char(char *input)
 	}
 	return 0;
 }
+
