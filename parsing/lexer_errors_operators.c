@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/18 16:27:43 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:00:31 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static int	is_operator(char *token)
 {
 	if (!ft_strncmp(token, ">>", 3) || !ft_strncmp(token, "<<", 3)
 		|| !ft_strncmp(token, ">", 2) || !ft_strncmp(token, "<", 2)
-		|| !ft_strncmp(token, "|", 2) || !ft_strncmp(token, "&&", 3))
+		|| !ft_strncmp(token, "|", 2) || !ft_strncmp(token, "&&", 3)
+		|| !ft_strncmp(token, "<>", 3))
 		return (1);
 	return (0);
 }
@@ -24,7 +25,7 @@ static int	is_operator(char *token)
 static int	check_operator_at_end(char *token)
 {
 	(void)token;
-	printf("bash: syntax error near unexpected token\n");
+	printf("bash: syntax error near unexpected token `newline'\n");
 	return (1);
 }
 
