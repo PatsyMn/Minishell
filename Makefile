@@ -18,7 +18,9 @@ SRCS = main.c \
 	parsing/lexer_operator.c\
 	parsing/lexer_split_str.c\
 	parsing/lexer_errors.c\
+	parsing/lexer_errors_operators.c\
 	parsing/lexer_word.c\
+	parsing/lexer_files.c\
 	parsing/lexer_tokenize.c\
 	parsing/env_utils.c\
 	parsing/expansion_utils.c\
@@ -27,6 +29,7 @@ SRCS = main.c \
 	parsing/quote_utils.c\
 	parsing/init.c\
 	parsing/parser_redirection.c\
+	#signals/signals.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
 

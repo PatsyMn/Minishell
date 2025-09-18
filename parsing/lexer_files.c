@@ -1,44 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_check.c                                      :+:      :+:    :+:   */
+/*   lexer_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/02 11:00:05 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/18 16:01:47 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/09/16 13:01:47 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/09/16 15:07:55 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_special_chars(char *str)
+void	assign_filename_types(t_token *tokens)
 {
-	int	i;
+	t_token	*curr;
 
-	i = 0;
-	while (str[i])
+	curr = tokens;
+	while (curr)
 	{
-		if (str[i] == '\\' || str[i] == ';')
+		if ((curr->type == T_REDIR_OUT || curr->type == T_APPEND_OUT
+			 || curr->type == T_REDIR_IN || curr->type == T_HEREDOC)
+			&& curr->next && curr->next->type == T_WORD)
 		{
-			printf("bash: Syntax error: unexpected special character '%c'\n", str[i]);
-			return (1);
+			curr->next->type = T_FILENAME;
 		}
-		i++;
+		curr = curr->next;
 	}
-	return (0);
 }
 
-int is_special_single_char(char *input)
-{
-	const char *special_chars = "!#:;&|";
 
-	if (!input)
-		return 0;
-	if (input[0] && input[1] == '\0')
-	{
-		if (ft_strchr(special_chars, input[0]) != NULL)
-			return 1;
-	}
-	return 0;
-}
+

@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/11 16:21:16 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:28:16 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <signal.h>
 
 /* ========== TOKEN ========== */
 
@@ -89,6 +90,7 @@ int						check_unclosed_quotes(char *str);
 
 // lexer_check_.c
 int						check_special_chars(char *str);
+int						is_special_single_char(char *input);
 
 // lexer_metachar.c
 void					update_quote_context(t_quote_context *context, char c);
@@ -105,15 +107,20 @@ int						handle_operator(char *str, int *i, t_token **token_list);
 //lexer_errors.c
 int						has_syntax_error_first_pipe(char **split_input);
 int						has_syntax_error_last_pipe(char **split_input);
+int						has_syntax_error_ampersand(char **split_input);
+
+//lexer_errors_operators.c
 int						check_syntax_operators(char **split_input);
 
 //lexer_word.c
 int						handle_word(char *str, int *i, t_token **token_list, char **env_copy);
 
+//lexer_files.c
+void					assign_filename_types(t_token *tokens);
 
 // lexer_tokenize.c
 t_token_type			get_token_type_from_str(char *str);
-t_token *tokenizer(char **split_input, char **env_copy);
+t_token					*tokenizer(char **split_input, char **env_copy);
 char					**tokens_to_tab(t_token *tokens);
 // debug
 void					print_tokens(t_token *tokens);
@@ -157,10 +164,10 @@ void					init_expansion(t_expansion *exp);
 t_command				*parser(t_token *token);
 // debug
 void					print_commands(t_command *cmd);
-void					free_commands(t_command *cmd);
 
 // parser_utils.c
 void					add_arg(t_command *cmd, char *val);
+void					free_commands(t_command *cmd);
 
 //parser_redirections.c
 void					handle_redirection(t_command *cmd, t_token **token);
@@ -187,5 +194,11 @@ void					expand_tokens(t_token *tokens, char **env_copy);
 //expension_preparation.c
 char					*expand_variables(char *str, char **env_copy);
 t_expansion				prepare_expansion(char *token, char **env_copy);
+
+/* ========== SIGNALS ========== */
+
+extern volatile sig_atomic_t	g_sig;
+void							handle_signal_prompt(int sig);
+
 
 #endif

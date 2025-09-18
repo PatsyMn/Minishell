@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:40:18 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/10 17:25:50 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:39:50 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_invalid_tokens(t_token *token_list)
 	{
 		if (tmp->type == T_INVALID_OPERATOR)
 		{
-			printf("syntax error near unexpected token '%s'\n", tmp->value);
+			printf("bash: syntax error near unexpected token `%s'\n", tmp->value);
 			return (1);
 		}
 		tmp = tmp->next;
@@ -49,7 +49,13 @@ void	mark_commands(t_token *tokens)
 	expect_command = 1;
 	while (tokens)
 	{
-		if (tokens->type == T_WORD && expect_command)
+		if (tokens->type == T_REDIR_IN || tokens->type == T_REDIR_OUT
+			|| tokens->type == T_APPEND_OUT || tokens->type == T_HEREDOC)
+		{
+			if (tokens->next)
+				tokens = tokens->next;
+		}
+		else if (tokens->type == T_WORD && expect_command)
 		{
 			tokens->type = T_COMMAND;
 			expect_command = 0;
@@ -61,3 +67,4 @@ void	mark_commands(t_token *tokens)
 		tokens = tokens->next;
 	}
 }
+

@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:29:50 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/02 11:04:15 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/16 14:54:10 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	handle_redirection_in(t_command *cmd, t_token **token)
 				ft_strlen(file->value));
 		cmd->heredoc = 1;
 	}
-	*token = file;
+	*token = file->next;
 }
 
 static void	handle_redirection_out(t_command *cmd, t_token **token)
@@ -57,7 +57,7 @@ static void	handle_redirection_out(t_command *cmd, t_token **token)
 				ft_strlen(file->value));
 		cmd->append = 1;
 	}
-	*token = file;
+	*token = file->next;
 }
 
 void	handle_redirection(t_command *cmd, t_token **token)
