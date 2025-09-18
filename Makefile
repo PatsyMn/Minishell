@@ -11,6 +11,7 @@ SRCS = main.c \
 	parsing/parser_utils.c\
 	parsing/token_utils.c\
 	parsing/utility_functions.c\
+	parsing/utility_functions2.c\
 	parsing/lexer_utils.c\
 	parsing/lexer_check_quotes.c\
 	parsing/lexer_check.c\

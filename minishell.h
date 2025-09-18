@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/18 16:28:16 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:05:30 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ void					init_quote_context(t_quote_context *context);
 
 //utiliy_functions.c
 char					*ft_strdup_with_escape(const char *input, int start, int end);
+
+//utiliy_functions2.c
+int						is_operator_char(char c);
 
 //lexer_operator.c
 int						operator_length(char *str);
