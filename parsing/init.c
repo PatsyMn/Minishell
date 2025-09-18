@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:48:32 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/02 11:04:57 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/18 13:57:36 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,3 +23,17 @@ void	init_expansion(t_expansion *exp)
 	exp->var_value = NULL;
 	exp->dollar_pos = -1;
 }
+
+// void	init_split_state(t_split_state *state)
+// {
+// 	state->result =	NULL;
+// 	state->input = 	NULL;
+// 	state->context = NULL;
+// 	state->start = NULL;
+// 	state->i= 0;
+// }
+
+// void	init_command(t_command *command)
+// {
+
+// }
