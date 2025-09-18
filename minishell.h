@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/17 22:43:56 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:28:16 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,9 @@ int						handle_operator(char *str, int *i, t_token **token_list);
 //lexer_errors.c
 int						has_syntax_error_first_pipe(char **split_input);
 int						has_syntax_error_last_pipe(char **split_input);
+int						has_syntax_error_ampersand(char **split_input);
+
+//lexer_errors_operators.c
 int						check_syntax_operators(char **split_input);
 
 //lexer_word.c

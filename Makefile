@@ -18,6 +18,7 @@ SRCS = main.c \
 	parsing/lexer_operator.c\
 	parsing/lexer_split_str.c\
 	parsing/lexer_errors.c\
+	parsing/lexer_errors_operators.c\
 	parsing/lexer_word.c\
 	parsing/lexer_files.c\
 	parsing/lexer_tokenize.c\
