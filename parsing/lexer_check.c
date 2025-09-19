@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 11:00:05 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/18 16:01:47 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/19 15:21:35 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_special_chars(char *str)
 
 int is_special_single_char(char *input)
 {
-	const char *special_chars = "!#:;&|";
+	const char *special_chars = "!#:";
 
 	if (!input)
 		return 0;

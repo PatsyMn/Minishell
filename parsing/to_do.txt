@@ -1,0 +1,1 @@
+WhatTheShell$ | ca devrait renvoyer bash: syntax error near unexpected token `|'

@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:10:50 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 13:27:13 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/19 15:03:44 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	handle_redirect(t_split_state *state)
 	state->i++;
 }
 
-void	handle_pipe(t_split_state *state)
+void handle_pipe(t_split_state *state)
 {
 	if (state->start != state->i)
 	{
@@ -36,6 +36,8 @@ void	handle_pipe(t_split_state *state)
 			return;
 		state->start = state->i;
 	}
+	if (state->input[state->i + 1] == '|')
+		state->i++;
 	if (!handle_split_word(state))
 		return;
 	state->start = -1;
