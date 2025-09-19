@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 11:00:05 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 15:21:35 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/19 16:07:31 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	check_special_chars(char *str)
 	{
 		if (str[i] == '\\' || str[i] == ';')
 		{
-			printf("bash: Syntax error: unexpected special character '%c'\n", str[i]);
+			printf("bash: Syntax error: unexpected");
+			printf("special character '%c'\n", str[i]);
 			return (1);
 		}
 		i++;
@@ -29,16 +30,17 @@ int	check_special_chars(char *str)
 	return (0);
 }
 
-int is_special_single_char(char *input)
+int	is_special_single_char(char *input)
 {
-	const char *special_chars = "!#:";
+	const char	*special_chars;
 
+	special_chars = "!#:";
 	if (!input)
-		return 0;
+		return (0);
 	if (input[0] && input[1] == '\0')
 	{
 		if (ft_strchr(special_chars, input[0]) != NULL)
-			return 1;
+			return (1);
 	}
-	return 0;
+	return (0);
 }

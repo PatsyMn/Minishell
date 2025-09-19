@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 15:22:28 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/19 15:41:28 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ static int	is_operator(char *token)
 		|| !ft_strncmp(token, "<>", 3))
 		return (1);
 	return (0);
+}
+
+static int	print_syntax_error(char *token)
+{
+	if (token)
+		printf("bash: syntax error near unexpected token `%s'\n", token);
+	else
+		printf("bash: syntax error near unexpected token `newline'\n");
+	return (1);
 }
 
 static int	check_operator_at_end(char *token)
@@ -41,10 +50,7 @@ int	check_syntax_operators(char **split_input)
 			if (!split_input[i + 1])
 				return (check_operator_at_end(split_input[i]));
 			if (is_operator(split_input[i + 1]))
-			{
-				printf("bash: syntax error near unexpected token `%s'\n", split_input[i + 1]);
-				return (1);
-			}
+				return (print_syntax_error(split_input[i + 1]));
 		}
 		i++;
 	}

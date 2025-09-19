@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 12:57:48 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 13:27:22 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/19 16:01:38 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ char	**split_loop(t_split_state *state)
 	while (state->input[state->i])
 	{
 		if (skip_whitespace(state))
-			continue;
+			continue ;
 		update_quote_context(state->context, state->input[state->i]);
 		if (handle_operators(state))
-			continue;
+			continue ;
 		handle_space_or_end(state);
 	}
 	return (state->result);

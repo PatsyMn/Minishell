@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/11 13:56:01 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/19 16:03:06 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	*extract_var_name(char *str)
 		var_name[i] = str[i];
 	return (var_name);
 }
+
 char	*clean_and_strip_token(char *token)
 {
 	char	*tmp;
