@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/10 16:51:20 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/19 16:02:26 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ int	handle_word(char *str, int *i, t_token **token_list, char **env_copy)
 	if (!buffer)
 		return (0);
 	continue_loop = 1;
-	while (str[*i] && str[*i] != ' ' && operator_length(&str[*i]) == 0 && continue_loop)
+	while (str[*i] && str[*i] != ' '
+		&& operator_length(&str[*i]) == 0 && continue_loop)
 	{
 		segment = process_segment(str, i, env_copy);
 		if (!segment)
@@ -118,7 +119,3 @@ int	handle_word(char *str, int *i, t_token **token_list, char **env_copy)
 	add_token_to_list(token_list, create_token(T_WORD, buffer));
 	return (1);
 }
-
-
-
-

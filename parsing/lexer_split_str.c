@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:50:54 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/18 14:53:54 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/19 13:25:00 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,82 +27,6 @@ void	free_split(char **split_input)
 	free(split_input);
 }
 
-static char	**add_word_to_tab(char **tab, char *word)
-{
-	int		size;
-	char	**new_tab;
-	int		i;
-
-	size = 0;
-	while (tab && tab[size])
-		size++;
-	new_tab = malloc(sizeof(char *) * (size + 2));
-	if (!new_tab)
-	{
-		free(word);
-		free_split(tab);
-		return (NULL);
-	}
-	i = 0;
-	while (i < size)
-	{
-		new_tab[i] = tab[i];
-		i++;
-	}
-	new_tab[size] = word;
-	new_tab[size + 1] = NULL;
-	free(tab);
-	return (new_tab);
-}
-
-static char	**split_and_add_word(t_split_state *state)
-{
-	int		end;
-	char	*word;
-
-	if (state->input[state->i] == ' ' || state->input[state->i] == 9)
-		end = state->i;
-	else
-		end = state->i + 1;
-	word = ft_substr(state->input, state->start, end - state->start);
-	if (!word)
-	{
-		free_split(state->result);
-		return (NULL);
-	}
-	state->result = add_word_to_tab(state->result, word);
-	if (!state->result)
-		return (NULL);
-	return (state->result);
-}
-
-static char	**split_loop(t_split_state *state)
-{
-	state->start = -1;
-	while (state->input[state->i])
-	{
-		if(state->start == -1 && (state->input[state->i] == ' ' || state->input[state->i] == 9))
-		{
-			state->i++;
-			continue ;
-		}
-		else if (state->start == -1 && (state->input[state->i] != ' ' && state->input[state->i] != 9))
-			state->start = state->i;
-		update_quote_context(state->context, state->input[state->i]);
-		if ((((state->input[state->i] == ' ' || state->input[state->i] == 9) && !state->context->in_single_quote
-					&& !state->context->in_double_quote)
-				|| state->input[state->i + 1] == '\0') && state->start >= 0)
-		{
-			state->result = split_and_add_word(state);
-			if (!state->result)
-				return (NULL);
-			state->start = -1;
-		}
-		state->i++;
-	}
-	return (state->result);
-}
-
 char	**split_input_respecting_quotes(char *input)
 {
 	t_quote_context	context;
@@ -116,6 +40,7 @@ char	**split_input_respecting_quotes(char *input)
 	state.context = &context;
 	state.start = -1;
 	state.i = 0;
+	state.start = -1;
 	if (!split_loop(&state))
 		return (NULL);
 	return (state.result);

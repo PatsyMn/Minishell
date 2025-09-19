@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:48:32 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/18 14:57:24 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/19 16:01:49 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_expansion(t_expansion *exp)
 {
 	if (!exp)
-		return;
+		return ;
 	exp->before = NULL;
 	exp->var_name = NULL;
 	exp->after = NULL;

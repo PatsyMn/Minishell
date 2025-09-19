@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:32:31 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/18 16:27:23 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/19 15:35:21 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	has_syntax_error_last_pipe(char **split_input)
 	}
 	return (0);
 }
+
 int	has_syntax_error_ampersand(char **split_input)
 {
 	int	i;
