@@ -27,6 +27,9 @@ SRCS = main.c \
 	parsing/quote_utils.c\
 	parsing/init.c\
 	parsing/parser_redirection.c\
+	exec/execute_cmd.c\
+	exec/open_files.c\
+	exec/pipe_handle.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
 
@@ -45,6 +48,9 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 $(OBJ_DIR)/%.o: parsing/%.c | $(OBJ_DIR)
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+$(OBJ_DIR)/%.o: exec/%.c | $(OBJ_DIR)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:

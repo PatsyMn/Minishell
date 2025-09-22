@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/11 15:25:04 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/22 15:23:02 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,20 @@ static int	handle_tokens(char **split_input, char **env_copy)
 {
 	t_token		*token_list;
 	t_command	*commands;
+	t_pipex		*pipex;
+	int			status;
 
+	pipex = malloc(sizeof(t_pipex));
 	token_list = tokenizer(split_input, env_copy);
 	free_split(split_input);
 	if (token_list)
 	{
 		expand_tokens(token_list, env_copy);
-		print_tokens(token_list);
 		commands = parser(token_list);
-		print_commands(commands);
+		child_process(commands, pipex, env_copy);
+		while (wait(&status) > 0)
+			;
+		free(pipex);
 		free_commands(commands);
 		free_tokens(token_list);
 	}
@@ -65,9 +70,9 @@ static int	handle_input(char *input, char **env_copy)
 
 int	main(int ac, char **av, char **envp)
 {
-	char	*input;
-	char	**env_copy;
-	int		ret;
+	char		*input;
+	char		**env_copy;
+	int			ret;
 
 	(void)ac;
 	(void)av;

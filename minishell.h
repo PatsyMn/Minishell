@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/12 13:30:03 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/22 13:04:02 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <sys/wait.h>
 
 /* ========== TOKEN ========== */
 
@@ -134,8 +135,10 @@ typedef struct s_command
 	char				**args;		// argv style (cmd + args)
 	char				*infile;	// nom du fichier si '<'
 	char				*outfile;	// nom du fichier si '>'
+	char				*limiter;
 	int					infile_fd;
 	int					outfile_fd;
+	int					heredoc_file_fd;
 	int					append;		// 1 si >> (ajout)
 	int					heredoc;	// 1 si <<
 	struct s_command	*next;		// chaînage pour les pipes
@@ -190,13 +193,22 @@ void					expand_tokens(t_token *tokens, char **env_copy);
 char					*expand_variables(char *str, char **env_copy);
 t_expansion				prepare_expansion(char *token, char **env_copy);
 
-// execute_cmd.c
-int    					execute_cmd(char **envp, t_token *token_list, t_command *commands);
-
-typedef struct s_exec
+typedef struct s_pipex
 {
-	int					cmd_start;
-	int					cmd_count;
-}						t_exec;
+	pid_t	pid;
+	pid_t	last_pid;
+	int		input_fd;
+	int		pipe_fd[2];
+	int		cmd_count;
+}						t_pipex;
+
+// execute_cmd.c
+int 					execute_cmd(char **envp, t_command *commands, t_pipex *pipex, int fd_out);
+
+// pipe_handle.c
+void	   				child_process(t_command *command, t_pipex *pipex, char **env_copy);
+
+// open_files.c
+void    				open_files(t_command *command);
 
 #endif

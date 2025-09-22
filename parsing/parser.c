@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/11 12:26:44 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:37:43 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_command	*new_command(void)
 	cmd->args = NULL;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
+	cmd->limiter = NULL;
 	cmd->append = 0;
 	cmd->heredoc = 0;
 	cmd->next = NULL;
@@ -102,6 +103,8 @@ void	free_commands(t_command *cmd)
 			free(cmd->infile);
 		if (cmd->outfile)
 			free(cmd->outfile);
+		if (cmd->limiter)
+			free(cmd->limiter);
 		free(cmd);
 		cmd = tmp;
 	}
