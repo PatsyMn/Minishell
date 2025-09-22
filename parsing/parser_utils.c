@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:27:03 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 15:42:21 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:04:01 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void	free_commands(t_command *cmd)
 			free(cmd->infile);
 		if (cmd->outfile)
 			free(cmd->outfile);
+		if (cmd->limiter)
+			free(cmd->limiter);
 		free(cmd);
 		cmd = tmp;
 	}

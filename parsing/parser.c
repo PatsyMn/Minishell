@@ -6,11 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/09/22 15:37:43 by mbores           ###   ########.fr       */
-=======
-/*   Updated: 2025/09/17 14:05:42 by pmeimoun         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2025/09/22 16:03:57 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,35 +96,6 @@ t_command *parser(t_token *token)
 			token = token->next;
 	}
 	return (head);
-}
-
-void	free_commands(t_command *cmd)
-{
-	t_command	*tmp;
-	int			i;
-
-	while (cmd)
-	{
-		tmp = cmd->next;
-		if (cmd->args)
-		{
-			i = 0;
-			while (cmd->args[i])
-			{
-				free(cmd->args[i]);
-				i++;
-			}
-			free(cmd->args);
-		}
-		if (cmd->infile)
-			free(cmd->infile);
-		if (cmd->outfile)
-			free(cmd->outfile);
-		if (cmd->limiter)
-			free(cmd->limiter);
-		free(cmd);
-		cmd = tmp;
-	}
 }
 
 // debug
