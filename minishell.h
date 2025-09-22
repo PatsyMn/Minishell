@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/22 16:01:25 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/22 17:39:21 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,9 +216,10 @@ t_expansion						prepare_expansion(char *token, char **env_copy);
 
 /* ========== SIGNALS ========== */
 
-extern volatile sig_atomic_t	g_sig;
+extern volatile sig_atomic_t	g_status;
 void							handle_signal_prompt(int sig);
-
+void							setup_signals_exec(void);
+void							child_signal(int status);
 
 typedef struct s_pipex
 {
@@ -237,5 +238,9 @@ void	   				child_process(t_command *command, t_pipex *pipex, char **env_copy);
 
 // open_files.c
 void    				open_files(t_command *command);
+
+// builtin_exec.c
+int 					builtin_echo(t_command *command);
+int 					builtin_env(char **env);
 
 #endif

@@ -76,6 +76,7 @@ int execute_cmd(char **envp, t_command *commands, t_pipex *pipex, int fd_out)
 	argv_exec[1] = "-c";
 	argv_exec[2] = cmd;
 	argv_exec[3] = NULL;
+	setup_signals_exec();
 	execve("/bin/sh", argv_exec, envp);
 	perror("execve failed");
 	free(argv_exec);

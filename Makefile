@@ -36,6 +36,8 @@ SRCS = main.c \
 	exec/execute_cmd.c\
 	exec/open_files.c\
 	exec/pipe_handle.c\
+	exec/builtin_exec.c\
+	signals/signals.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
 
@@ -57,6 +59,9 @@ $(OBJ_DIR)/%.o: parsing/%.c | $(OBJ_DIR)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 $(OBJ_DIR)/%.o: exec/%.c | $(OBJ_DIR)
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+$(OBJ_DIR)/%.o: signals/%.c | $(OBJ_DIR)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
