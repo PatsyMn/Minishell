@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/22 15:23:02 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/22 15:59:49 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static int	handle_syntax_errors(char **split_input)
 {
 	if (has_syntax_error_first_pipe(split_input)
 		|| check_syntax_operators(split_input)
-		|| has_syntax_error_last_pipe(split_input))
+		|| has_syntax_error_last_pipe(split_input)
+		|| has_syntax_error_ampersand(split_input))
 	{
 		free_split(split_input);
 		return (1);
@@ -36,6 +37,7 @@ static int	handle_tokens(char **split_input, char **env_copy)
 	free_split(split_input);
 	if (token_list)
 	{
+		assign_filename_types(token_list);
 		expand_tokens(token_list, env_copy);
 		commands = parser(token_list);
 		child_process(commands, pipex, env_copy);

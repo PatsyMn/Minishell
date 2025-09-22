@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   lexer_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/25 15:48:32 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 16:01:49 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/09/16 13:01:47 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/09/19 15:49:33 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	init_expansion(t_expansion *exp)
+void	assign_filename_types(t_token *tokens)
 {
-	if (!exp)
-		return ;
-	exp->before = NULL;
-	exp->var_name = NULL;
-	exp->after = NULL;
-	exp->result = NULL;
-	exp->var_value = NULL;
-	exp->dollar_pos = -1;
+	t_token	*curr;
+
+	curr = tokens;
+	while (curr)
+	{
+		if ((curr->type == T_REDIR_OUT || curr->type == T_APPEND_OUT
+				|| curr->type == T_REDIR_IN || curr->type == T_HEREDOC)
+			&& curr->next && curr->next->type == T_WORD)
+		{
+			curr->next->type = T_FILENAME;
+		}
+		curr = curr->next;
+	}
 }

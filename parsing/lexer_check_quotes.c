@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:39:15 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/02 11:07:00 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:22:15 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	check_unclosed_single_quote(char *str)
 	}
 	if (in_single_quote)
 	{
-		printf("Syntax error: unclosed single quote\n");
+		printf("bash: syntax error: unclosed single quote\n");
 		return (1);
 	}
 	return (0);
@@ -72,7 +72,7 @@ static int	check_unclosed_double_quote(char *str)
 	}
 	if (in_double_quote)
 	{
-		printf("Syntax error: unclosed double quote\n");
+		printf("bash: syntax error: unclosed double quote\n");
 		return (1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:19:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/02 11:07:28 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:42:18 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 int	operator_length(char *str)
 {
-	int	i;
+	int		i;
+	char	c;
 
 	i = 0;
 	if (str[i] == '>' || str[i] == '<')
 	{
-		while (str[i] == '>' || str[i] == '<')
+		c = str[i];
+		while (str[i] && str[i] == c)
 			i++;
+		if (str[i] == '>' || str[i] == '<')
+			return (-1);
 		if (i > 2)
 			return (-1);
 		return (i);
 	}
 	else if (str[i] == '|')
 	{
-		while (str[i] == '|')
+		while (str[i] && str[i] == '|')
 			i++;
 		if (i > 1)
 			return (-1);
