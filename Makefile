@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
+#    Updated: 2025/09/24 20:49:36 by pmeimoun         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 CC = cc
 NAME = minishell
 CFLAGS = -Wall -Wextra -Werror -g -I./Libft -fsanitize=address -g3
@@ -6,40 +18,40 @@ LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 OBJ_DIR = obj
 
-SRCS = main.c \
-	parsing/parser.c\
-	parsing/parser_utils.c\
-	parsing/token_utils.c\
-	parsing/utility_functions.c\
-	parsing/utility_functions2.c\
-	parsing/lexer_utils.c\
-	parsing/lexer_check_quotes.c\
-	parsing/lexer_check.c\
-	parsing/lexer_metachar.c\
-	parsing/lexer_operator.c\
-	parsing/lexer_split_str.c\
-	parsing/lexer_split_loop.c\
-	parsing/lexer_split_loop_utils.c\
-	parsing/lexer_split_word_utils.c\
-	parsing/lexer_errors.c\
-	parsing/lexer_errors_operators.c\
-	parsing/lexer_word.c\
-	parsing/lexer_files.c\
-	parsing/lexer_tokenize.c\
-	parsing/env_utils.c\
-	parsing/expansion_utils.c\
-	parsing/expand_tokens.c\
-	parsing/expansion_preparation.c\
-	parsing/quote_utils.c\
-	parsing/init.c\
-	parsing/parser_redirection.c\
-	#signals/signals.c\
+SRCS =	main.c \
+		parsing/parser.c\
+		parsing/parser_utils.c\
+		parsing/token_utils.c\
+		parsing/utility_functions.c\
+		parsing/utility_functions2.c\
+		parsing/lexer_utils.c\
+		parsing/lexer_check_quotes.c\
+		parsing/lexer_check.c\
+		parsing/lexer_metachar.c\
+		parsing/lexer_operator.c\
+		parsing/lexer_split_str.c\
+		parsing/lexer_split_loop.c\
+		parsing/lexer_split_loop_utils.c\
+		parsing/lexer_split_word_utils.c\
+		parsing/lexer_errors.c\
+		parsing/lexer_errors_operators.c\
+		parsing/lexer_word.c\
+		parsing/lexer_files.c\
+		parsing/lexer_tokenize.c\
+		parsing/env_utils.c\
+		parsing/expansion_utils.c\
+		parsing/expand_tokens.c\
+		parsing/expansion_preparation.c\
+		parsing/quote_utils.c\
+		parsing/init.c\
+		parsing/parser_redirection.c\
+		#signals/signals.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT) antoine_daniel
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline
 
 $(LIBFT):
@@ -66,7 +78,7 @@ re: fclean all
 
 .PHONY: all clean fclean re
 
-ANTOINE DANIEL:
+antoine_daniel:
 	echo "******************************####%%%%%%%%%%%%%%#%%%#####%%%##%%####################################"
 	echo "*****************************#####%%%%%%%%%%%%%%%%%%%%%%##%%%%%%%%%%################################"
 	echo "****************************#####%%%%%%%%%%%%%%%%%@@%%%%%%%@@@%%%%@%%###############################"
