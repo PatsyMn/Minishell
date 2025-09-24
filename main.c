@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 15:20:35 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:44:15 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,21 @@ static int	handle_input(char *input, char **env_copy)
 
 int	main(int ac, char **av, char **envp)
 {
-	char	*input;
-	char	**env_copy;
-	int		ret;
+	char		*input;
+	char		**env_copy;
+	int			ret;
+	const char	*prompt;
 
 	(void)ac;
 	(void)av;
 	env_copy = copy_env(envp);
 	if (!env_copy)
 		return (1);
+	prompt = MAGENTA "WhatTheShell" RESET "$ ";
 	ret = 1;
 	while (ret)
 	{
-		input = readline("WhatTheShell$ ");
+		input = readline(prompt);
 		ret = handle_input(input, env_copy);
 	}
 	free_env(env_copy);
