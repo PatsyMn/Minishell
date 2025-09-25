@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:52:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/24 16:41:41 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/25 15:43:59 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,26 @@ t_env	*copy_env_chained(char **envp)
     t_env *node;
     int i;
 
-	head = NULL;
-	tail = NULL;
-	i = 0;
-    while (envp[i])
+    if (envp)
     {
-        node = new_env_node(envp[i]);
-        if (!node)
-            return (NULL);
-        if (!head)
-            head = node;
-        else
-            tail->next = node;
-        tail = node;
-        i++;
+        head = NULL;
+        tail = NULL;
+        i = 0;
+        while (envp[i])
+        {
+            node = new_env_node(envp[i]);
+            if (!node)
+                return (NULL);
+            if (!head)
+                head = node;
+            else
+                tail->next = node;
+            tail = node;
+            i++;
+        }
+        return (head);
     }
-    return (head);
+    return (NULL);
 }
 
 void	free_env_chained(t_env *env)

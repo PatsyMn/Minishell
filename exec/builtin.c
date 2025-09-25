@@ -6,46 +6,35 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:24:44 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/22 16:59:46 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/25 17:02:26 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//cd, exit, export, unset, echo, env, pwd
-
-int is_builtin(char *cmd)
+static int execute_builtin_2(t_command *command, t_export *export, int status)
 {
-    if (!cmd)
-        return (0);
-    if (!ft_strncmp(cmd, "cd", 2) ||
-        !ft_strncmp(cmd, "exit", 4) ||
-        !ft_strncmp(cmd, "export", 6) ||
-        !ft_strncmp(cmd, "unset", 5) ||
-        !ft_strncmp(cmd, "echo", 4) ||
-        !ft_strncmp(cmd, "env", 3) ||
-        !ft_strncmp(cmd, "pwd", 3))
-        return (1);
-    return (0);
+    if (!ft_strncmp(command->args[0], "export", 7))
+        return (builtin_export(export, command));
+    else if (!ft_strncmp(command->args[0], "unset", 6))
+        return (builtin_unset(export, command));
+    else if (!ft_strncmp(command->args[0], "cd", 3))
+        return (builtin_cd(command, &export->env));
+    else if (!ft_strncmp(command->args[0], "exit", 5))
+        return (builtin_exit(command, status));
+    return (-1);
 }
 
-int    execute_builtin(t_command *command, char **env)
+int execute_builtin(t_command *command, t_export *export, int status)
 {
     if (!command->args || !command->args[0])
         return (1);
-    if (strcmp(command->args[0], "echo") == 0)
-        return (builtin_echo(command->args));
-    if (strcmp(command->args[0], "cd") == 0)
-        return (builtin_cd(command->args, env));
-    if (strcmp(command->args[0], "exit") == 0)
-        return (builtin_exit(command->args));
-    if (strcmp(command->args[0], "export") == 0)
-        return (builtin_export(command->args, env));
-    if (strcmp(command->args[0], "unset") == 0)
-        return (builtin_unset(command->args, env));
-    if (strcmp(command->args[0], "pwd") == 0)
-        return (builtin_pwd());
-    if (strcmp(command->args[0], "env") == 0)
-        return (builtin_env(env));
-    return (1);
+    else if (!ft_strncmp(command->args[0], "echo", 5))
+        return (builtin_echo(command));
+    else if (!ft_strncmp(command->args[0], "env", 4) && !command->args[1])
+        return (builtin_env(export->env));
+    else if (!ft_strncmp(command->args[0], "pwd", 4) && !command->args[1])
+        return (builtin_pwd(export->env));
+    else
+        return (execute_builtin_2(command, export, status));
 }

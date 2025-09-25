@@ -6,11 +6,11 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 11:53:32 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/25 11:54:34 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/25 16:45:46 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void free_env_node(t_env *node)
 {
@@ -56,7 +56,7 @@ int builtin_unset(t_export *export, t_command *command)
     int i;
 
     if (!command->args[1])
-        return (1);
+        return (0);
     i = 1;
     while (command->args[i])
     {
@@ -64,5 +64,5 @@ int builtin_unset(t_export *export, t_command *command)
         unset_from_list(&export->env, command->args[i]);
         i++;
     }
-    return (1);
+    return (0);
 }

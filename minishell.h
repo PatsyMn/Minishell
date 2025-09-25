@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/25 11:56:29 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/25 17:02:31 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include <stdbool.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <unistd.h>
+# include <limits.h>
+# include <errno.h>
 
 
 typedef enum e_token_type
@@ -244,6 +247,8 @@ typedef struct s_pipex
 	int		input_fd;
 	int		pipe_fd[2];
 	int		cmd_count;
+	int		status;
+	int		last_status;
 }						t_pipex;
 
 // execute_cmd.c
@@ -251,23 +256,38 @@ int 					execute_cmd(t_env *envp, t_command *commands, t_pipex *pipex, int fd_ou
 char					**env_list_to_tab(t_env *env);
 
 // pipe_handle.c
-void	   				child_process(t_command *command, t_pipex *pipex, t_env *env_copy);
+void	   				child_process(t_command *command, t_pipex *pipex, t_export *export);
 
 // open_files.c
 void    				open_files(t_command *command);
 
 // builtin_utils.c
 void    				sort_env_tab(char **env_tab);
-void    				new_export(t_export *export, t_command *command);
 
-// builtin_exec.c
-int 					builtin_echo(t_command *command);
-int 					builtin_env(t_env *env);
-int 					builtin_pwd(t_env *env);
+// builtin.c
+int 					execute_builtin(t_command *command, t_export *export, int status);
+
+// builtin_export.c
+void    				new_export(t_export *export, t_command *command);
 int 					builtin_export(t_export *export, t_command *command);
+
+// builtin_echo.c
+int 					builtin_echo(t_command *command);
+
+// builtin_env.c
+int 					builtin_env(t_env *env);
+
+// builtin_pwd.c
+int 					builtin_pwd(t_env *env);
 
 // builtin_unset.c
 int 					builtin_unset(t_export *export, t_command *command);
+
+// builtin_cd.c
+int 					builtin_cd(t_command *command, t_env **env);
+
+// builtin_exit.c
+int 					builtin_exit(t_command *command, int status);
 
 // env_handle.c
 char    				*my_getenv(t_env *env, char *var);

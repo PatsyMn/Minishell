@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/25 11:49:50 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/25 16:53:00 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,9 @@ static int	handle_tokens(char **split_input, t_export *export)
 {
 	t_token		*token_list;
 	t_command	*commands;
-	// t_pipex		*pipex;
-	// int			status;
+	t_pipex		*pipex;
 
-	// pipex = malloc(sizeof(t_pipex));
+	pipex = malloc(sizeof(t_pipex));
 	token_list = tokenizer(split_input, export->env);
 	free_split(split_input);
 	if (token_list)
@@ -40,17 +39,14 @@ static int	handle_tokens(char **split_input, t_export *export)
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
 		commands = parser(token_list);
-		if (!ft_strncmp(commands->args[0], "unset", 5))
-			builtin_unset(export, commands);
-		else if (!ft_strncmp(commands->args[0], "env", 3))
-			builtin_env(export->env);
-		else if (!ft_strncmp(commands->args[0], "export", 6))
-			builtin_export(export, commands);
-		// child_process(commands, pipex, env_copy);
-		// while (wait(&status) > 0)
-		// 	;
-		// child_signal(status);
-		// free(pipex);
+		pipex->status = execute_builtin(commands, export, pipex->status);
+		if (pipex->status == -1)
+		{
+			child_process(commands, pipex, export);
+			while (wait(&pipex->status) > 0);
+			child_signal(pipex->status);
+		}
+		free(pipex);
 		free_commands(commands);
 		free_tokens(token_list);
 	}
@@ -90,8 +86,6 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	export->env = copy_env_chained(envp);
 	export->export = copy_env_chained(envp);
-	if (!export->env || !export->export)
-		return (1);
 	ret = 1;
 	while (ret)
 	{

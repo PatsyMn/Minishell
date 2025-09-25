@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/24 12:19:21 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/25 16:21:59 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void    close_all_fds(t_pipex *pipex, t_command *command)
         close(command->outfile_fd);
 }
 
-void    exec_child(t_pipex *pipex, t_command *command, t_env *env_copy)
+void    exec_child(t_pipex *pipex, t_command *command, t_export *export)
 {
     int out_fd;
 
@@ -36,10 +36,10 @@ void    exec_child(t_pipex *pipex, t_command *command, t_env *env_copy)
     }
     else
         out_fd = command->outfile_fd;
-    execute_cmd(env_copy, command, pipex, out_fd);
+    execute_cmd(export->env, command, pipex, out_fd);
 }
 
-int pipe_and_fork(t_pipex *pipex, t_command *command, t_env *env_copy)
+int pipe_and_fork(t_pipex *pipex, t_command *command, t_export *export)
 {
     if (command->next && pipe(pipex->pipe_fd) == -1)
         return (-1);
@@ -57,7 +57,7 @@ int pipe_and_fork(t_pipex *pipex, t_command *command, t_env *env_copy)
     {
         if (command->next)
             close(pipex->pipe_fd[0]);
-        exec_child(pipex, command, env_copy);
+        exec_child(pipex, command, export);
     }
     else
     {
@@ -67,7 +67,7 @@ int pipe_and_fork(t_pipex *pipex, t_command *command, t_env *env_copy)
     return (pipex->pid);
 }
 
-void    child_process(t_command *command, t_pipex *pipex, t_env *env_copy)
+void    child_process(t_command *command, t_pipex *pipex, t_export *export)
 {
     if (command->infile)
         pipex->input_fd = command->infile_fd;
@@ -75,7 +75,7 @@ void    child_process(t_command *command, t_pipex *pipex, t_env *env_copy)
     pipex->cmd_count = 0;
     while (1)
     {
-        if (pipe_and_fork(pipex, command, env_copy) == -1)
+        if (pipe_and_fork(pipex, command, export) == -1)
         {
             pipex->last_pid = -1;
             return ;

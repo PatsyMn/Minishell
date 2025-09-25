@@ -36,9 +36,15 @@ SRCS = main.c \
 	exec/execute_cmd.c\
 	exec/open_files.c\
 	exec/pipe_handle.c\
-	exec/builtin_exec.c\
+	exec/builtin_export.c\
 	exec/builtin_utils.c\
 	exec/builtin_unset.c\
+	exec/builtin_echo.c\
+	exec/builtin_pwd.c\
+	exec/builtin_env.c\
+	exec/builtin_cd.c\
+	exec/builtin_exit.c\
+	exec/builtin.c\
 	exec/env_handle.c\
 	signals/signals.c\
 

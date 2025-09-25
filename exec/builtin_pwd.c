@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_utils.c                                    :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/24 14:11:36 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/25 16:44:18 by mbores           ###   ########.fr       */
+/*   Created: 2025/09/25 12:26:21 by mbores            #+#    #+#             */
+/*   Updated: 2025/09/25 16:46:02 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    sort_env_tab(char **env_tab)
+int builtin_pwd(t_env *env)
 {
-    int   i;
-    int   j;
-    char  *tmp;
-
-    for (i = 0; env_tab[i]; i++)
+    while (env)
     {
-        for (j = i + 1; env_tab[j]; j++)
-        {
-            if (ft_strncmp(env_tab[i], env_tab[j], ft_strlen(env_tab[i])) > 0)
-            {
-                tmp = env_tab[i];
-                env_tab[i] = env_tab[j];
-                env_tab[j] = tmp;
-            }
-        }
+        if (!ft_strncmp(env->key, "PWD", 3) && env->key[3] == '\0')
+            printf("%s\n", env->content);
+        env = env->next;
     }
+    return (0);
 }

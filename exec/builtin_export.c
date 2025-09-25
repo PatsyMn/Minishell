@@ -1,65 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exec.c                                     :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/22 16:57:35 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/25 11:56:53 by mbores           ###   ########.fr       */
+/*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
+/*   Updated: 2025/09/25 16:44:23 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int builtin_echo(t_command *command)
+void    new_export(t_export *export, t_command *command)
 {
-    int i;
-    int n;
-    int printable;
+    char    *equal;
+    size_t  len;
 
-    i = 1;
-    n = 0;
-    printable = 0;
-    while (command->args[i])
+    equal = ft_strchr(command->args[1], '=');
+    if (equal)
     {
-        if (!printable && ft_strncmp(command->args[i], "-n", 2))
-            return (0);
-        if (!ft_strncmp(command->args[i], "-n", 2) && !printable)
-            n++;
-        else
-        {
-            printf("%s", command->args[i]);
-            if (command->args[i + 1])
-                printf(" ");
-            printable++;
-        }
-        i++;
+        len = equal - command->args[1];
+        my_setenv(&export->export,
+            ft_substr(command->args[1], 0, len),
+            ft_strdup(equal + 1));
+        my_setenv(&export->env,
+            ft_substr(command->args[1], 0, len),
+            ft_strdup(equal + 1));
+        return ;
     }
-    if (!n)
-        printf("\n");
-    return (1);
-}
-
-int builtin_env(t_env *env)
-{
-    while (env)
-    {
-        printf("%s=%s\n", env->key, env->content);
-        env = env->next;
-    }
-    return (1);
-}
-
-int builtin_pwd(t_env *env)
-{
-    while (env)
-    {
-        if (!ft_strncmp(env->key, "PWD", 3) && env->key[3] == '\0')
-            printf("%s\n", env->content);
-        env = env->next;
-    }
-    return (1);
+    my_setenv(&export->export, command->args[1], NULL);
 }
 
 int builtin_export(t_export *export, t_command *command)
@@ -71,7 +41,7 @@ int builtin_export(t_export *export, t_command *command)
     if (command->args[1])
     {
         new_export(export, command);
-        return (1);
+        return (0);
     }
     export_tab = env_list_to_tab(export->export);
     sort_env_tab(export_tab);
@@ -87,5 +57,5 @@ int builtin_export(t_export *export, t_command *command)
         i++;
     }
     free_env(export_tab);
-    return (1);
+    return (0);
 }
