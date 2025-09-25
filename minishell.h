@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/24 19:42:47 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:32:49 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,8 @@ void							handle_signal_prompt(int sig);
 /* ========== COLORS ========== */
 
 //prompt
-#define RESET					"\033[0m"
-#define MAGENTA					"\033[1;35m"
+#define RESET	"\033[0m"
+#define PINK "\033[1;38;2;255;20;147m"
+
+
 

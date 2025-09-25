@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/24 16:44:15 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:33:01 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **envp)
 	env_copy = copy_env(envp);
 	if (!env_copy)
 		return (1);
-	prompt = MAGENTA "WhatTheShell" RESET "$ ";
+	prompt = PINK "WhatTheShell" RESET "$ ";
 	ret = 1;
 	while (ret)
 	{
