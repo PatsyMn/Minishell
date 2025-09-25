@@ -6,7 +6,7 @@
 #    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 09:47:34 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/08/25 14:40:43 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/09/25 12:49:05 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ SRCS =	ft_isalpha.c\
 		ft_put_percent.c\
 		get_next_line_bonus.c\
 		get_next_line_utils_bonus.c
-		
+
 
 SRCS_BONUS =	ft_lstnew_bonus.c\
 				ft_lstadd_front_bonus.c\
@@ -74,19 +74,19 @@ OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-		ar rcs $(NAME) $(OBJS)
+		@ar rcs $(NAME) $(OBJS)
 
 bonus: $(OBJS_BONUS) $(OBJS)
-		ar rcs $(NAME) $(OBJS) $(OBJS_BONUS)
+		@ar rcs $(NAME) $(OBJS) $(OBJS_BONUS)
 
 .c.o:
-		$(CC) $(CFLAGS) -c $< -o $@
+		@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-		rm -f $(OBJS)
+		@rm -f $(OBJS)
 
 fclean: clean
-		rm -f $(NAME)
+		@rm -f $(NAME)
 
 re: fclean all
 
