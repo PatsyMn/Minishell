@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/22 17:39:40 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/25 11:49:50 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	handle_syntax_errors(char **split_input)
 	return (0);
 }
 
-static int	handle_tokens(char **split_input, char **env_copy)
+static int	handle_tokens(char **split_input, t_export *export)
 {
 	t_token		*token_list;
 	t_command	*commands;
@@ -33,15 +33,19 @@ static int	handle_tokens(char **split_input, char **env_copy)
 	// int			status;
 
 	// pipex = malloc(sizeof(t_pipex));
-	token_list = tokenizer(split_input, env_copy);
+	token_list = tokenizer(split_input, export->env);
 	free_split(split_input);
 	if (token_list)
 	{
 		assign_filename_types(token_list);
-		expand_tokens(token_list, env_copy);
+		expand_tokens(token_list, export->env);
 		commands = parser(token_list);
-		builtin_env(env_copy);
-		// builtin_echo(commands);
+		if (!ft_strncmp(commands->args[0], "unset", 5))
+			builtin_unset(export, commands);
+		else if (!ft_strncmp(commands->args[0], "env", 3))
+			builtin_env(export->env);
+		else if (!ft_strncmp(commands->args[0], "export", 6))
+			builtin_export(export, commands);
 		// child_process(commands, pipex, env_copy);
 		// while (wait(&status) > 0)
 		// 	;
@@ -53,7 +57,7 @@ static int	handle_tokens(char **split_input, char **env_copy)
 	return (1);
 }
 
-static int	handle_input(char *input, char **env_copy)
+static int	handle_input(char *input, t_export	*export)
 {
 	char	**split_input;
 
@@ -70,27 +74,33 @@ static int	handle_input(char *input, char **env_copy)
 		return (1);
 	if (handle_syntax_errors(split_input))
 		return (1);
-	return (handle_tokens(split_input, env_copy));
+	return (handle_tokens(split_input, export));
 }
 
 int	main(int ac, char **av, char **envp)
 {
 	char		*input;
-	char		**env_copy;
+	t_export	*export;
 	int			ret;
 
 	(void)ac;
 	(void)av;
-	env_copy = copy_env(envp);
-	if (!env_copy)
+	export = malloc(sizeof(t_export));
+	if (!export)
+		return (1);
+	export->env = copy_env_chained(envp);
+	export->export = copy_env_chained(envp);
+	if (!export->env || !export->export)
 		return (1);
 	ret = 1;
 	while (ret)
 	{
 		input = readline("WhatTheShell$ ");
-		ret = handle_input(input, env_copy);
+		ret = handle_input(input, export);
 	}
-	free_env(env_copy);
+	free_env_chained(export->env);
+	free_env_chained(export->export);
+	free(export);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/22 14:54:15 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/24 12:19:21 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void    close_all_fds(t_pipex *pipex, t_command *command)
         close(command->outfile_fd);
 }
 
-void    exec_child(t_pipex *pipex, t_command *command, char **env_copy)
+void    exec_child(t_pipex *pipex, t_command *command, t_env *env_copy)
 {
     int out_fd;
 
@@ -39,7 +39,7 @@ void    exec_child(t_pipex *pipex, t_command *command, char **env_copy)
     execute_cmd(env_copy, command, pipex, out_fd);
 }
 
-int pipe_and_fork(t_pipex *pipex, t_command *command, char **env_copy)
+int pipe_and_fork(t_pipex *pipex, t_command *command, t_env *env_copy)
 {
     if (command->next && pipe(pipex->pipe_fd) == -1)
         return (-1);
@@ -67,7 +67,7 @@ int pipe_and_fork(t_pipex *pipex, t_command *command, char **env_copy)
     return (pipex->pid);
 }
 
-void    child_process(t_command *command, t_pipex *pipex, char **env_copy)
+void    child_process(t_command *command, t_pipex *pipex, t_env *env_copy)
 {
     if (command->infile)
         pipex->input_fd = command->infile_fd;

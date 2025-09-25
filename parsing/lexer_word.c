@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 16:02:26 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:38:50 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*append_and_free(char *s1, char *s2)
 	return (new_str);
 }
 
-static char	*process_segment(char *str, int *i, char **env_copy)
+static char	*process_segment(char *str, int *i, t_env *env_copy)
 {
 	char	*tmp;
 	char	*expanded;
@@ -92,7 +92,7 @@ static char	*process_segment(char *str, int *i, char **env_copy)
 	return (expanded);
 }
 
-int	handle_word(char *str, int *i, t_token **token_list, char **env_copy)
+int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 {
 	char	*buffer;
 	char	*segment;

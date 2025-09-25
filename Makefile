@@ -37,6 +37,9 @@ SRCS = main.c \
 	exec/open_files.c\
 	exec/pipe_handle.c\
 	exec/builtin_exec.c\
+	exec/builtin_utils.c\
+	exec/builtin_unset.c\
+	exec/env_handle.c\
 	signals/signals.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
