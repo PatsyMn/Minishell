@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/25 16:53:00 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/26 16:43:22 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@ static int	handle_syntax_errors(char **split_input)
 	return (0);
 }
 
+void	wait_child(t_pipex *pipex)
+{
+	int wstatus;
+	
+	while (wait(&wstatus) > 0)
+	{
+		if (WIFEXITED(wstatus))
+			pipex->status = WEXITSTATUS(wstatus);
+		else if (WIFSIGNALED(wstatus))
+			pipex->status = 128 + WTERMSIG(wstatus);
+	}
+}
+
 static int	handle_tokens(char **split_input, t_export *export)
 {
 	t_token		*token_list;
@@ -38,14 +51,10 @@ static int	handle_tokens(char **split_input, t_export *export)
 	{
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
-		commands = parser(token_list);
-		pipex->status = execute_builtin(commands, export, pipex->status);
-		if (pipex->status == -1)
-		{
-			child_process(commands, pipex, export);
-			while (wait(&pipex->status) > 0);
-			child_signal(pipex->status);
-		}
+		commands = parser(token_list, pipex);
+		child_process(commands, pipex, export);
+		wait_child(pipex);
+		child_signal(pipex->status);
 		free(pipex);
 		free_commands(commands);
 		free_tokens(token_list);

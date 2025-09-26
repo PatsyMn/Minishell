@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/25 17:02:31 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/26 17:23:04 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,20 @@ typedef enum e_token_type
 	T_FILENAME,
 	T_DOLLAR_VAR,
 }						t_token_type;
+
+typedef struct s_pipex
+{
+	pid_t	pid;
+	pid_t	last_pid;
+	int		pipe;
+	int		input_fd;
+	int		pipe_fd[2];
+	int		cmd_count;
+	int		status;
+	int		last_status;
+	int		saved_stdin;
+	int		saved_stdout;
+}						t_pipex;
 
 typedef struct s_token
 {
@@ -196,7 +210,7 @@ void					print_tokens(t_token *tokens);
 void							init_expansion(t_expansion *exp);
 
 //parser.c
-t_command						*parser(t_token *token);
+t_command						*parser(t_token *token, t_pipex *pipex);
 //debug
 void							print_commands(t_command *cmd);
 
@@ -240,22 +254,12 @@ void							handle_signal_prompt(int sig);
 void							setup_signals_exec(void);
 void							child_signal(int status);
 
-typedef struct s_pipex
-{
-	pid_t	pid;
-	pid_t	last_pid;
-	int		input_fd;
-	int		pipe_fd[2];
-	int		cmd_count;
-	int		status;
-	int		last_status;
-}						t_pipex;
-
 // execute_cmd.c
-int 					execute_cmd(t_env *envp, t_command *commands, t_pipex *pipex, int fd_out);
+int 					execute_cmd(t_env *envp, t_command *commands);
 char					**env_list_to_tab(t_env *env);
 
 // pipe_handle.c
+// void    				close_all_fds(t_pipex *pipex, t_command *command);
 void	   				child_process(t_command *command, t_pipex *pipex, t_export *export);
 
 // open_files.c
@@ -265,14 +269,14 @@ void    				open_files(t_command *command);
 void    				sort_env_tab(char **env_tab);
 
 // builtin.c
-int 					execute_builtin(t_command *command, t_export *export, int status);
+int 					execute_builtin(t_command *command, t_export *export, t_pipex *pipex, int status);
 
 // builtin_export.c
 void    				new_export(t_export *export, t_command *command);
 int 					builtin_export(t_export *export, t_command *command);
 
 // builtin_echo.c
-int 					builtin_echo(t_command *command);
+int 					builtin_echo(char **args);
 
 // builtin_env.c
 int 					builtin_env(t_env *env);

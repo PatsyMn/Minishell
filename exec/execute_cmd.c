@@ -76,28 +76,7 @@ char	**env_list_to_tab(t_env *env)
 	return (env_tab);
 }
 
-int	dup2_error(t_command *command, t_pipex *pipex, int fd_out)
-{
-	if ((command->infile && !pipex->cmd_count) || pipex->cmd_count)
-	{
-		if (dup2(pipex->input_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 error");
-			return (0);
-		}
-	}
-	if (command->outfile && !command->next)
-	{
-		if (dup2(fd_out, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 error");
-			return (0);
-		}
-	}
-	return (1);
-}
-
-int execute_cmd(t_env *envp, t_command *commands, t_pipex *pipex, int fd_out)
+int execute_cmd(t_env *envp, t_command *commands)
 {
     char	**argv_exec;
 	char	**env_tab;
@@ -105,8 +84,6 @@ int execute_cmd(t_env *envp, t_command *commands, t_pipex *pipex, int fd_out)
 
 	cmd = concat_command(commands);
 	env_tab = env_list_to_tab(envp);
-    if (!dup2_error(commands, pipex, fd_out))
-		exit(1);
     argv_exec = malloc(sizeof(char *) * 4);
     if (!argv_exec)
 	{
