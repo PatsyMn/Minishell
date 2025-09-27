@@ -1,1 +1,26 @@
-WhatTheShell$ | ca devrait renvoyer bash: syntax error near unexpected token `|'
+
+echo "hello"
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==16463==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x6292522c075d bp 0x7ffc6968ff10 sp 0x7ffc6968fe30 T0)
+==16463==The signal is caused by a READ memory access.
+==16463==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x6292522c075d in add_char_to_token /home/patsy_mn/Projets 42/Minishell/parsing/lexer_split_loop.c:100:43
+    #1 0x6292522bfd40 in split_loop /home/patsy_mn/Projets 42/Minishell/parsing/lexer_split_loop.c:149:3
+    #2 0x6292522bf1c6 in split_input_respecting_quotes /home/patsy_mn/Projets 42/Minishell/parsing/lexer_split_str.c:44:7
+    #3 0x6292522ba866 in handle_input /home/patsy_mn/Projets 42/Minishell/main.c:59:16
+    #4 0x6292522ba7ba in main /home/patsy_mn/Projets 42/Minishell/main.c:85:9
+    #5 0x75022382a1c9 in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x75022382a28a in __libc_start_main csu/../csu/libc-start.c:360:3
+    #7 0x6292521e1354 in _start (/home/patsy_mn/Projets 42/Minishell/minishell+0x2c354) (BuildId: cf062dc80dc1198d13a4c8f94cb8569cec368e25)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /home/patsy_mn/Projets 42/Minishell/parsing/lexer_split_loop.c:100:43 in add_char_to_token
+==16463==ABORTING
+
+
+echo ""\n"" pas bon (et surement plein d'autres choses de ce type youhou comme antoine daniel a dis un jour : "jai envie de me suicider parce que la mort cest cool, oui cest trop cool)
+
+historique qui marche pas
+
+

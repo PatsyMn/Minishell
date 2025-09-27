@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 12:57:48 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 16:01:38 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/27 16:00:25 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	**split_loop(t_split_state *state)
 {
 	while (state->input[state->i])
 	{
+		printf("caca %c \n", state->input[state->i]);
 		if (skip_whitespace(state))
 			continue ;
 		update_quote_context(state->context, state->input[state->i]);
