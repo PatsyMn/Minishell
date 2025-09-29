@@ -24,3 +24,4 @@ echo ""\n"" pas bon (et surement plein d'autres choses de ce type youhou comme a
 historique qui marche pas
 
 
+renvoyer pour \ si entre nb quotes renvoie pas si entre nb quotes impair 

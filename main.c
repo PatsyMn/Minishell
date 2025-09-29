@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/25 12:33:01 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:48:56 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	handle_input(char *input, char **env_copy)
 
 	if (!input)
 		return (0);
-	if (check_unclosed_quotes(input) || check_special_chars(input))
+	if (check_unclosed_quotes(input)) /*|| check_special_chars(input))*/
 	{
 		free(input);
 		return (1);
