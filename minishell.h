@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/29 13:02:55 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/29 19:57:42 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,14 @@ typedef struct s_quote_context
 	int					in_single_quote;
 	int					in_double_quote;
 }						t_quote_context;
+
+typedef enum e_quote_state
+{
+	NO_QUOTE = 0,
+	IN_SINGLE = 1,
+	IN_DOUBLE = 2,
+}	t_quote_state;
+
 
 typedef struct s_split_state
 {
@@ -249,7 +257,7 @@ t_expansion						prepare_expansion(char *token, t_env *env_copy);
 
 /* ========== SIGNALS ========== */
 
-extern volatile sig_atomic_t	g_status;
+extern sig_atomic_t	g_status;
 void							handle_signal_prompt(int sig);
 void							setup_signals_exec(void);
 void							child_signal(int status);

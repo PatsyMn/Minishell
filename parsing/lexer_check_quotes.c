@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:39:15 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/17 14:22:15 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/29 20:00:23 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_single_quote(char *str)
 	return (str[0] == '\'' && str[len - 1] == '\'');
 }
 
-static int	check_unclosed_single_quote(char *str)
+/*static int	check_unclosed_single_quote(char *str)
 {
 	int	i;
 	int	in_single_quote;
@@ -85,4 +85,47 @@ int	check_unclosed_quotes(char *str)
 	if (check_unclosed_double_quote(str))
 		return (1);
 	return (0);
+}*/
+
+static t_quote_state	parse_quotes(char *str)
+{
+	int				i;
+	t_quote_state	state;
+
+	i = 0;
+	state = NO_QUOTE;
+	while (str[i])
+	{
+		if (str[i] == '\'' && state == NO_QUOTE)
+			state = IN_SINGLE;
+		else if (str[i] == '\'' && state == IN_SINGLE)
+			state = NO_QUOTE;
+		else if (str[i] == '"' && state == NO_QUOTE)
+			state = IN_DOUBLE;
+		else if (str[i] == '"' && state == IN_DOUBLE)
+			state = NO_QUOTE;
+		i++;
+	}
+	return (state);
 }
+
+int	check_unclosed_quotes(char *str)
+{
+	t_quote_state	state;
+
+	if (!str)
+		return (0);
+	state = parse_quotes(str);
+	if (state == IN_SINGLE)
+	{
+		printf("bash: syntax error: unclosed single quote\n");
+		return (1);
+	}
+	if (state == IN_DOUBLE)
+	{
+		printf("bash: syntax error: unclosed double quote\n");
+		return (1);
+	}
+	return (0);
+}
+
