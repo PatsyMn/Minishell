@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/22 16:03:57 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/26 12:31:43 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool	process_redirection(t_token **token, t_command **cur, int *expect_co
 	return false;
 }
 
-static bool	process_command_word_pipe(t_token **token, t_command **cur, int *expect_command)
+static bool	process_command_word_pipe(t_token **token, t_command **cur, int *expect_command, t_pipex *pipex)
 {
 	if (!token || !(*token))
 		return false;
@@ -61,6 +61,7 @@ static bool	process_command_word_pipe(t_token **token, t_command **cur, int *exp
 	}
 	else if ((*token)->type == T_PIPE)
 	{
+		pipex->pipe = 1;
 		(*cur)->next = new_command();
 		*cur = (*cur)->next;
 		*expect_command = 1;
@@ -69,21 +70,23 @@ static bool	process_command_word_pipe(t_token **token, t_command **cur, int *exp
 	}
 	return false;
 }
-static bool	process_token(t_token **token, t_command **cur, int *expect_command)
+
+static bool	process_token(t_token **token, t_command **cur, int *expect_command, t_pipex *pipex)
 {
 	if (process_redirection(token, cur, expect_command))
 		return true;
-	if (process_command_word_pipe(token, cur, expect_command))
+	if (process_command_word_pipe(token, cur, expect_command, pipex))
 		return true;
 	return false;
 }
 
-t_command *parser(t_token *token)
+t_command *parser(t_token *token, t_pipex *pipex)
 {
 	t_command *head = NULL;
 	t_command *cur = NULL;
 	int expect_command = 1;
 
+	pipex->pipe = 0;
 	while (token)
 	{
 		if (!cur)
@@ -92,7 +95,7 @@ t_command *parser(t_token *token)
 			if (!head)
 				head = cur;
 		}
-		if (!process_token(&token, &cur, &expect_command))
+		if (!process_token(&token, &cur, &expect_command, pipex))
 			token = token->next;
 	}
 	return (head);

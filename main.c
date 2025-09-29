@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/29 12:56:41 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/29 13:04:39 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,36 @@ static int	handle_syntax_errors(char **split_input)
 	return (0);
 }
 
-static int	handle_tokens(char **split_input, char **env_copy)
+void	wait_child(t_pipex *pipex)
+{
+	int wstatus;
+	
+	while (wait(&wstatus) > 0)
+	{
+		if (WIFEXITED(wstatus))
+			pipex->status = WEXITSTATUS(wstatus);
+		else if (WIFSIGNALED(wstatus))
+			pipex->status = 128 + WTERMSIG(wstatus);
+	}
+}
+
+static int	handle_tokens(char **split_input, t_export *export)
 {
 	t_token		*token_list;
 	t_command	*commands;
 	t_pipex		*pipex;
-	int			status;
 
 	pipex = malloc(sizeof(t_pipex));
-	token_list = tokenizer(split_input, env_copy);
+	token_list = tokenizer(split_input, export->env);
 	free_split(split_input);
 	if (token_list)
 	{
 		assign_filename_types(token_list);
-		expand_tokens(token_list, env_copy);
-		commands = parser(token_list);
-		child_process(commands, pipex, env_copy);
-		while (wait(&status) > 0)
-			;
+		expand_tokens(token_list, export->env);
+		commands = parser(token_list, pipex);
+		child_process(commands, pipex, export);
+		wait_child(pipex);
+		child_signal(pipex->status);
 		free(pipex);
 		free_commands(commands);
 		free_tokens(token_list);
@@ -50,7 +62,7 @@ static int	handle_tokens(char **split_input, char **env_copy)
 	return (1);
 }
 
-static int	handle_input(char *input, char **env_copy)
+static int	handle_input(char *input, t_export	*export)
 {
 	char	**split_input;
 
@@ -67,29 +79,33 @@ static int	handle_input(char *input, char **env_copy)
 		return (1);
 	if (handle_syntax_errors(split_input))
 		return (1);
-	return (handle_tokens(split_input, env_copy));
+	return (handle_tokens(split_input, export));
 }
 
 int	main(int ac, char **av, char **envp)
 {
 	char		*input;
-	char		**env_copy;
+	t_export	*export;
 	int			ret;
 	const char	*prompt;
 
 	(void)ac;
 	(void)av;
-	env_copy = copy_env(envp);
-	if (!env_copy)
+	export = malloc(sizeof(t_export));
+	if (!export)
 		return (1);
-	prompt = PINK "WhatTheShell" RESET "$ ";
 	ret = 1;
+	prompt = PINK "WhatTheShell" RESET "$ ";
+	export->env = copy_env_chained(envp);
+	export->export = copy_env_chained(envp);
 	while (ret)
 	{
 		input = readline(prompt);
-		ret = handle_input(input, env_copy);
+		ret = handle_input(input, export);
 	}
-	free_env(env_copy);
+	free_env_chained(export->env);
+	free_env_chained(export->export);
+	free(export);
 	return (0);
 }
 

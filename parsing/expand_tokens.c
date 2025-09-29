@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:52:49 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/11 13:52:59 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:43:19 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	expand_variable_token(t_token *token, char **env_copy)
+static void	expand_variable_token(t_token *token, t_env *env_copy)
 {
 	t_expansion	exp;
 
@@ -39,7 +39,7 @@ static void	process_double_quoted_token(t_token *token)
 		free(tmp);
 }
 
-void	expand_tokens(t_token *tokens, char **env_copy)
+void	expand_tokens(t_token *tokens, t_env *env_copy)
 {
 	while (tokens)
 	{

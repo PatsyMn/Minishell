@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
+#    By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/09/29 12:57:49 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/09/29 13:02:38 by mbores           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,37 +20,47 @@ LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 OBJ_DIR = obj
 
-SRCS =	main.c \
-		parsing/parser.c\
-		parsing/parser_utils.c\
-		parsing/token_utils.c\
-		parsing/utility_functions.c\
-		parsing/utility_functions2.c\
-		parsing/lexer_utils.c\
-		parsing/lexer_check_quotes.c\
-		parsing/lexer_check.c\
-		parsing/lexer_metachar.c\
-		parsing/lexer_operator.c\
-		parsing/lexer_split_str.c\
-		parsing/lexer_split_loop.c\
-		parsing/lexer_split_loop_utils.c\
-		parsing/lexer_split_word_utils.c\
-		parsing/lexer_errors.c\
-		parsing/lexer_errors_operators.c\
-		parsing/lexer_word.c\
-		parsing/lexer_files.c\
-		parsing/lexer_tokenize.c\
-		parsing/env_utils.c\
-		parsing/expansion_utils.c\
-		parsing/expand_tokens.c\
-		parsing/expansion_preparation.c\
-		parsing/quote_utils.c\
-		parsing/init.c\
-		parsing/parser_redirection.c\
-		exec/execute_cmd.c\
-		exec/open_files.c\
-		exec/pipe_handle.c\
-		#signals/signals.c\
+SRCS = main.c \
+	parsing/parser.c\
+	parsing/parser_utils.c\
+	parsing/token_utils.c\
+	parsing/utility_functions.c\
+	parsing/utility_functions2.c\
+	parsing/lexer_utils.c\
+	parsing/lexer_check_quotes.c\
+	parsing/lexer_check.c\
+	parsing/lexer_metachar.c\
+	parsing/lexer_operator.c\
+	parsing/lexer_split_str.c\
+	parsing/lexer_split_loop.c\
+	parsing/lexer_split_loop_utils.c\
+	parsing/lexer_split_word_utils.c\
+	parsing/lexer_errors.c\
+	parsing/lexer_errors_operators.c\
+	parsing/lexer_word.c\
+	parsing/lexer_files.c\
+	parsing/lexer_tokenize.c\
+	parsing/env_utils.c\
+	parsing/expansion_utils.c\
+	parsing/expand_tokens.c\
+	parsing/expansion_preparation.c\
+	parsing/quote_utils.c\
+	parsing/init.c\
+	parsing/parser_redirection.c\
+	exec/execute_cmd.c\
+	exec/open_files.c\
+	exec/pipe_handle.c\
+	exec/builtin_export.c\
+	exec/builtin_utils.c\
+	exec/builtin_unset.c\
+	exec/builtin_echo.c\
+	exec/builtin_pwd.c\
+	exec/builtin_env.c\
+	exec/builtin_cd.c\
+	exec/builtin_exit.c\
+	exec/builtin.c\
+	exec/env_handle.c\
+	signals/signals.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
 
@@ -73,6 +83,9 @@ $(OBJ_DIR)/%.o: parsing/%.c | $(OBJ_DIR)
 	@$(CC) -c $(CFLAGS) -o $@ $<
 
 $(OBJ_DIR)/%.o: exec/%.c | $(OBJ_DIR)
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+$(OBJ_DIR)/%.o: signals/%.c | $(OBJ_DIR)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:

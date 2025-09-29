@@ -6,92 +6,184 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/22 14:54:15 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/26 17:22:34 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    close_all_fds(t_pipex *pipex, t_command *command)
-{
-    if (command->infile && pipex->input_fd != -1
-        && pipex->input_fd != command->infile_fd)
-        close(pipex->input_fd);
-    if (command->infile && command->infile_fd != STDIN_FILENO)
-        close(command->infile_fd);
-    if (command->outfile && command->outfile_fd != STDOUT_FILENO)
-        close(command->outfile_fd);
-}
+// void    close_all_fds(t_pipex *pipex, t_command *command)
+// {
+//     if (command->infile && pipex->input_fd != -1
+//         && pipex->input_fd != command->infile_fd)
+//         close(pipex->input_fd);
+//     if (command->infile && command->infile_fd != STDIN_FILENO)
+//         close(command->infile_fd);
+//     if (command->outfile && command->outfile_fd != STDOUT_FILENO)
+//         close(command->outfile_fd);
+//     if (dup2(pipex->saved_stdin, STDIN_FILENO) == -1
+//         || dup2(pipex->saved_stdout, STDOUT_FILENO) == -1)
+//     {
+//         perror("dup2 restore");
+//         exit(1);
+//     }
+//     close(pipex->saved_stdin);
+//     close(pipex->saved_stdout);
+// }
 
-void    exec_child(t_pipex *pipex, t_command *command, char **env_copy)
+void    exec_child(t_pipex *pipex, t_command *command, t_export *export)
 {
-    int out_fd;
-
     open_files(command);
-
+    if (pipex->cmd_count > 0)
+        dup2(pipex->input_fd, STDIN_FILENO);
+    else if (command->infile_fd != -1)
+        dup2(command->infile_fd, STDIN_FILENO);
     if (command->next)
-    {
+        dup2(pipex->pipe_fd[1], STDOUT_FILENO);
+    else if (command->outfile_fd != -1)
+        dup2(command->outfile_fd, STDOUT_FILENO);
+    if (pipex->pipe_fd[0] != -1)
         close(pipex->pipe_fd[0]);
-        out_fd = pipex->pipe_fd[1];
-    }
-    else
-        out_fd = command->outfile_fd;
-    execute_cmd(env_copy, command, pipex, out_fd);
+    if (pipex->pipe_fd[1] != -1)
+        close(pipex->pipe_fd[1]);
+    if (pipex->input_fd != -1)
+        close(pipex->input_fd);
+    if (command->infile_fd > 2)
+        close(command->infile_fd);
+    if (command->outfile_fd > 2)
+        close(command->outfile_fd);
+    if (execute_builtin(command, export, pipex, pipex->status) == -1)
+        execute_cmd(export->env, command);
 }
 
-int pipe_and_fork(t_pipex *pipex, t_command *command, char **env_copy)
+static int create_pipe_if_needed(t_pipex *pipex, t_command *command)
 {
     if (command->next && pipe(pipex->pipe_fd) == -1)
+    {
+        perror("pipe");
         return (-1);
+    }
+    return (0);
+}
+
+static int fork_and_exec(t_pipex *pipex, t_command *command, t_export *export)
+{
     pipex->pid = fork();
     if (pipex->pid == -1)
     {
-        if (command->next)
-        {
-            close(pipex->pipe_fd[0]);
-            close(pipex->pipe_fd[1]);
-        }
+        perror("fork");
         return (-1);
     }
-    if (!pipex->pid)
-    {
-        if (command->next)
-            close(pipex->pipe_fd[0]);
-        exec_child(pipex, command, env_copy);
-    }
-    else
-    {
-        if (command->next)
-            close(pipex->pipe_fd[1]);
-    }
-    return (pipex->pid);
+    if (pipex->pid == 0)
+        exec_child(pipex, command, export);
+    return (0);
 }
 
-void    child_process(t_command *command, t_pipex *pipex, char **env_copy)
+static void update_parent_fds(t_pipex *pipex, t_command *command)
 {
-    if (command->infile)
-        pipex->input_fd = command->infile_fd;
-    pipex->last_pid = -1;
-    pipex->cmd_count = 0;
-    while (1)
+    if (pipex->input_fd != -1 && pipex->input_fd != command->infile_fd)
+        close(pipex->input_fd);
+    if (command->next)
     {
-        if (pipe_and_fork(pipex, command, env_copy) == -1)
-        {
-            pipex->last_pid = -1;
-            return ;
-        }
-        if (command->infile && pipex->input_fd != command->infile_fd
-            && pipex->input_fd != -1)
-            close(pipex->input_fd);
-        if (command->next)
-        {
-            close(pipex->pipe_fd[1]);
-            pipex->input_fd = pipex->pipe_fd[0];
-        }
-        pipex->last_pid = pipex->pid;
-        if (!command->next)
-            break ;
-        command = command->next;
+        close(pipex->pipe_fd[1]);
+        pipex->input_fd = pipex->pipe_fd[0];
     }
-    close_all_fds(pipex, command);
+    pipex->last_pid = pipex->pid;
 }
+
+static void exec_pipeline(t_command *command, t_pipex *pipex, t_export *export)
+{
+    while (command)
+    {
+        if (create_pipe_if_needed(pipex, command) == -1)
+            return;
+        if (fork_and_exec(pipex, command, export) == -1)
+            return;
+        update_parent_fds(pipex, command);
+        if (!command->next)
+            break;
+        command = command->next;
+        pipex->cmd_count++;
+    }
+}
+
+void child_process(t_command *command, t_pipex *pipex, t_export *export)
+{
+    pipex->saved_stdin = dup(STDIN_FILENO);
+    pipex->saved_stdout = dup(STDOUT_FILENO);
+    if (pipex->saved_stdin == -1 || pipex->saved_stdout == -1)
+    {
+        perror("dup");
+        exit(1);
+    }
+    pipex->input_fd = -1;
+    pipex->cmd_count = 0;
+    pipex->last_pid = -1;
+    exec_pipeline(command, pipex, export);
+    if (dup2(pipex->saved_stdin, STDIN_FILENO) == -1
+        || dup2(pipex->saved_stdout, STDOUT_FILENO) == -1)
+    {
+        perror("dup2 restore");
+        exit(1);
+    }
+    close(pipex->saved_stdin);
+    close(pipex->saved_stdout);
+}
+
+// int pipe_and_fork(t_pipex *pipex, t_command *command, t_export *export)
+// {
+//     open_files(command);
+//     if (command->next && pipe(pipex->pipe_fd) == -1)
+//         return (-1);
+//     pipex->pid = fork();
+//     if (pipex->pid == -1)
+//     {
+//         if (command->next)
+//         {
+//             close(pipex->pipe_fd[0]);
+//             close(pipex->pipe_fd[1]);
+//         }
+//         return (-1);
+//     }
+//     if (!pipex->pid)
+//     {
+//         if (command->next)
+//             close(pipex->pipe_fd[0]);
+//         exec_child(pipex, command, export);
+//     }
+//     else
+//     {
+//         if (command->next)
+//             close(pipex->pipe_fd[1]);
+//     }
+//     return (pipex->pid);
+// }
+
+// void    child_process(t_command *command, t_pipex *pipex, t_export *export)
+// {
+//     if (command->infile)
+//         pipex->input_fd = command->infile_fd;
+//     pipex->last_pid = -1;
+//     pipex->cmd_count = 0;
+//     while (1)
+//     {
+//         if (pipe_and_fork(pipex, command, export) == -1)
+//         {
+//             perror("fork");
+//             pipex->last_pid = -1;
+//             return ;
+//         }
+//         if (command->infile && pipex->input_fd != command->infile_fd
+//             && pipex->input_fd != -1)
+//             close(pipex->input_fd);
+//         if (command->next)
+//         {
+//             close(pipex->pipe_fd[1]);
+//             pipex->input_fd = pipex->pipe_fd[0];
+//         }
+//         pipex->last_pid = pipex->pid;
+//         if (!command->next)
+//             break ;
+//         command = command->next;
+//     }
+// }

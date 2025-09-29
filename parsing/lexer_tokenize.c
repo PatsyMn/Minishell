@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tokenize.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 17:28:37 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 15:16:28 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:37:58 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token_type	get_token_type_from_str(char *str)
 	return (T_WORD);
 }
 
-static int	tokenize_str(char *str, t_token **token_list, char **env_copy)
+static int	tokenize_str(char *str, t_token **token_list, t_env *env_copy)
 {
 	int	i;
 	int	ret;
@@ -54,7 +54,7 @@ static int	tokenize_str(char *str, t_token **token_list, char **env_copy)
 	return (1);
 }
 
-t_token	*tokenizer(char **split_input, char **env_copy)
+t_token	*tokenizer(char **split_input, t_env *env_copy)
 {
 	t_token	*token_list;
 	int		i;

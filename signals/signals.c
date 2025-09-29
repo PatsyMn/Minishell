@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/16 14:26:42 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:23:21 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-volatile sig_atomic_t g_sig = 0;
+volatile sig_atomic_t g_status = 0;
 
 void	handle_signal_prompt(int sig)
 {
 	if (sig == SIGINT)
 	{
-		g_sig = 130;
+		g_status = 130;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -32,32 +32,25 @@ void	signal_heredoc(int sig)
 		write(1, "\n", 1);
 		close(0); // ferme stdin pour casser readline dans le heredoc
 		rl_on_new_line();
-		g_sig = 99; // 99 = code spécial pour que le shell sache qu'on a interrompu un heredoc
+		g_status = 99; // 99 = code spécial pour que le shell sache qu'on a interrompu un heredoc
 	}
 }
 
-int	child_signal(int status, int last_status)
+void	child_signal(int status)
 {
+	int sig;
+
 	if (WIFEXITED(status))
-	{
-		last_status = WEXITSTATUS(status);
-		return (last_status);
-	}
+		g_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
-		last_status = 128 + WTERMSIG(status);
-		if (WTERMSIG(status) == SIGQUIT)
-		{
+		sig = WTERMSIG(status);
+		g_status = 128 + sig;
+		if (sig == SIGQUIT)
 			write(1, "Quit (core dumped)\n", 20);
-			g_sig = 131;
-		}
-		else if (WTERMSIG(status) == SIGINT)
-		{
+		else if (sig == SIGINT)
 			write(1, "\n", 1);
-			g_sig = 130;
-		}
 	}
-	return (last_status);
 }
 void	setup_signals_shell(void)
 {

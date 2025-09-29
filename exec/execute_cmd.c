@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	*concat(t_command *command)
+static char	*concat_command(t_command *command)
 {
 	char	*cmd;
 	char	*tmp;
@@ -37,35 +37,53 @@ char	*concat(t_command *command)
 	return (cmd);
 }
 
-int	dup2_error(t_command *command, t_pipex *pipex, int fd_out)
+static int env_list_size(t_env *env)
 {
-	if ((command->infile && !pipex->cmd_count) || pipex->cmd_count)
-	{
-		if (dup2(pipex->input_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2 error");
-			return (0);
-		}
-	}
-	if (command->outfile && !command->next)
-	{
-		if (dup2(fd_out, STDOUT_FILENO) == -1)
-		{
-			perror("dup2 error");
-			return (0);
-		}
-	}
-	return (1);
+    int i = 0;
+    while (env)
+    {
+        i++;
+        env = env->next;
+    }
+    return (i);
 }
 
-int execute_cmd(char **envp, t_command *commands, t_pipex *pipex, int fd_out)
+char	**env_list_to_tab(t_env *env)
+{
+	char	**env_tab;
+	char	*line;
+	int		i;
+
+	i = env_list_size(env);
+	env_tab = malloc(sizeof(char *) * (i + 1));
+	if (!env_tab)
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		if (env->content)
+		{
+			line = ft_strjoin(env->key, "=");
+			env_tab[i] = ft_strjoin(line, env->content);
+			free(line);
+		}
+		else
+			env_tab[i] = ft_strdup(env->key);
+		env = env->next;
+		i++;
+	}
+	env_tab[i] = NULL;
+	return (env_tab);
+}
+
+int execute_cmd(t_env *envp, t_command *commands)
 {
     char	**argv_exec;
+	char	**env_tab;
 	char	*cmd;
 
-	cmd = concat(commands);
-    if (!dup2_error(commands, pipex, fd_out))
-		exit(1);
+	cmd = concat_command(commands);
+	env_tab = env_list_to_tab(envp);
     argv_exec = malloc(sizeof(char *) * 4);
     if (!argv_exec)
 	{
@@ -76,7 +94,8 @@ int execute_cmd(char **envp, t_command *commands, t_pipex *pipex, int fd_out)
 	argv_exec[1] = "-c";
 	argv_exec[2] = cmd;
 	argv_exec[3] = NULL;
-	execve("/bin/sh", argv_exec, envp);
+	setup_signals_exec();
+	execve("/bin/sh", argv_exec, env_tab);
 	perror("execve failed");
 	free(argv_exec);
     exit(1);
