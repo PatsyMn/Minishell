@@ -6,7 +6,7 @@
 #    By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/09/29 13:02:38 by mbores           ###   ########.fr        #
+#    Updated: 2025/09/29 13:06:37 by mbores           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,10 +83,10 @@ $(OBJ_DIR)/%.o: parsing/%.c | $(OBJ_DIR)
 	@$(CC) -c $(CFLAGS) -o $@ $<
 
 $(OBJ_DIR)/%.o: exec/%.c | $(OBJ_DIR)
-	$(CC) -c $(CFLAGS) -o $@ $<
+	@$(CC) -c $(CFLAGS) -o $@ $<
 
 $(OBJ_DIR)/%.o: signals/%.c | $(OBJ_DIR)
-	$(CC) -c $(CFLAGS) -o $@ $<
+	@$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
 	@$(MAKE) clean -C $(LIBFT_DIR)
