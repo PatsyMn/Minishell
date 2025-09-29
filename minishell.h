@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/29 19:57:42 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/29 20:22:40 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,9 @@ typedef struct s_quote_context
 
 typedef enum e_quote_state
 {
-	NO_QUOTE = 0,
-	IN_SINGLE = 1,
-	IN_DOUBLE = 2,
+	NO_QUOTE,
+	IN_SINGLE,
+	IN_DOUBLE,
 }	t_quote_state;
 
 
