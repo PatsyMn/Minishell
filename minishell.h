@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/25 12:32:49 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:55:02 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <sys/wait.h>
 # include <signal.h>
 
 
@@ -64,6 +65,10 @@ typedef struct s_command
 	char				**args;		// argv style (cmd + args)
 	char				*infile;	// nom du fichier si '<'
 	char				*outfile;	// nom du fichier si '>'
+	char				*limiter;
+	int					infile_fd;
+	int					outfile_fd;
+	int					heredoc_file_fd;
 	int					append;		// 1 si >> (ajout)
 	int					heredoc;	// 1 si <<
 	struct s_command	*next;		// chaînage pour les pipes
@@ -214,6 +219,24 @@ t_expansion						prepare_expansion(char *token, char **env_copy);
 extern volatile sig_atomic_t	g_sig;
 void							handle_signal_prompt(int sig);
 
+
+typedef struct s_pipex
+{
+	pid_t	pid;
+	pid_t	last_pid;
+	int		input_fd;
+	int		pipe_fd[2];
+	int		cmd_count;
+}						t_pipex;
+
+// execute_cmd.c
+int 					execute_cmd(char **envp, t_command *commands, t_pipex *pipex, int fd_out);
+
+// pipe_handle.c
+void	   				child_process(t_command *command, t_pipex *pipex, char **env_copy);
+
+// open_files.c
+void    				open_files(t_command *command);
 
 #endif
 

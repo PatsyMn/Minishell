@@ -6,7 +6,7 @@
 #    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/09/25 13:04:07 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/09/29 12:57:49 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ MAKEFLAGS += --no-print-directory
 
 CC = cc
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -g -I./Libft -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -g -I./Libft -I. -fsanitize=address -g3
 
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -47,6 +47,9 @@ SRCS =	main.c \
 		parsing/quote_utils.c\
 		parsing/init.c\
 		parsing/parser_redirection.c\
+		exec/execute_cmd.c\
+		exec/open_files.c\
+		exec/pipe_handle.c\
 		#signals/signals.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
@@ -68,6 +71,9 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: parsing/%.c | $(OBJ_DIR)
 	@$(CC) -c $(CFLAGS) -o $@ $<
+
+$(OBJ_DIR)/%.o: exec/%.c | $(OBJ_DIR)
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
 	@$(MAKE) clean -C $(LIBFT_DIR)

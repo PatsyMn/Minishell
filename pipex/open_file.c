@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   open_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/31 09:46:54 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 14:09:10 by mbores           ###   ########.fr       */
+/*   Created: 2025/05/11 11:46:51 by mbores            #+#    #+#             */
+/*   Updated: 2025/09/11 14:09:18 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-size_t	ft_strlen(const char *str)
+int	open_temp_heredoc_file(char *file_name)
 {
-	size_t	i;
+	int	file_fd;
 
-	i = 0;
-	while (str[i] != '\0')
+	file_fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (file_fd < 0)
 	{
-		i++;
+		perror(file_name);
+		return (-1);
 	}
-	return (i);
+	return (file_fd);
 }
-
-// int	main()
-// {
-// 	printf("%d\n", ft_strlen("sun"));
-// }
