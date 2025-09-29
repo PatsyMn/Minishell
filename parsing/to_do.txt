@@ -25,3 +25,17 @@ historique qui marche pas
 
 
 renvoyer pour \ si entre nb quotes renvoie pas si entre nb quotes impair 
+
+echo $? soucis 
+
+ echo "'"
+bash: syntax error: unclosed single quote devrait afficher '
+
+
+
+lexer check quotes =
+in_single_quote = false
+in_double_quote = false 
+is_open_single = false  (a linterieur)
+is_open_doubles = false
+
