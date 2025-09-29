@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_preparation.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/24 11:44:54 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/29 20:53:47 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,17 @@ static bool	extract_after(char *token, t_expansion *exp, t_env *env_copy)
 	size_t	var_end_index;
 	char	*after_start;
 
-	// exp->var_value = get_env_value(exp->var_name, env_copy);
+	if (ft_strncmp(exp->var_name, "?", 2) == 0)
+	{
+		exp->var_value = ft_itoa(g_status);
+		if (!exp->var_value)
+		{
+			free(exp->before);
+			free(exp->var_name);
+			return (false);
+		}
+	}
+	else
 	exp->var_value = my_getenv(env_copy, exp->var_name);
 	if (!exp->var_value)
 		exp->var_value = "";
