@@ -20,19 +20,23 @@ SUMMARY: AddressSanitizer: SEGV /home/patsy_mn/Projets 42/Minishell/parsing/lexe
 
 
 echo ""\n"" pas bon (et surement plein d'autres choses de ce type youhou comme antoine daniel a dis un jour : "jai envie de me suicider parce que la mort cest cool, oui cest trop cool)
+BAH CA MARCHE PTN OUIIIII JE ME SUICIDE PAS AU FINAL YOUHOU
 
-historique qui marche pas
+historique qui marche pas = non cest bon le merge avait supp ni vu ni cul nu
 
 
-renvoyer pour \ si entre nb quotes renvoie pas si entre nb quotes impair
-
-echo $? soucis = remplacer par valeur variable globale 
+echo $? soucis = remplacer par valeur variable globale
 
  echo "'"
-bash: syntax error: unclosed single quote devrait afficher '
+bash: syntax error: unclosed single quote devrait afficher ' = PAS MON JOB :)
 
-retour sortie a verifier 0 1 2 dans le doc 
+retour sortie a verifier 0 1 2 dans le doc
 
 
-variables environnement a linterieur dun mot soucis a regler 
+variables environnement a linterieur dun mot soucis a regler
 
+
+caca$USERpipi
+/bin/sh: 1: caca: not found
+
+ca donne caca et moi aussi ca donne caca donc cest ok a voir avec max si jai bien compris mais sinon vive le caca 
