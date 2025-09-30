@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/29 19:36:58 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:11:24 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-sig_atomic_t g_status = 0;
+sig_atomic_t g_status;
 
 void	handle_signal_prompt(int sig)
 {

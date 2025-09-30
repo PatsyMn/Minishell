@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/30 12:34:15 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/30 14:21:09 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ static void exec_pipeline(t_command *command, t_pipex *pipex, t_export *export)
 
 int child_process(t_command *command, t_pipex *pipex, t_export *export)
 {
-    if (execute_builtin(command, export, pipex) == -1)
+    g_status = execute_builtin(command, export, pipex);
+    if (g_status == -1)
     {
         pipex->saved_stdin = dup(STDIN_FILENO);
         pipex->saved_stdout = dup(STDOUT_FILENO);

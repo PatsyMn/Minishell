@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_preparation.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/30 11:39:27 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:24:48 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
