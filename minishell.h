@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/29 13:02:55 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/30 12:54:18 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <limits.h>
 # include <errno.h>
 
+extern int	status;
 
 typedef enum e_token_type
 {
@@ -249,7 +250,6 @@ t_expansion						prepare_expansion(char *token, t_env *env_copy);
 
 /* ========== SIGNALS ========== */
 
-extern volatile sig_atomic_t	g_status;
 void							handle_signal_prompt(int sig);
 void							setup_signals_exec(void);
 void							child_signal(int status);
@@ -260,7 +260,7 @@ char					**env_list_to_tab(t_env *env);
 
 // pipe_handle.c
 // void    				close_all_fds(t_pipex *pipex, t_command *command);
-void	   				child_process(t_command *command, t_pipex *pipex, t_export *export);
+int						child_process(t_command *command, t_pipex *pipex, t_export *export);
 
 // open_files.c
 void    				open_files(t_command *command);
@@ -269,7 +269,7 @@ void    				open_files(t_command *command);
 void    				sort_env_tab(char **env_tab);
 
 // builtin.c
-int 					execute_builtin(t_command *command, t_export *export, t_pipex *pipex, int status);
+int 					execute_builtin(t_command *command, t_export *export, t_pipex *pipex);
 
 // builtin_export.c
 void    				new_export(t_export *export, t_command *command);
@@ -291,7 +291,7 @@ int 					builtin_unset(t_export *export, t_command *command);
 int 					builtin_cd(t_command *command, t_env **env);
 
 // builtin_exit.c
-int 					builtin_exit(t_command *command, int status);
+int 					builtin_exit(t_command *command);
 
 // env_handle.c
 char    				*my_getenv(t_env *env, char *var);
