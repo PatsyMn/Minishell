@@ -34,3 +34,5 @@ bash: syntax error: unclosed single quote devrait afficher '
 retour sortie a verifier 0 1 2 dans le doc 
 
 
+variables environnement a linterieur dun mot soucis a regler 
+
