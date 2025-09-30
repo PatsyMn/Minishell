@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/29 20:22:40 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/30 13:49:41 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,7 @@ t_expansion						prepare_expansion(char *token, t_env *env_copy);
 
 /* ========== SIGNALS ========== */
 
-extern sig_atomic_t	g_status;
+extern int	g_status;
 void							handle_signal_prompt(int sig);
 void							setup_signals_exec(void);
 void							child_signal(int status);

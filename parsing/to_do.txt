@@ -31,6 +31,6 @@ echo $? soucis = remplacer par valeur variable globale
  echo "'"
 bash: syntax error: unclosed single quote devrait afficher '
 
-
+retour sortie a verifier 0 1 2 dans le doc 
 
 

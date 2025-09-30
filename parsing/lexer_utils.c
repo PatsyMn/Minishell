@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:40:18 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 16:00:27 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/30 13:13:28 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	check_invalid_tokens(t_token *token_list)
 	{
 		if (tmp->type == T_INVALID_OPERATOR)
 		{
+			g_status = 2;
 			printf("bash: syntax error near");
 			printf("unexpected token `%s'\n", tmp->value);
 			return (1);

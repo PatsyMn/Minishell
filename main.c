@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/29 13:04:39 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/30 14:51:09 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ static int	handle_input(char *input, t_export	*export)
 {
 	char	**split_input;
 
-	if (!input)
+	if (!input || ft_strlen(input) == 0)
 		return (0);
+	add_history(input);
 	if (check_unclosed_quotes(input)) /*|| check_special_chars(input))*/
 	{
 		free(input);
@@ -100,6 +101,7 @@ int	main(int ac, char **av, char **envp)
 	export->export = copy_env_chained(envp);
 	while (ret)
 	{
+		g_status = 0;
 		input = readline(prompt);
 		ret = handle_input(input, export);
 	}

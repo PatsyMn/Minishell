@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 15:41:28 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/30 13:41:17 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,22 @@ static int	is_operator(char *token)
 static int	print_syntax_error(char *token)
 {
 	if (token)
+	{
+		g_status = 2;
 		printf("bash: syntax error near unexpected token `%s'\n", token);
+	}
 	else
+	{
+		g_status = 2;
 		printf("bash: syntax error near unexpected token `newline'\n");
+	}
 	return (1);
 }
 
 static int	check_operator_at_end(char *token)
 {
 	(void)token;
+	g_status = 2;
 	printf("bash: syntax error near unexpected token `newline'\n");
 	return (1);
 }
