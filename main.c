@@ -6,11 +6,13 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/29 13:04:39 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/30 12:54:00 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	status = 0;
 
 static int	handle_syntax_errors(char **split_input)
 {
@@ -25,16 +27,16 @@ static int	handle_syntax_errors(char **split_input)
 	return (0);
 }
 
-void	wait_child(t_pipex *pipex)
+void	wait_child()
 {
 	int wstatus;
 	
 	while (wait(&wstatus) > 0)
 	{
 		if (WIFEXITED(wstatus))
-			pipex->status = WEXITSTATUS(wstatus);
+			status = WEXITSTATUS(wstatus);
 		else if (WIFSIGNALED(wstatus))
-			pipex->status = 128 + WTERMSIG(wstatus);
+			status = 128 + WTERMSIG(wstatus);
 	}
 }
 
@@ -52,9 +54,9 @@ static int	handle_tokens(char **split_input, t_export *export)
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
 		commands = parser(token_list, pipex);
-		child_process(commands, pipex, export);
-		wait_child(pipex);
-		child_signal(pipex->status);
+		if (child_process(commands, pipex, export))
+			wait_child();
+		// child_signal(pipex->status);
 		free(pipex);
 		free_commands(commands);
 		free_tokens(token_list);
