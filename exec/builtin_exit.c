@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:49:08 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/30 12:54:08 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/30 13:01:00 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int builtin_exit(t_command *command)
 {
     int exit_code;
 
-    exit_code = status;
+    exit_code = g_status;
     write(1, "exit\n", 5);
     if (command->args[1])
     {

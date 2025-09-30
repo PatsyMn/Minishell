@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/30 12:59:46 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/30 13:00:22 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 # include <unistd.h>
 # include <limits.h>
 # include <errno.h>
-
-extern int	status;
 
 typedef enum e_token_type
 {

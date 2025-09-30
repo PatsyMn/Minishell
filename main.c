@@ -6,13 +6,11 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/30 12:54:00 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/30 13:00:54 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	status = 0;
 
 static int	handle_syntax_errors(char **split_input)
 {
@@ -34,9 +32,9 @@ void	wait_child()
 	while (wait(&wstatus) > 0)
 	{
 		if (WIFEXITED(wstatus))
-			status = WEXITSTATUS(wstatus);
+			g_status = WEXITSTATUS(wstatus);
 		else if (WIFSIGNALED(wstatus))
-			status = 128 + WTERMSIG(wstatus);
+			g_status = 128 + WTERMSIG(wstatus);
 	}
 }
 
