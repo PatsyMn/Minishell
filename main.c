@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/30 14:15:58 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/30 15:51:56 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,13 @@ static int	handle_tokens(char **split_input, t_export *export)
 	t_command	*commands;
 	t_pipex		*pipex;
 
-	pipex = malloc(sizeof(t_pipex));
 	token_list = tokenizer(split_input, export->env);
 	free_split(split_input);
 	if (token_list)
 	{
+		pipex = malloc(sizeof(t_pipex));
+		if (!pipex)
+			return (0);
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
 		commands = parser(token_list, pipex);
