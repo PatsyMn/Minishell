@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/29 20:53:47 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/30 11:39:27 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static bool	extract_before_and_var(char *token, t_expansion *exp)
 	if (!exp->var_name)
 	{
 		free(exp->before);
+		exp->before = NULL;
 		return (false);
 	}
 	return (true);

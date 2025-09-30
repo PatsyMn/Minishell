@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 16:03:06 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/09/30 11:41:16 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,23 @@ char	*build_expansion(t_expansion *exp)
 void	free_exp(t_expansion *exp)
 {
 	if (exp->before)
+	{
 		free(exp->before);
+		exp->before = NULL;
+	}
 	if (exp->var_name)
+	{
 		free(exp->var_name);
+		exp->var_name = NULL;
+	}
 	if (exp->after)
+	{
 		free(exp->after);
+		exp->after = NULL;	
+	}
 	if (exp->result)
+	{
 		free(exp->result);
+		exp->result = NULL;	
+	}
 }
