@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/24 11:38:50 by mbores           ###   ########.fr       */
+/*   Updated: 2025/09/30 11:58:58 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,10 @@ int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 	{
 		segment = process_segment(str, i, env_copy);
 		if (!segment)
+		{
+			printf("minishell: syntax error: unclosed quote\n");
 			continue_loop = 0;
+		}
 		else
 			buffer = append_and_free(buffer, segment);
 	}
