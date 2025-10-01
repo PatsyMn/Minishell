@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:39:15 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/29 20:00:23 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:46:12 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,11 @@ static t_quote_state	parse_quotes(char *str)
 	state = NO_QUOTE;
 	while (str[i])
 	{
+		if (str[i] == '\\' && str[i + 1])
+		{
+			i += 2;
+			continue;
+		}
 		if (str[i] == '\'' && state == NO_QUOTE)
 			state = IN_SINGLE;
 		else if (str[i] == '\'' && state == IN_SINGLE)

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:27:03 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/22 16:04:01 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/01 13:44:14 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*remove_quotes(char *str)
+/*static char	*remove_quotes(char *str)
 {
 	int		len;
 	char	*new_str;
@@ -37,7 +37,7 @@ static char	*remove_quotes(char *str)
 		return (new_str);
 	}
 	return (str);
-}
+}*/
 
 static int	get_args_size(char **args)
 {
@@ -69,7 +69,7 @@ void	add_arg(t_command *cmd, char *val)
 
 	if (!val)
 		return ;
-	clean_val = remove_quotes(val);
+	clean_val = ft_strdup(val);
 	if (!clean_val)
 		return ;
 	size = get_args_size(cmd->args);
