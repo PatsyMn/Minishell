@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/30 14:51:09 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:18:42 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	handle_tokens(char **split_input, t_export *export)
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
 		commands = parser(token_list, pipex);
+		print_commands(commands);
 		child_process(commands, pipex, export);
 		wait_child(pipex);
 		child_signal(pipex->status);
