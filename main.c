@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/01 14:18:42 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:24:02 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ static int	handle_syntax_errors(char **split_input)
 	return (0);
 }
 
-void	wait_child(t_pipex *pipex)
+void	wait_child()
 {
 	int wstatus;
 	
 	while (wait(&wstatus) > 0)
 	{
 		if (WIFEXITED(wstatus))
-			pipex->status = WEXITSTATUS(wstatus);
+			g_status = WEXITSTATUS(wstatus);
 		else if (WIFSIGNALED(wstatus))
-			pipex->status = 128 + WTERMSIG(wstatus);
+			g_status = 128 + WTERMSIG(wstatus);
 	}
 }
 
@@ -44,11 +44,13 @@ static int	handle_tokens(char **split_input, t_export *export)
 	t_command	*commands;
 	t_pipex		*pipex;
 
-	pipex = malloc(sizeof(t_pipex));
 	token_list = tokenizer(split_input, export->env);
 	free_split(split_input);
 	if (token_list)
 	{
+		pipex = malloc(sizeof(t_pipex));
+		if (!pipex)
+			return (0);
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
 		commands = parser(token_list, pipex);

@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/30 13:49:41 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:24:10 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <unistd.h>
 # include <limits.h>
 # include <errno.h>
-
 
 typedef enum e_token_type
 {
@@ -268,7 +267,7 @@ char					**env_list_to_tab(t_env *env);
 
 // pipe_handle.c
 // void    				close_all_fds(t_pipex *pipex, t_command *command);
-void	   				child_process(t_command *command, t_pipex *pipex, t_export *export);
+int						child_process(t_command *command, t_pipex *pipex, t_export *export);
 
 // open_files.c
 void    				open_files(t_command *command);
@@ -277,7 +276,7 @@ void    				open_files(t_command *command);
 void    				sort_env_tab(char **env_tab);
 
 // builtin.c
-int 					execute_builtin(t_command *command, t_export *export, t_pipex *pipex, int status);
+int 					execute_builtin(t_command *command, t_export *export, t_pipex *pipex);
 
 // builtin_export.c
 void    				new_export(t_export *export, t_command *command);
@@ -299,7 +298,7 @@ int 					builtin_unset(t_export *export, t_command *command);
 int 					builtin_cd(t_command *command, t_env **env);
 
 // builtin_exit.c
-int 					builtin_exit(t_command *command, int status);
+int 					builtin_exit(t_command *command);
 
 // env_handle.c
 char    				*my_getenv(t_env *env, char *var);

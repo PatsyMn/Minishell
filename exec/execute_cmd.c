@@ -18,6 +18,8 @@ static char	*concat_command(t_command *command)
 	char	*tmp;
 	int		i;
 
+	if (!command->args || !command->args[0])
+		return (NULL);
 	cmd = NULL;
 	i = 0;
 	cmd = ft_strjoin(cmd, command->args[i]);
@@ -78,25 +80,27 @@ char	**env_list_to_tab(t_env *env)
 
 int execute_cmd(t_env *envp, t_command *commands)
 {
-    char	**argv_exec;
+	char	**argv_exec;
 	char	**env_tab;
 	char	*cmd;
 
 	cmd = concat_command(commands);
+	if (!cmd)
+		return (0);
 	env_tab = env_list_to_tab(envp);
-    argv_exec = malloc(sizeof(char *) * 4);
-    if (!argv_exec)
+	argv_exec = malloc(sizeof(char *) * 4);
+	if (!argv_exec)
 	{
 		perror("malloc error");
 		exit(1);
 	}
-    argv_exec[0] = "/bin/sh";
+	argv_exec[0] = "/bin/bash";
 	argv_exec[1] = "-c";
 	argv_exec[2] = cmd;
 	argv_exec[3] = NULL;
 	setup_signals_exec();
-	execve("/bin/sh", argv_exec, env_tab);
+	execve("/bin/bash", argv_exec, env_tab);
 	perror("execve failed");
 	free(argv_exec);
-    exit(1);
+	exit(1);
 }

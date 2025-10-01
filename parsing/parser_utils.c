@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:27:03 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/01 13:44:14 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:24:14 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,30 +86,35 @@ void	add_arg(t_command *cmd, char *val)
 	cmd->args = new_args;
 }
 
+static void	free_commands_args(t_command *cmd)
+{
+	int	i;
+
+	if (!cmd->args || !cmd->args[0])
+		return ;
+	i = 0;
+	while (cmd->args[i])
+	{
+		free(cmd->args[i]);
+		i++;
+	}
+	free(cmd->args);
+}
+
 void	free_commands(t_command *cmd)
 {
 	t_command	*tmp;
-	int			i;
 
 	while (cmd)
 	{
 		tmp = cmd->next;
-		if (cmd->args)
-		{
-			i = 0;
-			while (cmd->args[i])
-			{
-				free(cmd->args[i]);
-				i++;
-			}
-			free(cmd->args);
-		}
+		free_commands_args(cmd);
 		if (cmd->infile)
 			free(cmd->infile);
 		if (cmd->outfile)
 			free(cmd->outfile);
-		if (cmd->limiter)
-			free(cmd->limiter);
+		// if (cmd->limiter)
+		// 	free(cmd->limiter);
 		free(cmd);
 		cmd = tmp;
 	}

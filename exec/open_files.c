@@ -6,36 +6,18 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 13:28:09 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/22 14:15:48 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/01 13:33:20 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    limiter(t_command *command)
-{
-    int i;
-
-    i = 0;
-    if (!command->limiter)
-    {
-        while (command->args && command->args[i])
-            i++;
-        if (i == 0)
-            return;
-        command->limiter = command->args[i - 1];
-    }
-}
-
-void    read_heredoc(t_command *command)
+static void    read_heredoc(t_command *command)
 {
     char    *line;
     size_t  lim_len;
-    
-    limiter(command);
+
     lim_len = ft_strlen(command->limiter);
-    command->heredoc_file_fd = open("temp",
-        O_WRONLY | O_CREAT | O_TRUNC, 0644);
     while (1)
     {
         write(1, "> ", 2);
@@ -52,15 +34,25 @@ void    read_heredoc(t_command *command)
     close(command->heredoc_file_fd);
 }
 
+static void    open_heredoc(t_command *command)
+{
+    if (!command->infile)
+        return ;
+    command->limiter = command->infile;
+    command->heredoc_file_fd = open("temp",
+        O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    read_heredoc(command);
+}
+
 void    open_files(t_command *command)
 {
-    if (command->infile)
-        command->infile_fd = open(command->infile, O_RDONLY);
-    else if (command->heredoc)
+    if (command->heredoc)
     {
-        read_heredoc(command);
+        open_heredoc(command);
         command->infile_fd = open("temp", O_RDONLY);
     }
+    else if (command->infile)
+        command->infile_fd = open(command->infile, O_RDONLY);
     if (command->append && command->outfile)
         command->outfile_fd = open(command->outfile,
             O_WRONLY | O_CREAT | O_APPEND, 0644);
