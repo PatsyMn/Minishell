@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/30 14:21:09 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/01 17:07:29 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ void    exec_child(t_pipex *pipex, t_command *command, t_export *export)
         close(command->infile_fd);
     if (command->outfile_fd > 2)
         close(command->outfile_fd);
-    execute_cmd(export->env, command);
+    g_status = execute_builtin(command, export);
+    if (g_status == -1)
+        g_status = execute_cmd(export->env, command);
 }
 
 static int create_pipe_if_needed(t_pipex *pipex, t_command *command)
@@ -108,31 +110,26 @@ static void exec_pipeline(t_command *command, t_pipex *pipex, t_export *export)
 
 int child_process(t_command *command, t_pipex *pipex, t_export *export)
 {
-    g_status = execute_builtin(command, export, pipex);
-    if (g_status == -1)
+    pipex->saved_stdin = dup(STDIN_FILENO);
+    pipex->saved_stdout = dup(STDOUT_FILENO);
+    if (pipex->saved_stdin == -1 || pipex->saved_stdout == -1)
     {
-        pipex->saved_stdin = dup(STDIN_FILENO);
-        pipex->saved_stdout = dup(STDOUT_FILENO);
-        if (pipex->saved_stdin == -1 || pipex->saved_stdout == -1)
-        {
-            perror("dup");
-            exit(1);
-        }
-        pipex->input_fd = -1;
-        pipex->cmd_count = 0;
-        pipex->last_pid = -1;
-        exec_pipeline(command, pipex, export);
-        if (dup2(pipex->saved_stdin, STDIN_FILENO) == -1
-            || dup2(pipex->saved_stdout, STDOUT_FILENO) == -1)
-        {
-            perror("dup2 restore");
-            exit(1);
-        }
-        close(pipex->saved_stdin);
-        close(pipex->saved_stdout);
-        return (1);
+        perror("dup");
+        exit(1);
     }
-    return (0);
+    pipex->input_fd = -1;
+    pipex->cmd_count = 0;
+    pipex->last_pid = -1;
+    exec_pipeline(command, pipex, export);
+    if (dup2(pipex->saved_stdin, STDIN_FILENO) == -1
+        || dup2(pipex->saved_stdout, STDOUT_FILENO) == -1)
+    {
+        perror("dup2 restore");
+        exit(1);
+    }
+    close(pipex->saved_stdin);
+    close(pipex->saved_stdout);
+    return (1);
 }
 
 // int pipe_and_fork(t_pipex *pipex, t_command *command, t_export *export)

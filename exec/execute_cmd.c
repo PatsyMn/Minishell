@@ -12,32 +12,32 @@
 
 #include "../minishell.h"
 
-static char	*concat_command(t_command *command)
-{
-	char	*cmd;
-	char	*tmp;
-	int		i;
+// static char	*concat_command(t_command *command)
+// {
+// 	char	*cmd;
+// 	char	*tmp;
+// 	int		i;
 
-	if (!command->args || !command->args[0])
-		return (NULL);
-	cmd = NULL;
-	i = 0;
-	cmd = ft_strjoin(cmd, command->args[i]);
-	i++;
-	while (command->args[i])
-	{
-		if (command->outfile && !ft_strncmp(command->outfile, command->args[i], ft_strlen(command->outfile)))
-			break ;
-		tmp = ft_strjoin(cmd, " ");
-		free(cmd);
-		cmd = tmp;
-		tmp = ft_strjoin(cmd, command->args[i]);
-		free(cmd);
-		cmd = tmp;
-		i++;
-	}
-	return (cmd);
-}
+// 	if (!command->args || !command->args[0])
+// 		return (NULL);
+// 	cmd = NULL;
+// 	i = 0;
+// 	cmd = ft_strjoin(cmd, command->args[i]);
+// 	i++;
+// 	while (command->args[i])
+// 	{
+// 		if (command->outfile && !ft_strncmp(command->outfile, command->args[i], ft_strlen(command->outfile)))
+// 			break ;
+// 		tmp = ft_strjoin(cmd, " ");
+// 		free(cmd);
+// 		cmd = tmp;
+// 		tmp = ft_strjoin(cmd, command->args[i]);
+// 		free(cmd);
+// 		cmd = tmp;
+// 		i++;
+// 	}
+// 	return (cmd);
+// }
 
 static int env_list_size(t_env *env)
 {
@@ -48,6 +48,48 @@ static int env_list_size(t_env *env)
         env = env->next;
     }
     return (i);
+}
+
+static void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	if (tab)
+	{
+		while (tab[i])
+		{
+			free(tab[i]);
+			i++;
+		}
+		free(tab);
+	}
+}
+
+static char	*find_cmd(char *cmd, t_env *env)
+{
+	char	**path;
+	char	*path_cmd;
+	int		i;
+
+	path = ft_split(my_getenv(env, "PATH"), ':');
+	if (!path)
+		return (NULL);
+	i = 0;
+	while (path[i])
+	{
+		path_cmd = ft_strjoin(path[i], "/");
+		path_cmd = ft_strjoin(path_cmd, cmd);
+		if (access(path_cmd, X_OK) == 0)
+		{
+			free_tab(path);
+			return (path_cmd);
+		}
+		free(path_cmd);
+		i++;
+	}
+	free_tab(path);
+	return (NULL);
 }
 
 char	**env_list_to_tab(t_env *env)
@@ -80,27 +122,23 @@ char	**env_list_to_tab(t_env *env)
 
 int execute_cmd(t_env *envp, t_command *commands)
 {
-	char	**argv_exec;
 	char	**env_tab;
 	char	*cmd;
 
-	cmd = concat_command(commands);
-	if (!cmd)
-		return (0);
 	env_tab = env_list_to_tab(envp);
-	argv_exec = malloc(sizeof(char *) * 4);
-	if (!argv_exec)
+	cmd = find_cmd(commands->args[0], envp);
+	if (!cmd)
 	{
-		perror("malloc error");
-		exit(1);
+		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, commands->args[0], ft_strlen(commands->args[0]));
+		write(STDERR_FILENO, ": command not found\n", 20);
+		free_tab(env_tab);
+		exit(127);
 	}
-	argv_exec[0] = "/bin/bash";
-	argv_exec[1] = "-c";
-	argv_exec[2] = cmd;
-	argv_exec[3] = NULL;
 	setup_signals_exec();
-	execve("/bin/bash", argv_exec, env_tab);
+	execve(cmd, commands->args, env_tab);
 	perror("execve failed");
-	free(argv_exec);
-	exit(1);
+	free(cmd);
+	free_tab(env_tab);
+	exit(0);
 }

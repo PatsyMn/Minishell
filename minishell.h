@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/01 14:24:10 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/01 17:07:23 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,7 +276,7 @@ void    				open_files(t_command *command);
 void    				sort_env_tab(char **env_tab);
 
 // builtin.c
-int 					execute_builtin(t_command *command, t_export *export, t_pipex *pipex);
+int 					execute_builtin(t_command *command, t_export *export);
 
 // builtin_export.c
 void    				new_export(t_export *export, t_command *command);

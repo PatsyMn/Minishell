@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/26 12:31:43 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/01 17:40:16 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static bool	process_command_word_pipe(t_token **token, t_command **cur, int *exp
 			(*token)->type = T_COMMAND;
 			*expect_command = 0;
 		}
-		add_arg(*cur, ft_strdup((*token)->value));
+		// add_arg(*cur, ft_strdup((*token)->value));
+		add_arg(*cur, (*token)->value);
 		*token = (*token)->next;
 		return true;
 	}

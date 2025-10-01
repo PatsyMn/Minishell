@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/01 14:24:02 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/01 17:46:31 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,11 @@ static int	handle_tokens(char **split_input, t_export *export)
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
 		commands = parser(token_list, pipex);
-		print_commands(commands);
+		// print_tokens(token_list);
+		// print_commands(commands);
 		child_process(commands, pipex, export);
 		wait_child(pipex);
-		child_signal(pipex->status);
+		// child_signal(pipex->status);
 		free(pipex);
 		free_commands(commands);
 		free_tokens(token_list);
@@ -102,9 +103,9 @@ int	main(int ac, char **av, char **envp)
 	prompt = PINK "WhatTheShell" RESET "$ ";
 	export->env = copy_env_chained(envp);
 	export->export = copy_env_chained(envp);
+	g_status = 0;
 	while (ret)
 	{
-		g_status = 0;
 		input = readline(prompt);
 		ret = handle_input(input, export);
 	}
