@@ -18,6 +18,8 @@ static char	*concat_command(t_command *command)
 	char	*tmp;
 	int		i;
 
+	if (!command->args || !command->args[0])
+		return (NULL);
 	cmd = NULL;
 	i = 0;
 	cmd = ft_strjoin(cmd, command->args[i]);
@@ -83,6 +85,8 @@ int execute_cmd(t_env *envp, t_command *commands)
 	char	*cmd;
 
 	cmd = concat_command(commands);
+	if (!cmd)
+		return (0);
 	env_tab = env_list_to_tab(envp);
 	argv_exec = malloc(sizeof(char *) * 4);
 	if (!argv_exec)
