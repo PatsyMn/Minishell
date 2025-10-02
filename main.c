@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/02 13:57:06 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:14:20 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	handle_tokens(char **split_input, t_export *export)
 		// print_tokens(token_list);
 		// print_commands(commands);
 		child_process(commands, pipex, export);
-		wait_child(pipex);
+		wait_child();
 		// child_signal(pipex->status);
 		free(pipex);
 		free_commands(commands);
