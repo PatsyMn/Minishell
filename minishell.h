@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/01 17:07:23 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/02 19:17:47 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,8 +258,11 @@ t_expansion						prepare_expansion(char *token, t_env *env_copy);
 
 extern int	g_status;
 void							handle_signal_prompt(int sig);
-void							setup_signals_exec(void);
-void							child_signal(int status);
+void							handle_signal_heredoc(int sig);
+void							handle_child_status(int status);
+void							init_signals_prompt(void);
+void							init_signals_heredoc(void);
+void							reset_signals_to_default(void);
 
 // execute_cmd.c
 int 					execute_cmd(t_env *envp, t_command *commands);
