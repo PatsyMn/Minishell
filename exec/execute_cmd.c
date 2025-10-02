@@ -66,25 +66,36 @@ static void	free_tab(char **tab)
 	}
 }
 
+static char *join_path_cmd(char *dir, char *cmd)
+{
+	char *tmp;
+	char *full;
+
+	tmp = ft_strjoin(dir, "/");
+	if (!tmp)
+		return (NULL);
+	full = ft_strjoin(tmp, cmd);
+	free(tmp);
+	return (full);
+}
+
 static char	*find_cmd(char *cmd, t_env *env)
 {
 	char	**path;
 	char	*path_cmd;
 	int		i;
 
+	if (!cmd || access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
 	path = ft_split(my_getenv(env, "PATH"), ':');
 	if (!path)
 		return (NULL);
 	i = 0;
 	while (path[i])
 	{
-		path_cmd = ft_strjoin(path[i], "/");
-		path_cmd = ft_strjoin(path_cmd, cmd);
+		path_cmd = join_path_cmd(path[i], cmd);
 		if (access(path_cmd, X_OK) == 0)
-		{
-			free_tab(path);
 			return (path_cmd);
-		}
 		free(path_cmd);
 		i++;
 	}

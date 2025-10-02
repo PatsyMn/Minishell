@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_check_quotes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:39:15 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/01 13:46:12 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:10:27 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,12 @@ int	check_unclosed_quotes(char *str)
 	state = parse_quotes(str);
 	if (state == IN_SINGLE)
 	{
-		printf("bash: syntax error: unclosed single quote\n");
+		printf("minishell: syntax error: unclosed single quote\n");
 		return (1);
 	}
 	if (state == IN_DOUBLE)
 	{
-		printf("bash: syntax error: unclosed double quote\n");
+		printf("minishell: syntax error: unclosed double quote\n");
 		return (1);
 	}
 	return (0);

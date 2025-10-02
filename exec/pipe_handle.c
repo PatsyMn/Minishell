@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/01 17:07:29 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/02 13:43:14 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,21 @@ static void exec_pipeline(t_command *command, t_pipex *pipex, t_export *export)
     }
 }
 
+static int  builtin_parent(t_command *command, t_pipex *pipex, t_export *export)
+{
+    if (!pipex->pipe)
+    {
+        if (execute_builtin(command, export) == -1)
+            return (0);
+        return (1);
+    }
+    return (0);
+}
+
 int child_process(t_command *command, t_pipex *pipex, t_export *export)
 {
+    if (builtin_parent(command, pipex, export))
+        return (1);
     pipex->saved_stdin = dup(STDIN_FILENO);
     pipex->saved_stdout = dup(STDOUT_FILENO);
     if (pipex->saved_stdin == -1 || pipex->saved_stdout == -1)

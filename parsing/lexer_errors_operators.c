@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_errors_operators.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/30 13:41:17 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:20:56 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static int	print_syntax_error(char *token)
 	if (token)
 	{
 		g_status = 2;
-		printf("bash: syntax error near unexpected token `%s'\n", token);
+		printf("minishell: syntax error near unexpected token `%s'\n", token);
 	}
 	else
 	{
 		g_status = 2;
-		printf("bash: syntax error near unexpected token `newline'\n");
+		printf("minishell: syntax error near unexpected token `newline'\n");
 	}
 	return (1);
 }
@@ -41,7 +41,7 @@ static int	check_operator_at_end(char *token)
 {
 	(void)token;
 	g_status = 2;
-	printf("bash: syntax error near unexpected token `newline'\n");
+	printf("minishell: syntax error near unexpected token `newline'\n");
 	return (1);
 }
 
@@ -54,6 +54,7 @@ int	check_syntax_operators(char **split_input)
 	{
 		if (is_operator(split_input[i]))
 		{
+			printf("%s %s\n", split_input[i], split_input[i + 1]);
 			if (!split_input[i + 1])
 				return (check_operator_at_end(split_input[i]));
 			if (is_operator(split_input[i + 1]))
