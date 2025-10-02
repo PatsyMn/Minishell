@@ -1,0 +1,3 @@
+>< syntax error devrait etre newline
+>>> mais pas ca par ex
+

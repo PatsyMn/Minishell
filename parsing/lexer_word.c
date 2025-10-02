@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/30 15:29:44 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:48:22 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 		if (!segment)
 		{
 			g_status = 0;
-			printf("minishell: syntax error: unclosed quote\n");
+			printf("WhatTheShell: syntax error: unclosed quote\n");
 			continue_loop = 0;
 		}
 		else
