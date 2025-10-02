@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/01 17:07:23 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/02 17:33:38 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,8 @@ t_expansion						prepare_expansion(char *token, t_env *env_copy);
 extern int	g_status;
 void							handle_signal_prompt(int sig);
 void							setup_signals_exec(void);
+void							setup_signals_shell(void);
+void							setup_signals_heredoc(void);
 void							child_signal(int status);
 
 // execute_cmd.c

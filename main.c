@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/02 15:14:20 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/02 16:56:48 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ void	wait_child()
 	
 	while (wait(&wstatus) > 0)
 	{
-		if (WIFEXITED(wstatus))
-			g_status = WEXITSTATUS(wstatus);
-		else if (WIFSIGNALED(wstatus))
-			g_status = 128 + WTERMSIG(wstatus);
+		child_signal(wstatus);
+		// if (WIFEXITED(wstatus))
+		// 	g_status = WEXITSTATUS(wstatus);
+		// else if (WIFSIGNALED(wstatus))
+		// 	g_status = 128 + WTERMSIG(wstatus);
 	}
 }
 
@@ -106,12 +107,16 @@ int	main(int ac, char **av, char **envp)
 	g_status = 0;
 	while (ret)
 	{
+		setup_signals_shell();
 		input = readline(prompt);
+		if (!input)
+			break ;
 		ret = handle_input(input, export);
 	}
 	free_env_chained(export->env);
 	free_env_chained(export->export);
 	free(export);
+	rl_clear_history();
 	return (0);
 }
 

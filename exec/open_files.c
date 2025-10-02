@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 13:28:09 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/01 13:33:20 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/02 16:51:50 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void    read_heredoc(t_command *command)
     lim_len = ft_strlen(command->limiter);
     while (1)
     {
+        setup_signals_heredoc();
         write(1, "> ", 2);
         line = get_next_line(STDIN_FILENO);
         if (!line)
