@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/02 14:20:56 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/02 14:26:47 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	check_syntax_operators(char **split_input)
 	{
 		if (is_operator(split_input[i]))
 		{
-			printf("%s %s\n", split_input[i], split_input[i + 1]);
 			if (!split_input[i + 1])
 				return (check_operator_at_end(split_input[i]));
 			if (is_operator(split_input[i + 1]))
