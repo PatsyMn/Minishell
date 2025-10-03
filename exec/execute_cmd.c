@@ -146,7 +146,7 @@ int execute_cmd(t_env *envp, t_command *commands)
 		free_tab(env_tab);
 		exit(127);
 	}
-	setup_signals_exec();
+	reset_signals_to_default();
 	execve(cmd, commands->args, env_tab);
 	perror("execve failed");
 	free(cmd);
