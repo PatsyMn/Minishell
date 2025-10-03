@@ -6,13 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:29:50 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/16 14:54:10 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:11:59 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	handle_redirection_in(t_command *cmd, t_token **token)
+/*static void	handle_redirection_in(t_command *cmd, t_token **token)
 {
 	t_token	*redir;
 	t_token	*file;
@@ -34,9 +34,9 @@ static void	handle_redirection_in(t_command *cmd, t_token **token)
 		cmd->heredoc = 1;
 	}
 	*token = file->next;
-}
+}*/
 
-static void	handle_redirection_out(t_command *cmd, t_token **token)
+/*static void	handle_redirection_out(t_command *cmd,t_token **token)
 {
 	t_token	*redir;
 	t_token	*file;
@@ -58,9 +58,9 @@ static void	handle_redirection_out(t_command *cmd, t_token **token)
 		cmd->append = 1;
 	}
 	*token = file->next;
-}
+}*/
 
-void	handle_redirection(t_command *cmd, t_token **token)
+/*void	handle_redirection(t_command *cmd,t_token **token)
 {
 	if (!token || !(*token))
 		return ;
@@ -68,4 +68,14 @@ void	handle_redirection(t_command *cmd, t_token **token)
 		handle_redirection_in(cmd, token);
 	else if ((*token)->type == T_REDIR_OUT || (*token)->type == T_APPEND_OUT)
 		handle_redirection_out(cmd, token);
+}*/
+
+void handle_redirection(t_token **token)
+{
+	if (!token || !(*token))
+		return ;
+	if ((*token)->next)
+		*token = (*token)->next->next;
+	else
+		*token = NULL;
 }

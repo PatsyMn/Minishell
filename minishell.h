@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/02 19:17:47 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:31:33 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ typedef enum e_token_type
 	T_DOLLAR_VAR,
 }						t_token_type;
 
-typedef struct s_pipex
-{
-	pid_t	pid;
-	pid_t	last_pid;
-	int		pipe;
-	int		input_fd;
-	int		pipe_fd[2];
-	int		cmd_count;
-	int		status;
-	int		last_status;
-	int		saved_stdin;
-	int		saved_stdout;
-}						t_pipex;
+// typedef struct s_pipex
+// {
+// 	pid_t	pid;
+// 	pid_t	last_pid;
+// 	int		pipe;
+// 	int		input_fd;
+// 	int		pipe_fd[2];
+// 	int		cmd_count;
+// 	int		status;
+// 	int		last_status;
+// 	int		saved_stdin;
+// 	int		saved_stdout;
+// }						t_pipex;
 
 typedef struct s_token
 {
@@ -79,14 +79,15 @@ typedef struct s_output
 typedef struct s_command
 {
 	char				**args;		// argv style (cmd + args)
-	char				*infile;	// nom du fichier si '<'
+	t_token				*token_list;
+	/*char				*infile;	// nom du fichier si '<'
 	char				*outfile;	// nom du fichier si '>'
 	char				*limiter;
 	int					infile_fd;
 	int					outfile_fd;
 	int					heredoc_file_fd;
 	int					append;		// 1 si >> (ajout)
-	int					heredoc;	// 1 si <<
+	int					heredoc;	// 1 si <<*/
 	struct s_command	*next;		// chaînage pour les pipes
 }						t_command;
 
@@ -217,7 +218,9 @@ void					print_tokens(t_token *tokens);
 void							init_expansion(t_expansion *exp);
 
 //parser.c
-t_command						*parser(t_token *token, t_pipex *pipex);
+t_command 						*split_token_list(t_token *token_list);
+void							 build_args(t_command *cmd);
+t_command						*parser(t_token *tokens);
 //debug
 void							print_commands(t_command *cmd);
 
@@ -226,7 +229,7 @@ void							add_arg(t_command *cmd, char *val);
 void							free_commands(t_command *cmd);
 
 //parser_redirections.c
-void							handle_redirection(t_command *cmd, t_token **token);
+void							handle_redirection(/*t_command *cmd,*/ t_token **token);
 
 //quote_utils.c
 char							*strip_outer_single_quotes(const char *token);
@@ -264,44 +267,44 @@ void							init_signals_prompt(void);
 void							init_signals_heredoc(void);
 void							reset_signals_to_default(void);
 
-// execute_cmd.c
-int 					execute_cmd(t_env *envp, t_command *commands);
-char					**env_list_to_tab(t_env *env);
+// // execute_cmd.c
+// int 					execute_cmd(t_env *envp, t_command *commands);
+// char					**env_list_to_tab(t_env *env);
 
-// pipe_handle.c
-// void    				close_all_fds(t_pipex *pipex, t_command *command);
-int						child_process(t_command *command, t_pipex *pipex, t_export *export);
+// // pipe_handle.c
+// // void    				close_all_fds(t_pipex *pipex, t_command *command);
+// int						child_process(t_command *command, t_pipex *pipex, t_export *export);
 
-// open_files.c
-void    				open_files(t_command *command);
+// // open_files.c
+// void    				open_files(t_command *command);
 
-// builtin_utils.c
-void    				sort_env_tab(char **env_tab);
+// // builtin_utils.c
+// void    				sort_env_tab(char **env_tab);
 
-// builtin.c
-int 					execute_builtin(t_command *command, t_export *export);
+// // builtin.c
+// int 					execute_builtin(t_command *command, t_export *export);
 
-// builtin_export.c
-void    				new_export(t_export *export, t_command *command);
-int 					builtin_export(t_export *export, t_command *command);
+// // builtin_export.c
+// void    				new_export(t_export *export, t_command *command);
+// int 					builtin_export(t_export *export, t_command *command);
 
-// builtin_echo.c
-int 					builtin_echo(char **args);
+// // builtin_echo.c
+// int 					builtin_echo(char **args);
 
-// builtin_env.c
-int 					builtin_env(t_env *env);
+// // builtin_env.c
+// int 					builtin_env(t_env *env);
 
-// builtin_pwd.c
-int 					builtin_pwd(t_env *env);
+// // builtin_pwd.c
+// int 					builtin_pwd(t_env *env);
 
-// builtin_unset.c
-int 					builtin_unset(t_export *export, t_command *command);
+// // builtin_unset.c
+// int 					builtin_unset(t_export *export, t_command *command);
 
-// builtin_cd.c
-int 					builtin_cd(t_command *command, t_env **env);
+// // builtin_cd.c
+// int 					builtin_cd(t_command *command, t_env **env);
 
-// builtin_exit.c
-int 					builtin_exit(t_command *command);
+// // builtin_exit.c
+// int 					builtin_exit(t_command *command);
 
 // env_handle.c
 char    				*my_getenv(t_env *env, char *var);
