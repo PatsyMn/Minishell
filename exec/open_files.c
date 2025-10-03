@@ -6,18 +6,18 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 13:28:09 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/02 16:51:50 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/03 16:12:54 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void    read_heredoc(t_command *command)
+static void    read_heredoc(t_command_2 *command, char *delimiter, int heredoc_file_fd)
 {
     char    *line;
     size_t  lim_len;
 
-    lim_len = ft_strlen(command->limiter);
+    lim_len = ft_strlen(delimiter);
     while (1)
     {
         setup_signals_heredoc();
@@ -25,43 +25,47 @@ static void    read_heredoc(t_command *command)
         line = get_next_line(STDIN_FILENO);
         if (!line)
             break ;
-        if (ft_strncmp(line, command->limiter, lim_len) == 0
+        if (ft_strncmp(line, delimiter, lim_len) == 0
             && line[lim_len] == '\n')
             break ;
-        write(command->heredoc_file_fd, line, ft_strlen(line));
+        write(heredoc_file_fd, line, ft_strlen(line));
         free(line);
     }
     free(line);
-    close(command->heredoc_file_fd);
+    close(heredoc_file_fd);
 }
 
-static void    open_heredoc(t_command *command)
+static void    open_heredoc(t_command_2 *command)
 {
-    if (!command->infile)
-        return ;
-    command->limiter = command->infile;
-    command->heredoc_file_fd = open("temp",
+    char    *delimiter;
+    int     heredoc_file_fd;
+
+    delimiter = find_token(command->tokens_list, T_DELIMITER);
+    heredoc_file_fd = open("temp", 
         O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    read_heredoc(command);
+    read_heredoc(command, delimiter, heredoc_file_fd);
 }
 
-void    open_files(t_command *command)
+void    open_files(t_command_2 *command)
 {
-    if (command->heredoc)
+    int *infile_fd;
+    int *outfile_fd;
+
+    if (find_token(command->tokens_list, T_HEREDOC))
     {
         open_heredoc(command);
-        command->infile_fd = open("temp", O_RDONLY);
+        infile_fd = open("temp", O_RDONLY);
     }
-    else if (command->infile)
-        command->infile_fd = open(command->infile, O_RDONLY);
-    if (command->append && command->outfile)
-        command->outfile_fd = open(command->outfile,
-            O_WRONLY | O_CREAT | O_APPEND, 0644);
-    else if (command->outfile)
-    {
-        command->outfile_fd = open(command->outfile,
-            O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        if (command->outfile_fd == -1)
-            perror("open outfile");
-    }
+    if (find_token(command->tokens_list, T_REDIR_IN))
+        infile_fd = open_infiles_outfiles(command->tokens_list, T_REDIR_IN);
+    // if (command->append && command->outfile)
+    //     command->outfile_fd = open(command->outfile,
+    //         O_WRONLY | O_CREAT | O_APPEND, 0644);
+    // else if (command->outfile)
+    // {
+    //     command->outfile_fd = open(command->outfile,
+    //         O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    //     if (command->outfile_fd == -1)
+    //         perror("open outfile");
+    // }
 }

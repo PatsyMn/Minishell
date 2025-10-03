@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/02 17:08:03 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/03 14:38:08 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 //     close(pipex->saved_stdout);
 // }
 
-void    exec_child(t_pipex *pipex, t_command *command, t_export *export)
+void    exec_child(t_pipex *pipex, t_command_2 *command, t_export *export)
 {
     open_files(command);
     if (pipex->cmd_count > 0)
@@ -57,7 +57,7 @@ void    exec_child(t_pipex *pipex, t_command *command, t_export *export)
         g_status = execute_cmd(export->env, command);
 }
 
-static int create_pipe_if_needed(t_pipex *pipex, t_command *command)
+static int create_pipe_if_needed(t_pipex *pipex, t_command_2 *command)
 {
     if (command->next && pipe(pipex->pipe_fd) == -1)
     {
@@ -67,7 +67,7 @@ static int create_pipe_if_needed(t_pipex *pipex, t_command *command)
     return (0);
 }
 
-static int fork_and_exec(t_pipex *pipex, t_command *command, t_export *export)
+static int fork_and_exec(t_pipex *pipex, t_command_2 *command, t_export *export)
 {
     pipex->pid = fork();
     if (pipex->pid == -1)
@@ -80,7 +80,7 @@ static int fork_and_exec(t_pipex *pipex, t_command *command, t_export *export)
     return (0);
 }
 
-static void update_parent_fds(t_pipex *pipex, t_command *command)
+static void update_parent_fds(t_pipex *pipex, t_command_2 *command)
 {
     if (pipex->input_fd != -1 && pipex->input_fd != command->infile_fd)
         close(pipex->input_fd);
@@ -92,36 +92,34 @@ static void update_parent_fds(t_pipex *pipex, t_command *command)
     pipex->last_pid = pipex->pid;
 }
 
-static void exec_pipeline(t_command *command, t_pipex *pipex, t_export *export)
+static void exec_pipeline(t_command_2 *commands, t_pipex *pipex, t_export *export)
 {
-    while (command)
+    while (commands)
     {
-        if (create_pipe_if_needed(pipex, command) == -1)
+        if (create_pipe_if_needed(pipex, commands) == -1)
             return;
-        if (fork_and_exec(pipex, command, export) == -1)
+        if (fork_and_exec(pipex, commands, export) == -1)
             return;
-        update_parent_fds(pipex, command);
-        if (!command->next)
+        update_parent_fds(pipex, commands);
+        if (!commands->next)
             break;
-        command = command->next;
+        commands = commands->next;
         pipex->cmd_count++;
     }
 }
 
-static int  builtin_parent(t_command *command, t_pipex *pipex, t_export *export)
+static int  is_pipe(t_command_2 *commands, t_pipex *pipex, t_export *export)
 {
-    if (!pipex->pipe)
+    if (!commands->next)
     {
-        if (execute_builtin(command, export) == -1)
-            return (0);
-        return (1);
+        // redirections
     }
     return (0);
 }
 
-int child_process(t_command *command, t_pipex *pipex, t_export *export)
+int child_process(t_command_2 *commands, t_pipex *pipex, t_export *export)
 {
-    if (builtin_parent(command, pipex, export))
+    if (is_pipe(commands, pipex, export))
         return (1);
     pipex->saved_stdin = dup(STDIN_FILENO);
     pipex->saved_stdout = dup(STDOUT_FILENO);
@@ -133,7 +131,7 @@ int child_process(t_command *command, t_pipex *pipex, t_export *export)
     pipex->input_fd = -1;
     pipex->cmd_count = 0;
     pipex->last_pid = -1;
-    exec_pipeline(command, pipex, export);
+    exec_pipeline(commands, pipex, export);
     if (dup2(pipex->saved_stdin, STDIN_FILENO) == -1
         || dup2(pipex->saved_stdout, STDOUT_FILENO) == -1)
     {

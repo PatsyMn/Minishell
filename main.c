@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/02 16:56:48 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/03 14:17:18 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	wait_child()
 static int	handle_tokens(char **split_input, t_export *export)
 {
 	t_token		*token_list;
-	t_command	*commands;
+	t_command_2	*commands;
 	t_pipex		*pipex;
 
 	token_list = tokenizer(split_input, export->env);
@@ -54,14 +54,14 @@ static int	handle_tokens(char **split_input, t_export *export)
 			return (0);
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
-		commands = parser(token_list, pipex);
-		// print_tokens(token_list);
+		// commands = parser(token_list, pipex);
+		print_tokens(token_list);
 		// print_commands(commands);
 		child_process(commands, pipex, export);
 		wait_child();
-		// child_signal(pipex->status);
+		child_signal(pipex->status);
 		free(pipex);
-		free_commands(commands);
+		// free_commands(commands);
 		free_tokens(token_list);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/02 17:33:38 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/03 16:11:46 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef enum e_token_type
 	T_HEREDOC,		// <<
 	T_INVALID_OPERATOR,
 	T_FILENAME,
+	T_DELIMITER,
 	T_DOLLAR_VAR,
 }						t_token_type;
 
@@ -62,6 +63,13 @@ typedef struct s_token
 	char				*value;
 	struct s_token		*next;
 }						t_token;
+
+typedef struct s_command_2
+{
+	char				**args_list;
+	t_token				*tokens_list;
+	struct s_command_2	*next;
+}				t_command_2;
 
 typedef struct s_input
 {
@@ -271,8 +279,12 @@ char					**env_list_to_tab(t_env *env);
 // void    				close_all_fds(t_pipex *pipex, t_command *command);
 int						child_process(t_command *command, t_pipex *pipex, t_export *export);
 
+// pipe_utils.c
+t_token					*find_token(t_token *token_list, t_token_type *type);
+int						*open_infiles_outfiles(t_token *token_list, t_token_type *type);
+
 // open_files.c
-void    				open_files(t_command *command);
+void    				open_files(t_command_2 *command);
 
 // builtin_utils.c
 void    				sort_env_tab(char **env_tab);
