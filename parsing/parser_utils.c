@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:27:03 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/06 16:22:21 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/06 17:10:10 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,8 @@ void	free_commands(t_command *cmd)
 		tmp = cmd->next;
 		if (cmd->args)
 			free_commands_args(cmd);
-		/*if (cmd->infile)
-			free(cmd->infile);
-		if (cmd->outfile)
-			free(cmd->outfile);*/
-		// if (cmd->limiter)
-		// 	free(cmd->limiter);
+		if (cmd->token_list)
+			free_tokens(cmd->token_list);
 		free(cmd);
 		cmd = tmp;
 	}

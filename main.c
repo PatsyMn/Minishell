@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/10/03 14:17:18 by mbores           ###   ########.fr       */
-=======
-/*   Updated: 2025/10/03 16:35:19 by pmeimoun         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2025/10/06 17:09:31 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,39 +30,32 @@ void	wait_child()
 	int wstatus;
 	
 	while (wait(&wstatus) > 0)
-	{
-		child_signal(wstatus);
-		// if (WIFEXITED(wstatus))
-		// 	g_status = WEXITSTATUS(wstatus);
-		// else if (WIFSIGNALED(wstatus))
-		// 	g_status = 128 + WTERMSIG(wstatus);
-	}
+		handle_child_status(wstatus);
 }
 
 static int	handle_tokens(char **split_input, t_export *export)
 {
 	t_token		*token_list;
 	t_command	*commands;
-	// t_pipex		*pipex;
+	t_pipex		*pipex;
 
 	token_list = tokenizer(split_input, export->env);
 	free_split(split_input);
 	if (token_list)
 	{
-		// pipex = malloc(sizeof(t_pipex));
-		// if (!pipex)
-		// 	return (0);
+		pipex = malloc(sizeof(t_pipex));
+		if (!pipex)
+			return (0);
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
 		commands = parser(token_list);
 		// print_tokens(token_list);
-		print_commands(commands);
-		// child_process(commands, pipex, export);
-		// wait_child();
-		// child_signal(pipex->status);
-		// free(pipex);
-		free_commands(commands);
+		// print_commands(commands);
+		child_process(commands, pipex, export);
+		wait_child();
+		free(pipex);
 		free_tokens(token_list);
+		free_commands(commands);
 	}
 	return (1);
 }
@@ -111,7 +100,7 @@ int	main(int ac, char **av, char **envp)
 	g_status = 0;
 	while (ret)
 	{
-		setup_signals_shell();
+		init_signals_prompt();
 		input = readline(prompt);
 		if (!input)
 			break ;

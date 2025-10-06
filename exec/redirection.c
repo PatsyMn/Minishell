@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:37:20 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/06 14:49:26 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/06 17:07:33 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,17 @@ static int	redir_append(t_pipex *pipex, t_token *token)
 	return (1);
 }
 
-int	redirection(t_pipex *pipex, t_command_2 *command)
+int	redirection(t_pipex *pipex, t_command *command)
 {
-	while (command->tokens_list)
+	while (command->token_list)
 	{
-		if (redir_in(pipex, command->tokens_list)
-			&& redir_out(pipex, command->tokens_list)
-			&& redir_append(pipex, command->tokens_list))
+		if (!redir_in(pipex, command->token_list)
+			|| !redir_out(pipex, command->token_list)
+			|| !redir_append(pipex, command->token_list))
 			return (0);
-		if (command->tokens_list->type == T_HEREDOC)
+		if (command->token_list->type == T_HEREDOC)
 			open_heredoc(command);
-		command->tokens_list = command->tokens_list->next;
+		command->token_list = command->token_list->next;
 	}
 	return (1);
 }

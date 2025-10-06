@@ -6,13 +6,13 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 13:28:09 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/06 13:53:16 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/06 16:38:40 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void    read_heredoc(t_command_2 *command, char *delimiter, int heredoc_file_fd)
+static void    read_heredoc(char *delimiter, int heredoc_file_fd)
 {
     char    *line;
     size_t  lim_len;
@@ -20,7 +20,7 @@ static void    read_heredoc(t_command_2 *command, char *delimiter, int heredoc_f
     lim_len = ft_strlen(delimiter);
     while (1)
     {
-        setup_signals_heredoc();
+        init_signals_heredoc();
         write(1, "> ", 2);
         line = get_next_line(STDIN_FILENO);
         if (!line)
@@ -35,15 +35,15 @@ static void    read_heredoc(t_command_2 *command, char *delimiter, int heredoc_f
     close(heredoc_file_fd);
 }
 
-void    open_heredoc(t_command_2 *command)
+void    open_heredoc(t_command *command)
 {
     char    *delimiter;
     int     heredoc_file_fd;
 
-    delimiter = find_token(command->tokens_list, T_DELIMITER);
+    delimiter = find_token(command->token_list, T_DELIMITER);
     heredoc_file_fd = open("temp", 
         O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    read_heredoc(command, delimiter, heredoc_file_fd);
+    read_heredoc(delimiter, heredoc_file_fd);
 }
 
 // void    open_files(t_command_2 *command)

@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/06 16:21:58 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/06 16:43:10 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,6 @@ typedef struct s_token
 	struct s_token		*next;
 }						t_token;
 
-typedef struct s_command_2
-{
-	char				**args_list;
-	t_token				*tokens_list;
-	struct s_command_2	*next;
-}				t_command_2;
-
 typedef struct s_input
 {
 	const char	*str;
@@ -87,17 +80,9 @@ typedef struct s_output
 
 typedef struct s_command
 {
-	char				**args;		// argv style (cmd + args)
+	char				**args;
 	t_token				*token_list;
-	/*char				*infile;	// nom du fichier si '<'
-	char				*outfile;	// nom du fichier si '>'
-	char				*limiter;
-	int					infile_fd;
-	int					outfile_fd;
-	int					heredoc_file_fd;
-	int					append;		// 1 si >> (ajout)
-	int					heredoc;	// 1 si <<*/
-	struct s_command	*next;		// chaînage pour les pipes
+	struct s_command	*next;
 }						t_command;
 
 typedef struct s_expansion
@@ -270,56 +255,56 @@ t_expansion						prepare_expansion(char *token, t_env *env_copy);
 
 extern int	g_status;
 void							handle_signal_prompt(int sig);
-void							setup_signals_exec(void);
-void							setup_signals_shell(void);
-void							setup_signals_heredoc(void);
-void							child_signal(int status);
+void							handle_child_status(int status);
+void							init_signals_prompt(void);
+void							init_signals_heredoc(void);
+void							reset_signals_to_default(void);
 
-// // execute_cmd.c
-// int 					execute_cmd(t_env *envp, t_command *commands);
-// char					**env_list_to_tab(t_env *env);
+// execute_cmd.c
+int 					execute_cmd(t_env *envp, t_command *commands);
+char					**env_list_to_tab(t_env *env);
 
 // pipe_handle.c
 // void    				close_all_fds(t_pipex *pipex, t_command *command);
-int						child_process(t_command_2 *command, t_pipex *pipex, t_export *export);
+int						child_process(t_command *command, t_pipex *pipex, t_export *export);
 
 // redirection.c
-int						redirection(t_pipex *pipex, t_command_2 *command);
+int						redirection(t_pipex *pipex, t_command *command);
 
 // pipe_utils.c
-t_token					*find_token(t_token *token_list, t_token_type *type);
-int						*open_infiles_outfiles(t_token *token_list, t_token_type *type);
+char					*find_token(t_token *token_list, t_token_type type);
+// int						*open_infiles_outfiles(t_token *token_list, t_token_type *type);
 
 // open_files.c
-void					open_heredoc(t_command_2 *command);
+void					open_heredoc(t_command *command);
 
-// // builtin_utils.c
-// void    				sort_env_tab(char **env_tab);
+// builtin_utils.c
+void    				sort_env_tab(char **env_tab);
 
-// // builtin.c
-// int 					execute_builtin(t_command *command, t_export *export);
+// builtin.c
+int 					execute_builtin(t_command *command, t_export *export);
 
-// // builtin_export.c
-// void    				new_export(t_export *export, t_command *command);
-// int 					builtin_export(t_export *export, t_command *command);
+// builtin_export.c
+void    				new_export(t_export *export, t_command *command);
+int 					builtin_export(t_export *export, t_command *command);
 
-// // builtin_echo.c
-// int 					builtin_echo(char **args);
+// builtin_echo.c
+int 					builtin_echo(char **args);
 
-// // builtin_env.c
-// int 					builtin_env(t_env *env);
+// builtin_env.c
+int 					builtin_env(t_env *env);
 
-// // builtin_pwd.c
-// int 					builtin_pwd(t_env *env);
+// builtin_pwd.c
+int 					builtin_pwd(t_env *env);
 
-// // builtin_unset.c
-// int 					builtin_unset(t_export *export, t_command *command);
+// builtin_unset.c
+int 					builtin_unset(t_export *export, t_command *command);
 
-// // builtin_cd.c
-// int 					builtin_cd(t_command *command, t_env **env);
+// builtin_cd.c
+int 					builtin_cd(t_command *command, t_env **env);
 
-// // builtin_exit.c
-// int 					builtin_exit(t_command *command);
+// builtin_exit.c
+int 					builtin_exit(t_command *command);
 
 // env_handle.c
 char    				*my_getenv(t_env *env, char *var);
