@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/10/03 14:17:18 by mbores           ###   ########.fr       */
+=======
+/*   Updated: 2025/10/03 16:35:19 by pmeimoun         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +46,26 @@ void	wait_child()
 static int	handle_tokens(char **split_input, t_export *export)
 {
 	t_token		*token_list;
-	t_command_2	*commands;
-	t_pipex		*pipex;
+	t_command	*commands;
+	// t_pipex		*pipex;
 
 	token_list = tokenizer(split_input, export->env);
 	free_split(split_input);
 	if (token_list)
 	{
-		pipex = malloc(sizeof(t_pipex));
-		if (!pipex)
-			return (0);
+		// pipex = malloc(sizeof(t_pipex));
+		// if (!pipex)
+		// 	return (0);
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
-		// commands = parser(token_list, pipex);
-		print_tokens(token_list);
-		// print_commands(commands);
-		child_process(commands, pipex, export);
-		wait_child();
-		child_signal(pipex->status);
-		free(pipex);
-		// free_commands(commands);
+		commands = parser(token_list);
+		// print_tokens(token_list);
+		print_commands(commands);
+		// child_process(commands, pipex, export);
+		// wait_child();
+		// child_signal(pipex->status);
+		// free(pipex);
+		free_commands(commands);
 		free_tokens(token_list);
 	}
 	return (1);

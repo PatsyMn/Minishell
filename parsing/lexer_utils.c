@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:40:18 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/02 14:11:29 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/02 14:48:14 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	check_invalid_tokens(t_token *token_list)
 		if (tmp->type == T_INVALID_OPERATOR)
 		{
 			g_status = 2;
-			printf("minishell: syntax error near ");
+			printf("WhatTheShell: syntax error near ");
 			printf("unexpected token `%s'\n", tmp->value);
 			return (1);
 		}

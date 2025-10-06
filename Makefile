@@ -6,7 +6,7 @@
 #    By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/06 16:14:23 by mbores           ###   ########.fr        #
+#    Updated: 2025/10/06 16:21:28 by mbores           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,18 +47,6 @@ SRCS = main.c \
 	parsing/quote_utils.c\
 	parsing/init.c\
 	parsing/parser_redirection.c\
-	exec/execute_cmd.c\
-	exec/open_files.c\
-	exec/pipe_handle.c\
-	exec/builtin_export.c\
-	exec/builtin_utils.c\
-	exec/builtin_unset.c\
-	exec/builtin_echo.c\
-	exec/builtin_pwd.c\
-	exec/builtin_env.c\
-	exec/builtin_cd.c\
-	exec/builtin_exit.c\
-	exec/builtin.c\
 	exec/env_handle.c\
 	exec/redirection.c\
 	signals/signals.c\
@@ -83,10 +71,10 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 $(OBJ_DIR)/%.o: parsing/%.c | $(OBJ_DIR)
 	@$(CC) -c $(CFLAGS) -o $@ $<
 
-$(OBJ_DIR)/%.o: exec/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: signals/%.c | $(OBJ_DIR)
 	@$(CC) -c $(CFLAGS) -o $@ $<
 
-$(OBJ_DIR)/%.o: signals/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: exec/%.c | $(OBJ_DIR)
 	@$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:

@@ -6,13 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/01 14:24:19 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:19:55 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int g_status = 0; 
+int g_status = 0;
 
 void	handle_signal_prompt(int sig)
 {
@@ -25,7 +25,8 @@ void	handle_signal_prompt(int sig)
 		rl_redisplay();
 	}
 }
-void	signal_heredoc(int sig)
+
+void	handle_signal_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -36,7 +37,7 @@ void	signal_heredoc(int sig)
 	}
 }
 
-void	child_signal(int status)
+void	handle_child_status(int status)
 {
 	int sig;
 
@@ -52,17 +53,20 @@ void	child_signal(int status)
 			write(1, "\n", 1);
 	}
 }
-void	setup_signals_shell(void)
+
+void	init_signals_prompt(void)
 {
 	signal(SIGINT, handle_signal_prompt);
 	signal(SIGQUIT, SIG_IGN);
 }
-void	setup_signals_heredoc(void)
+
+void	init_signals_heredoc(void)
 {
-	signal(SIGINT, signal_heredoc);
+	signal(SIGINT, handle_signal_heredoc);
 	signal(SIGQUIT, SIG_IGN);
 }
-void	setup_signals_exec(void)
+
+void	reset_signals_to_default(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
