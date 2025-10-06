@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 13:28:09 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/03 16:12:54 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/06 13:53:16 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void    read_heredoc(t_command_2 *command, char *delimiter, int heredoc_f
     close(heredoc_file_fd);
 }
 
-static void    open_heredoc(t_command_2 *command)
+void    open_heredoc(t_command_2 *command)
 {
     char    *delimiter;
     int     heredoc_file_fd;
@@ -46,26 +46,16 @@ static void    open_heredoc(t_command_2 *command)
     read_heredoc(command, delimiter, heredoc_file_fd);
 }
 
-void    open_files(t_command_2 *command)
-{
-    int *infile_fd;
-    int *outfile_fd;
+// void    open_files(t_command_2 *command)
+// {
+//     int *infile_fd;
+//     int *outfile_fd;
 
-    if (find_token(command->tokens_list, T_HEREDOC))
-    {
-        open_heredoc(command);
-        infile_fd = open("temp", O_RDONLY);
-    }
-    if (find_token(command->tokens_list, T_REDIR_IN))
-        infile_fd = open_infiles_outfiles(command->tokens_list, T_REDIR_IN);
-    // if (command->append && command->outfile)
-    //     command->outfile_fd = open(command->outfile,
-    //         O_WRONLY | O_CREAT | O_APPEND, 0644);
-    // else if (command->outfile)
-    // {
-    //     command->outfile_fd = open(command->outfile,
-    //         O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    //     if (command->outfile_fd == -1)
-    //         perror("open outfile");
-    // }
-}
+//     if (find_token(command->tokens_list, T_HEREDOC))
+//     {
+//         open_heredoc(command);
+//         infile_fd = open("temp", O_RDONLY);
+//     }
+//     if (find_token(command->tokens_list, T_REDIR_IN))
+//         infile_fd = open_infiles_outfiles(command->tokens_list, T_REDIR_IN);
+// }

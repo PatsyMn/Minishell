@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/03 16:11:46 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/06 16:19:15 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_pipex
 	pid_t	last_pid;
 	int		pipe;
 	int		input_fd;
+	int		output_fd;
 	int		pipe_fd[2];
 	int		cmd_count;
 	int		status;
@@ -277,14 +278,17 @@ char					**env_list_to_tab(t_env *env);
 
 // pipe_handle.c
 // void    				close_all_fds(t_pipex *pipex, t_command *command);
-int						child_process(t_command *command, t_pipex *pipex, t_export *export);
+int						child_process(t_command_2 *command, t_pipex *pipex, t_export *export);
+
+// redirection.c
+int						redirection(t_pipex *pipex, t_command_2 *command);
 
 // pipe_utils.c
 t_token					*find_token(t_token *token_list, t_token_type *type);
 int						*open_infiles_outfiles(t_token *token_list, t_token_type *type);
 
 // open_files.c
-void    				open_files(t_command_2 *command);
+void					open_heredoc(t_command_2 *command);
 
 // builtin_utils.c
 void    				sort_env_tab(char **env_tab);

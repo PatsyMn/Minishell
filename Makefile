@@ -6,7 +6,7 @@
 #    By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/03 15:36:10 by mbores           ###   ########.fr        #
+#    Updated: 2025/10/06 16:14:23 by mbores           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ SRCS = main.c \
 	exec/builtin_exit.c\
 	exec/builtin.c\
 	exec/env_handle.c\
+	exec/redirection.c\
 	signals/signals.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
