@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/06 16:43:10 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/07 11:52:42 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,16 @@ typedef struct s_split_state
 	int					start;
 	int					i;
 }						t_split_state;
+
+
+typedef struct s_command_split_context
+{
+	t_command			*head;
+	t_command			*current;
+	t_token				*last_token_copy;
+	t_token				*new_token_copy;
+	t_command			*tmp;
+}	t_command_split_context;
 
 typedef struct s_env
 {

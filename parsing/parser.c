@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/06 16:22:33 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/07 11:52:12 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,53 +142,67 @@ static t_token	*copy_token(t_token *token)
 	return (new_tok);
 }
 
+static	int	start_new_command(t_command_split_context *ctx)
+{
+	t_command	*last;
+	
+	if (!ctx->current)
+	{
+		ctx->current= new_command();
+		if (!ctx->current)
+			return (0);
+		if (!ctx->head)
+			ctx->head = ctx->current;
+		else
+		{
+			last = ctx->head;
+			while (last->next)
+				last = last->next;
+			last->next = ctx->current;
+		}
+		ctx->last_token_copy = NULL;
+	}
+	return (1);
+}
+
+static	int	copy_token_list(t_command_split_context *ctx,t_token *token_list)
+{	
+	ctx->new_token_copy = copy_token(token_list);
+	if (!ctx->new_token_copy)
+		return (0);
+	if (!ctx->current->token_list)
+		ctx->current->token_list = ctx->new_token_copy;
+	else
+		ctx->last_token_copy->next = ctx->new_token_copy;
+	ctx->last_token_copy = ctx->new_token_copy;
+	return (1);
+}
+
 t_command	*split_token_list(t_token *token_list)
 {
-	t_command	*head;
-	t_command	*cur_cmd;
-	t_token		*tok_tail;
-	t_token		*tok_copy;
-	t_command	*tmp;
+	t_command_split_context ctx;
 
-	head = NULL;
-	cur_cmd = NULL;
-	tok_tail = NULL;
+	ctx.head = NULL;
+	ctx.current = NULL;
+	ctx.last_token_copy = NULL;
+
 	while (token_list)
 	{
-		if (!cur_cmd)
-		{
-			cur_cmd = new_command();
-			if (!cur_cmd)
-				return (NULL);
-			if (!head)
-				head = cur_cmd;
-			else
-				head->next = cur_cmd;
-			tok_tail = NULL;
+		if (!ctx.current)
+    	{
+			if (!start_new_command(&ctx))
+				return NULL;
 		}
 		if (token_list->type == T_PIPE)
 		{
-			cur_cmd = NULL;
+			ctx.current= NULL;
 			token_list = token_list->next;
 			continue ;
 		}
-		tok_copy = copy_token(token_list);
-		if (!tok_copy)
-			return NULL;
-		if (!cur_cmd->token_list)
-			cur_cmd->token_list = tok_copy;
-		else
-			tok_tail->next = tok_copy;
-		tok_tail = tok_copy;
+		copy_token_list(&ctx, token_list);
 		token_list = token_list->next;
 	}
-	tmp = head;
-	while (tmp && tmp->next)
-	{
-		tmp->next = tmp->next;
-		tmp = tmp->next;
-	}
-	return head;
+	return ctx.head;
 }
 
 void	build_args(t_command *cmd)
@@ -219,12 +233,13 @@ void	build_args(t_command *cmd)
 	args[count] = NULL;
 	cmd->args = args;
 }
-t_command	*parser(t_token *tokens)
+
+t_command	*parser(t_token *tokens_list)
 {
 	t_command	*commands;
 	t_command	*cur;
 
-	commands = split_token_list(tokens);
+	commands = split_token_list(tokens_list);
 	cur = commands;
 	while (cur)
 	{
