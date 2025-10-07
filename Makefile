@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+         #
+#    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/06 16:34:18 by mbores           ###   ########.fr        #
+#    Updated: 2025/10/07 13:30:34 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ OBJ_DIR = obj
 
 SRCS = main.c \
 	parsing/parser.c\
+	parsing/command_split.c\
 	parsing/parser_utils.c\
 	parsing/token_utils.c\
 	parsing/utility_functions.c\

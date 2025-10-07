@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/07 11:52:42 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:31:26 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,11 +222,13 @@ void					print_tokens(t_token *tokens);
 void							init_expansion(t_expansion *exp);
 
 //parser.c
-t_command 						*split_token_list(t_token *token_list);
 void							 build_args(t_command *cmd);
 t_command						*parser(t_token *tokens);
 //debug
 void							print_commands(t_command *cmd);
+
+//command_split.c
+t_command						*split_token_list(t_token *token_list);
 
 //parser_utils.c
 void							add_arg(t_command *cmd, char *val);
