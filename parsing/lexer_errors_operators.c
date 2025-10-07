@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/02 16:04:02 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/07 15:13:19 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ static int	is_operator(char *token)
 {
 	if (!ft_strncmp(token, ">>", 3) || !ft_strncmp(token, "<<", 3)
 		|| !ft_strncmp(token, ">", 2) || !ft_strncmp(token, "<", 2)
-		|| !ft_strncmp(token, "|", 2) || !ft_strncmp(token, "&&", 3)
-		|| !ft_strncmp(token, "<>", 3))
+		|| !ft_strncmp(token, "|", 2) || !ft_strncmp(token, "<>", 3))
 		return (1);
 	return (0);
 }
