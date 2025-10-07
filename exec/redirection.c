@@ -6,13 +6,13 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:37:20 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/06 17:07:33 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/07 14:38:53 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	redir_in(t_pipex * pipex, t_token *token)
+static int	redir_in(t_pipex *pipex, t_token *token)
 {
 	if (token->type == T_REDIR_IN)
 	{
@@ -79,15 +79,18 @@ static int	redir_append(t_pipex *pipex, t_token *token)
 
 int	redirection(t_pipex *pipex, t_command *command)
 {
-	while (command->token_list)
+	t_token *tok;
+
+	tok = command->token_list;
+	while (tok)
 	{
-		if (!redir_in(pipex, command->token_list)
-			|| !redir_out(pipex, command->token_list)
-			|| !redir_append(pipex, command->token_list))
+		if (!redir_in(pipex, tok)
+			|| !redir_out(pipex, tok)
+			|| !redir_append(pipex, tok))
 			return (0);
-		if (command->token_list->type == T_HEREDOC)
+		if (tok->type == T_HEREDOC)
 			open_heredoc(command);
-		command->token_list = command->token_list->next;
+		tok = tok->next;
 	}
 	return (1);
 }
