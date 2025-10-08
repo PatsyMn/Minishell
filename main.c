@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/07 14:39:22 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/08 13:02:29 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,11 @@ static int	handle_input(char *input, t_export	*export)
 {
 	char	**split_input;
 
-	if (!input || ft_strlen(input) == 0)
+	if (ft_strlen(input) == 0)
+	{
+		free(input);
 		return (1);
+	}
 	add_history(input);
 	if (check_unclosed_quotes(input)) /*|| check_special_chars(input))*/
 	{
