@@ -66,6 +66,16 @@ static void	free_tab(char **tab)
 	}
 }
 
+static void	free_execute(t_export *export, t_command *commands, t_pipex * pipex)
+{
+	free_env_chained(export->env);
+	free_env_chained(export->export);
+	free(export);
+	free_commands(pipex->commands_head);
+	free(pipex);
+	rl_clear_history();
+}
+
 static char *join_path_cmd(char *dir, char *cmd)
 {
 	char *tmp;
@@ -131,19 +141,20 @@ char	**env_list_to_tab(t_env *env)
 	return (env_tab);
 }
 
-int execute_cmd(t_env *envp, t_command *commands)
+int execute_cmd(t_export *export, t_command *commands, t_pipex * pipex)
 {
 	char	**env_tab;
 	char	*cmd;
 
-	env_tab = env_list_to_tab(envp);
-	cmd = find_cmd(commands->args[0], envp);
+	env_tab = env_list_to_tab(export->env);
+	cmd = find_cmd(commands->args[0], export->env);
 	if (!cmd)
 	{
 		write(STDERR_FILENO, "minishell: ", 11);
 		write(STDERR_FILENO, commands->args[0], ft_strlen(commands->args[0]));
 		write(STDERR_FILENO, ": command not found\n", 20);
 		free_tab(env_tab);
+		free_execute(export, commands, pipex);
 		exit(127);
 	}
 	reset_signals_to_default();
@@ -151,5 +162,6 @@ int execute_cmd(t_env *envp, t_command *commands)
 	perror("execve failed");
 	free(cmd);
 	free_tab(env_tab);
+	free_execute(export, commands, pipex);
 	exit(0);
 }

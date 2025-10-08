@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/08 16:54:18 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/08 17:51:04 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,20 @@ typedef enum e_token_type
 	T_DOLLAR_VAR,
 }						t_token_type;
 
+typedef struct s_token
+{
+	t_token_type		type;
+	char				*value;
+	struct s_token		*next;
+}						t_token;
+
+typedef struct s_command
+{
+	char				**args;
+	t_token				*token_list;
+	struct s_command	*next;
+}						t_command;
+
 typedef struct s_pipex
 {
 	pid_t	pid;
@@ -56,14 +70,8 @@ typedef struct s_pipex
 	int		last_status;
 	int		saved_stdin;
 	int		saved_stdout;
+	t_command	*commands_head;
 }						t_pipex;
-
-typedef struct s_token
-{
-	t_token_type		type;
-	char				*value;
-	struct s_token		*next;
-}						t_token;
 
 typedef struct s_input
 {
@@ -77,13 +85,6 @@ typedef struct s_output
 	char	*str;
 	int		index;
 }	t_output;
-
-typedef struct s_command
-{
-	char				**args;
-	t_token				*token_list;
-	struct s_command	*next;
-}						t_command;
 
 typedef struct s_expansion
 {
@@ -273,7 +274,7 @@ void							init_signals_heredoc(void);
 void							reset_signals_to_default(void);
 
 // execute_cmd.c
-int 					execute_cmd(t_env *envp, t_command *commands);
+int 					execute_cmd(t_export *export, t_command *commands, t_pipex * pipex);
 char					**env_list_to_tab(t_env *env);
 
 // pipe_handle.c

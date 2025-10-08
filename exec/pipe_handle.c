@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/08 16:54:30 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/08 17:52:16 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void    exec_child(t_pipex *pipex, t_command *command, t_export *export)
         close(pipex->pipe_fd[1]);
     g_status = execute_builtin(command, export, pipex);
     if (g_status == -1)
-        g_status = execute_cmd(export->env, command);
+        g_status = execute_cmd(export, command, pipex);
 }
 
 static int create_pipe_if_needed(t_pipex *pipex, t_command *command)
