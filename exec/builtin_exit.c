@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:49:08 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/30 13:01:00 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/08 16:55:52 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int is_numeric(const char *str)
     return 1;
 }
 
-int builtin_exit(t_command *command)
+int builtin_exit(t_command *command, t_export *export, t_pipex *pipex)
 {
     int exit_code;
 
@@ -47,5 +47,11 @@ int builtin_exit(t_command *command)
             return (1);
         }
     }
+    free_env_chained(export->env);
+    free_env_chained(export->export);
+    free(export);
+    free(pipex);
+    free_commands(command);
+    rl_clear_history();
     exit(exit_code);
 }

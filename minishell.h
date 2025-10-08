@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/08 13:04:16 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/08 16:54:18 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ void					open_heredoc(t_command *command);
 void					sort_env_tab(char **env_tab);
 
 // builtin.c
-int						execute_builtin(t_command *command, t_export *export);
+int						execute_builtin(t_command *command, t_export *export, t_pipex *pipex);
 int						is_builtin(t_command *commands);
 
 // builtin_export.c
@@ -317,7 +317,7 @@ int 					builtin_unset(t_export *export, t_command *command);
 int 					builtin_cd(t_command *command, t_env **env);
 
 // builtin_exit.c
-int 					builtin_exit(t_command *command);
+int 					builtin_exit(t_command *command, t_export *export, t_pipex *pipex);
 
 // env_handle.c
 char    				*my_getenv(t_env *env, char *var);
