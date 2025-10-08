@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/08 13:02:29 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/08 13:35:21 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static int	handle_tokens(char **split_input, t_export *export)
 	free_split(split_input);
 	if (token_list)
 	{
-		pipex = malloc(sizeof(t_pipex));
+		pipex = malloc(sizeof(*pipex));
+		ft_memset(pipex, 0, sizeof(*pipex));
 		if (!pipex)
 			return (0);
 		assign_filename_types(token_list);
