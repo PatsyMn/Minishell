@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:24:44 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/06 16:27:32 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/08 12:10:54 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,17 @@ int execute_builtin(t_command *commands, t_export *export)
         return (builtin_pwd(export->env));
     else
         return (execute_builtin_2(commands, export));
+}
+
+int is_builtin(t_command *commands)
+{
+    if (!ft_strncmp(commands->args[0], "echo", 5)
+        || (!ft_strncmp(commands->args[0], "env", 4) && !commands->args[1])
+        || (!ft_strncmp(commands->args[0], "pwd", 4) && !commands->args[1])
+        || !ft_strncmp(commands->args[0], "export", 7)
+        || !ft_strncmp(commands->args[0], "unset", 6)
+        || !ft_strncmp(commands->args[0], "cd", 3)
+        || !ft_strncmp(commands->args[0], "exit", 5))
+        return (1);
+    return (0);
 }

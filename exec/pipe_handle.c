@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/07 17:20:55 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/08 12:15:05 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static int fork_and_exec(t_pipex *pipex, t_command *command, t_export *export)
                 close(pipex->pipe_fd[0]);
             if (!command->next)
                 close(pipex->pipe_fd[1]);
+            signal(SIGINT, SIG_DFL);
+            signal(SIGQUIT, SIG_DFL);
             exec_child(pipex, command, export);
         }
     }
@@ -125,22 +127,24 @@ static int restore_prompt(t_pipex * pipex)
 
 static int  is_pipe(t_command *commands, t_pipex *pipex, t_export *export)
 {
-    if (!commands->next)
+    if (!commands->next && is_builtin(commands))
     {
-        pipex->pid = fork();
-        if (pipex->pid == -1)
-        {
-            perror("fork");
-            return (-1);
-        }
-        if (pipex->pid == 0)
-        {
-            if (redirection(pipex, commands))
-                exec_child(pipex, commands, export);
-        }
+        if (redirection(pipex, commands))
+            g_status = execute_builtin(commands, export);
         return (0);
     }
-    return (1);
+    pipex->pid = fork();
+    if (pipex->pid == -1)
+    {
+        perror("fork");
+        return (-1);
+    }
+    if (pipex->pid == 0)
+    {
+        if (redirection(pipex, commands))
+            exec_child(pipex, commands, export);
+    }
+    return (0);
 }
 
 int child_process(t_command *commands, t_pipex *pipex, t_export *export)
@@ -156,8 +160,13 @@ int child_process(t_command *commands, t_pipex *pipex, t_export *export)
     pipex->output_fd = -1;
     pipex->cmd_count = 0;
     pipex->last_pid = -1;
+    signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
     if (!is_pipe(commands, pipex, export))
+    {
+        restore_prompt(pipex);
         return (1);
+    }
     exec_pipeline(commands, pipex, export);
     restore_prompt(pipex);
     return (1);

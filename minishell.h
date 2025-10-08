@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/07 11:52:42 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/08 12:11:21 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,10 +289,11 @@ char					*find_token(t_token *token_list, t_token_type type);
 void					open_heredoc(t_command *command);
 
 // builtin_utils.c
-void    				sort_env_tab(char **env_tab);
+void					sort_env_tab(char **env_tab);
 
 // builtin.c
-int 					execute_builtin(t_command *command, t_export *export);
+int						execute_builtin(t_command *command, t_export *export);
+int						is_builtin(t_command *commands);
 
 // builtin_export.c
 void    				new_export(t_export *export, t_command *command);
