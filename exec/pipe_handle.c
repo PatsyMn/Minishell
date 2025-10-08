@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/08 12:15:05 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/08 13:19:14 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,18 +133,7 @@ static int  is_pipe(t_command *commands, t_pipex *pipex, t_export *export)
             g_status = execute_builtin(commands, export);
         return (0);
     }
-    pipex->pid = fork();
-    if (pipex->pid == -1)
-    {
-        perror("fork");
-        return (-1);
-    }
-    if (pipex->pid == 0)
-    {
-        if (redirection(pipex, commands))
-            exec_child(pipex, commands, export);
-    }
-    return (0);
+    return (1);
 }
 
 int child_process(t_command *commands, t_pipex *pipex, t_export *export)
