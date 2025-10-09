@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/07 14:46:33 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/09 11:10:26 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ void	build_args(t_command *cmd)
 t_command	*parser(t_token *tokens_list)
 {
 	t_command	*commands;
-	t_command	*cur;
+	t_command	*current_cmd;
 
 	commands = split_token_list(tokens_list);
-	cur = commands;
-	while (cur)
+	current_cmd = commands;
+	while (current_cmd)
 	{
-		build_args(cur);
-		cur = cur->next;
+		build_args(current_cmd);
+		current_cmd = current_cmd->next;
 	}
 	return commands;
 }
