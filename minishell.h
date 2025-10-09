@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/08 17:51:04 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/09 14:46:08 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "Libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <sys/stat.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -70,6 +71,7 @@ typedef struct s_pipex
 	int		last_status;
 	int		saved_stdin;
 	int		saved_stdout;
+	int		n;
 	t_command	*commands_head;
 }						t_pipex;
 
@@ -303,13 +305,13 @@ void    				new_export(t_export *export, t_command *command);
 int 					builtin_export(t_export *export, t_command *command);
 
 // builtin_echo.c
-int 					builtin_echo(char **args);
+int 					builtin_echo(char **args, t_pipex *pipex);
 
 // builtin_env.c
 int 					builtin_env(t_env *env);
 
 // builtin_pwd.c
-int 					builtin_pwd(t_env *env);
+int 					builtin_pwd();
 
 // builtin_unset.c
 int 					builtin_unset(t_export *export, t_command *command);

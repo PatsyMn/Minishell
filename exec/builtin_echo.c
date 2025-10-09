@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:23:21 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/30 15:36:35 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/09 13:52:01 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,16 @@ static void    echo_arg(char *arg, int *printable)
     }
 }
 
-int builtin_echo(char **args)
+int builtin_echo(char **args, t_pipex *pipex)
 {
     int i;
-    int n;
     int printable;
 
     i = 1;
-    n = 0;
     printable = 0;
     while (args[i] && is_option_n(args[i]))
     {
-        n = 1;
+        pipex->n = 1;
         i++;
     }
     while (args[i])
@@ -73,7 +71,7 @@ int builtin_echo(char **args)
             write(STDOUT_FILENO, " ", 1);
         i++;
     }
-    if (!n)
-        write(STDOUT_FILENO, "\n", 1);
+    if (!pipex->n)
+		write(STDOUT_FILENO, "\n", 1);
     return (0);
 }

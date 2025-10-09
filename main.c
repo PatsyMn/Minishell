@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/08 17:53:00 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/09 13:51:33 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	wait_child()
 
 static int	init_pipex(t_pipex *pipex, t_command * commands)
 {
+	pipex->n = 0;
 	pipex->commands_head = commands;
 	if (pipe(pipex->pipe_fd) == -1)
 	{
@@ -70,6 +71,8 @@ static int	handle_tokens(char **split_input, t_export *export)
 		free(pipex);
 		free_commands(commands);
 	}
+	if (!token_list)
+		write(STDOUT_FILENO, "\n", 1);
 	return (1);
 }
 

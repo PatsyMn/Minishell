@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/08 16:47:30 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/09 12:01:36 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,21 +96,18 @@ int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 {
 	char	*buffer;
 	char	*segment;
-	int		continue_loop;
 
 	buffer = ft_strdup("");
 	if (!buffer)
 		return (0);
-	continue_loop = 1;
-	while (str[*i] && str[*i] != ' '
-		&& operator_length(&str[*i]) == 0 && continue_loop)
+	while (str[*i] && str[*i] != ' ' && operator_length(&str[*i]) == 0)
 	{
 		segment = process_segment(str, i, env_copy);
 		if (!segment)
 		{
 			g_status = 0;
 			printf("WhatTheShell: syntax error: unclosed quote\n");
-			continue_loop = 0;
+			break ;
 		}
 		else
 			buffer = append_and_free(buffer, segment);

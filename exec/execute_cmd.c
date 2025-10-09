@@ -66,7 +66,7 @@ static void	free_tab(char **tab)
 	}
 }
 
-static void	free_execute(t_export *export, t_command *commands, t_pipex * pipex)
+static void	free_execute(t_export *export, t_pipex * pipex)
 {
 	free_env_chained(export->env);
 	free_env_chained(export->export);
@@ -87,6 +87,25 @@ static char *join_path_cmd(char *dir, char *cmd)
 	full = ft_strjoin(tmp, cmd);
 	free(tmp);
 	return (full);
+}
+
+static void	check_file(char *cmd, char **env, t_export *export, t_pipex *pipex)
+{
+	struct stat	st;
+
+	if (stat(cmd, &st) == 0)
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			write(STDERR_FILENO, "minishell: ", 11);
+			write(STDERR_FILENO, cmd, ft_strlen(cmd));
+			write(STDERR_FILENO, ": Is a directory\n", 17);
+			free(cmd);
+			free_tab(env);
+			free_execute(export, pipex);
+			exit(126);
+		}
+	}
 }
 
 static char	*find_cmd(char *cmd, t_env *env)
@@ -154,14 +173,18 @@ int execute_cmd(t_export *export, t_command *commands, t_pipex * pipex)
 		write(STDERR_FILENO, commands->args[0], ft_strlen(commands->args[0]));
 		write(STDERR_FILENO, ": command not found\n", 20);
 		free_tab(env_tab);
-		free_execute(export, commands, pipex);
+		free_execute(export, pipex);
 		exit(127);
 	}
+	check_file(cmd, env_tab, export, pipex);
 	reset_signals_to_default();
 	execve(cmd, commands->args, env_tab);
-	perror("execve failed");
+	perror("minishell");
 	free(cmd);
 	free_tab(env_tab);
-	free_execute(export, commands, pipex);
-	exit(0);
+	free_execute(export, pipex);
+	if (errno == ENOENT)
+		exit(127);
+	else
+		exit(126);
 }

@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:24:44 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/08 16:54:53 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/09 13:53:34 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ int execute_builtin(t_command *commands, t_export *export, t_pipex *pipex)
     if (!commands->args || !commands->args[0])
         return (-1);
     else if (!ft_strncmp(commands->args[0], "echo", 5))
-        return (builtin_echo(commands->args));
+        return (builtin_echo(commands->args, pipex));
     else if (!ft_strncmp(commands->args[0], "env", 4) && !commands->args[1])
         return (builtin_env(export->env));
     else if (!ft_strncmp(commands->args[0], "pwd", 4) && !commands->args[1])
-        return (builtin_pwd(export->env));
+        return (builtin_pwd());
     else
         return (execute_builtin_2(commands, export, pipex));
 }
