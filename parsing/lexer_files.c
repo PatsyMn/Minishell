@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 13:01:47 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/03 14:07:28 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/09 10:50:17 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 void	assign_filename_types(t_token *tokens)
 {
-	t_token	*curr;
+	t_token	*current;
 
-	curr = tokens;
-	while (curr)
+	current = tokens;
+	while (current)
 	{
-		if (curr->type == T_HEREDOC && curr->next
-			&& curr->next->type == T_WORD)
-			curr->next->type = T_DELIMITER;
-		else if ((curr->type == T_REDIR_OUT || curr->type == T_APPEND_OUT
-				|| curr->type == T_REDIR_IN)
-			&& curr->next && curr->next->type == T_WORD)
-			curr->next->type = T_FILENAME;
-		curr = curr->next;
+		if (current->type == T_HEREDOC && current->next
+			&& current->next->type == T_WORD)
+			current->next->type = T_DELIMITER;
+		else if ((current->type == T_REDIR_OUT || current->type == T_APPEND_OUT
+				|| current->type == T_REDIR_IN)
+			&& current->next && current->next->type == T_WORD)
+			current->next->type = T_FILENAME;
+		current = current->next;
 	}
 }
