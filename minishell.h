@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/09 14:46:08 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/09 16:33:09 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,13 +278,14 @@ void							reset_signals_to_default(void);
 // execute_cmd.c
 int 					execute_cmd(t_export *export, t_command *commands, t_pipex * pipex);
 char					**env_list_to_tab(t_env *env);
+void					free_execute(t_export *export, t_pipex * pipex);
 
 // pipe_handle.c
 // void    				close_all_fds(t_pipex *pipex, t_command *command);
 int						child_process(t_command *command, t_pipex *pipex, t_export *export);
 
 // redirection.c
-int						redirection(t_pipex *pipex, t_command *command);
+int						redirection(t_pipex *pipex, t_command *command, t_export *export);
 
 // pipe_utils.c
 char					*find_token(t_token *token_list, t_token_type type);

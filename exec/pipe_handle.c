@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/08 17:52:16 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/09 16:32:51 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,19 @@ void    exec_child(t_pipex *pipex, t_command *command, t_export *export)
         dup2(pipex->pipe_fd[1], STDOUT_FILENO);
     if (pipex->input_fd != -1)
         dup2(pipex->input_fd, STDIN_FILENO);
-    else if (pipex->cmd_count > 0)
-        dup2(pipex->pipe_fd[0], STDIN_FILENO);
+    // else if (pipex->cmd_count > 0)
+    //     dup2(pipex->pipe_fd[0], STDIN_FILENO);
     if (pipex->pipe_fd[0] != -1)
         close(pipex->pipe_fd[0]);
     if (pipex->pipe_fd[1] != -1)
         close(pipex->pipe_fd[1]);
+    if (pipex->input_fd != -1)
+        close(pipex->input_fd);
     g_status = execute_builtin(command, export, pipex);
     if (g_status == -1)
         g_status = execute_cmd(export, command, pipex);
+    free_execute(export, pipex);
+    exit(g_status);
 }
 
 static int create_pipe_if_needed(t_pipex *pipex, t_command *command)
@@ -51,7 +55,7 @@ static int fork_and_exec(t_pipex *pipex, t_command *command, t_export *export)
     }
     if (pipex->pid == 0)
     {
-        if (redirection(pipex, command))
+        if (redirection(pipex, command, export))
         {
             if (!pipex->cmd_count)
                 close(pipex->pipe_fd[0]);
@@ -92,7 +96,7 @@ static void exec_pipeline(t_command *commands, t_pipex *pipex, t_export *export)
             close(pipex->pipe_fd[0]);
             close(pipex->pipe_fd[1]);
         }
-        pipex->last_pid = pipex->pid;
+        // pipex->last_pid = pipex->pid;
         pipex->cmd_count++;
         cmd = cmd->next;
     }
@@ -129,7 +133,7 @@ static int  is_pipe(t_command *commands, t_pipex *pipex, t_export *export)
 {
     if (!commands->next && is_builtin(commands))
     {
-        if (redirection(pipex, commands))
+        if (redirection(pipex, commands, export))
             g_status = execute_builtin(commands, export, pipex);
         return (0);
     }
