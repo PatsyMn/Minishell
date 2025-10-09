@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_preparation.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/30 14:24:48 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/09 22:28:23 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static bool	handle_dollar(char *token, t_expansion *exp, t_env *env_copy)
 		exp->result = ft_strdup(token);
 		return (false);
 	}
-	exp->result = NULL;
+	exp->result = ft_strdup("");
 	return (true);
 }
 

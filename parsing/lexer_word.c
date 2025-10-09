@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/09 12:01:36 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/09 22:21:42 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 		{
 			g_status = 0;
 			printf("WhatTheShell: syntax error: unclosed quote\n");
-			break ;
+			return (0);
 		}
 		else
 			buffer = append_and_free(buffer, segment);
@@ -115,7 +115,7 @@ int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 	if (!*buffer)
 	{
 		free(buffer);
-		return (0);
+		return (1);
 	}
 	add_token_to_list(token_list, create_token(T_WORD, buffer));
 	return (1);
