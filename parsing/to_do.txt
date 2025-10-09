@@ -1,14 +1,2 @@
-WhatTheShell$ |||||||
-minishell: syntax error near unexpected token `newline'
-WhatTheShell$ bash
-WhatTheShell$ %                                                                                                                                                                                                
-➜  Minishell git:(patsy) bash
-pmeimoun@c2r10p1:~/Minishell$ |||||||
-bash: syntax error near unexpected token `||'
 
-
-echo \n hola \n hola
-\n hola \n hola
-
-
-echo $USER caca -> ca doit pas retiurner chaine vide 
+echo \$HOME\home/mbores = a gerer 
