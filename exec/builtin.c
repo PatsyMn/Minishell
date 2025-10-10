@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:24:44 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/09 13:53:34 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/10 14:15:16 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static int execute_builtin_2(t_command *commands, t_export *export, t_pipex * pi
 
 int execute_builtin(t_command *commands, t_export *export, t_pipex *pipex)
 {
-    if (!commands->args || !commands->args[0])
-        return (-1);
+    if (!commands->args)
+        return (0);
     else if (!ft_strncmp(commands->args[0], "echo", 5))
         return (builtin_echo(commands->args, pipex));
     else if (!ft_strncmp(commands->args[0], "env", 4) && !commands->args[1])
@@ -41,6 +41,8 @@ int execute_builtin(t_command *commands, t_export *export, t_pipex *pipex)
 
 int is_builtin(t_command *commands)
 {
+    if (!commands->args)
+        return (1);
     if (!ft_strncmp(commands->args[0], "echo", 5)
         || (!ft_strncmp(commands->args[0], "env", 4) && !commands->args[1])
         || (!ft_strncmp(commands->args[0], "pwd", 4) && !commands->args[1])

@@ -6,7 +6,7 @@
 #    By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/08 16:27:08 by mbores           ###   ########.fr        #
+#    Updated: 2025/10/10 16:38:10 by mbores           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ MAKEFLAGS += --no-print-directory
 
 CC = cc
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -g -I./Libft -I. -g3
+CFLAGS = -Wall -Wextra -Werror -ggdb -I./Libft -I. -g3
 
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a

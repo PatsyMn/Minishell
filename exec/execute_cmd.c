@@ -66,7 +66,7 @@ static void	free_tab(char **tab)
 	}
 }
 
-static void	free_execute(t_export *export, t_pipex * pipex)
+void	free_execute(t_export *export, t_pipex * pipex)
 {
 	free_env_chained(export->env);
 	free_env_chained(export->export);

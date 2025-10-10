@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/09 13:53:45 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/10 15:32:36 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,26 @@ void    new_export(t_export *export, t_command *command)
 {
     char    *equal;
     size_t  len;
+    int     i;
 
-    equal = ft_strchr(command->args[1], '=');
-    if (equal)
+    i = 1;
+    while (command->args[i])
     {
-        len = equal - command->args[1];
-        my_setenv(&export->export,
-            ft_substr(command->args[1], 0, len),
-            ft_strdup(equal + 1));
-        my_setenv(&export->env,
-            ft_substr(command->args[1], 0, len),
-            ft_strdup(equal + 1));
-        return ;
+        equal = ft_strchr(command->args[i], '=');
+        if (equal)
+        {
+            len = equal - command->args[i];
+            my_setenv(&export->export,
+                ft_substr(command->args[i], 0, len),
+                ft_strdup(equal + 1));
+            my_setenv(&export->env,
+                ft_substr(command->args[i], 0, len),
+                ft_strdup(equal + 1));
+        }
+        else
+            my_setenv(&export->export, command->args[1], NULL);
+        i++;
     }
-    my_setenv(&export->export, command->args[1], NULL);
 }
 
 int builtin_export(t_export *export, t_command *command)

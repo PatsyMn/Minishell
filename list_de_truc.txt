@@ -1,0 +1,11 @@
+*redirection + builtin : cassé
+
+redirection in/heredoc collé a la commande : cassé (patsy issue)
+
+*redirection sans command : fête a la saucisse (et au segfault)
+
+redirect after pipe : marche pas (same as builtin)
+
+*cat|cat|ls : a mache pus
+
+pas de wrapper autour des couleurs du prompt
