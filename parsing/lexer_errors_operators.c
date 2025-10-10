@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/09 23:00:11 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:58:53 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static int	is_operator(char *token)
 {
 	if (!ft_strncmp(token, ">>", 3) || !ft_strncmp(token, "<<", 3)
 		|| !ft_strncmp(token, ">", 2) || !ft_strncmp(token, "<", 2)
-		|| !ft_strncmp(token, "|", 2) || !ft_strncmp(token, "<>", 3)
-		|| !ft_strncmp(token, "||", 3))
+		|| !ft_strncmp(token, "||", 3) || !ft_strncmp(token, "<>", 3)
+		|| !ft_strncmp(token, "|", 2))
 		return (1);
 	return (0);
 }
@@ -39,9 +39,11 @@ static int	print_syntax_error(char *token)
 
 static int	check_operator_at_end(char *token)
 {
-	(void)token;
 	g_status = 2;
-	printf("minishell: syntax error near unexpected token `newline'\n");
+	if (token)
+		printf("minishell: syntax error near unexpected token `%s'\n", token);
+	else
+		printf("minishell: syntax error near unexpected token `newline'\n");
 	return (1);
 }
 
