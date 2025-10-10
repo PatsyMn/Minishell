@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/10 15:20:11 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:52:20 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char	*build_expansion(t_expansion *exp)
 	char	*res;
 	size_t	total_len;
 
+	if (exp->dollar_pos < 0)
+		return (NULL);
 	total_len = ft_strlen(exp->before) + ft_strlen(exp->var_value)
 		+ ft_strlen(exp->after) + 1;
 	res = malloc(total_len);

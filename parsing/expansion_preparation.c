@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/10 15:09:59 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:10:11 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,21 @@ char	*expand_variables(char *str, t_env *env_copy)
 {
 	t_expansion	exp;
 	char		*expanded;
-
-	exp = prepare_expansion(str, env_copy);
-	if (exp.result)
+	
+	expanded = NULL;
+	init_expansion(&exp);
+	while (!exp.result)
 	{
-		expanded = ft_strdup(exp.result);
+		free(expanded);
+		expanded = build_expansion(&exp);
+		if (expanded)
+			str = expanded;
 		free_exp(&exp);
-		return (expanded);
+		init_expansion(&exp);
+		handle_dollar(str, &exp, env_copy);
 	}
-	expanded = build_expansion(&exp);
+	free(expanded);
+	expanded = ft_strdup(exp.result);
 	free_exp(&exp);
 	return (expanded);
 }
