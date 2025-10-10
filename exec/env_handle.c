@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 15:20:03 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/25 16:19:38 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/10 16:44:09 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ static void new_env(t_env **env, t_env *tmp, char *var, char *content)
     if (!node)
         return ;
     node->key = ft_strdup(var);
+    free(var);
     if (content)
+    {
         node->content = ft_strdup(content);
+        free(content);
+    }
     else
         node->content = NULL;
     node->next = NULL;
@@ -59,6 +63,7 @@ void    my_setenv(t_env **env, char *var, char *content)
         {
             free(tmp->content);
             tmp->content = ft_strdup(content);
+            free(content);
             return ;
         }
         tmp = tmp->next;
