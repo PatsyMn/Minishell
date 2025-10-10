@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/07 14:46:33 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/10 14:06:36 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ void	build_args(t_command *cmd)
 		if (tok->type == T_WORD || tok->type == T_COMMAND)
 			count++;
 		tok = tok->next;
+	}
+	if (!count)
+	{
+		cmd->args = NULL;
+		return ;
 	}
 	args = malloc(sizeof(char *) * (count + 1));
 	if (!args)
