@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/09 15:04:44 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:20:11 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,8 @@ char	*build_expansion(t_expansion *exp)
 		return (NULL);
 	res[0] = '\0';
 	ft_strlcat(res, exp->before, total_len);
-	printf("%s\n", exp->before);
 	ft_strlcat(res, exp->var_value, total_len);
-	printf("%s\n", exp->var_value);
 	ft_strlcat(res, exp->after, total_len);
-	printf("%s\n", exp->after);
 	return (res);
 }
 

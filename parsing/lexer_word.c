@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/09 22:21:42 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:11:45 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ static char	*process_segment(char *str, int *i, t_env *env_copy)
 	if (str[*i] == '\'')
 	{
 		tmp = extract_quoted_substring(str, i);
-		if (!tmp)
-			return (NULL);
 		return (tmp);
 	}
 	if (str[*i] == '"')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/09 13:51:33 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/10 15:22:43 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ static int	handle_tokens(char **split_input, t_export *export)
 		free(pipex);
 		free_commands(commands);
 	}
-	if (!token_list)
-		write(STDOUT_FILENO, "\n", 1);
 	return (1);
 }
 
@@ -102,6 +100,7 @@ static int	handle_input(char *input, t_export	*export)
 
 int	main(int ac, char **av, char **envp)
 {
+	/* Modifier "bash" et "minishell" en "WhatTheShell" */
 	char		*input;
 	t_export	*export;
 	int			ret;
