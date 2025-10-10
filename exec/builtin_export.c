@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/09 17:10:22 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/10 15:32:36 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void    new_export(t_export *export, t_command *command)
     size_t  len;
     int     i;
 
-    i = 0;
+    i = 1;
     while (command->args[i])
     {
         equal = ft_strchr(command->args[i], '=');
@@ -31,10 +31,9 @@ void    new_export(t_export *export, t_command *command)
             my_setenv(&export->env,
                 ft_substr(command->args[i], 0, len),
                 ft_strdup(equal + 1));
-            i++;
-            continue ;
         }
-        my_setenv(&export->export, command->args[1], NULL);
+        else
+            my_setenv(&export->export, command->args[1], NULL);
         i++;
     }
 }
