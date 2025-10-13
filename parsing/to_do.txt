@@ -1,18 +1,7 @@
-echo>a
 
--> ">" est duplique, c'est le chevron et un simple nom de fichier,
-donc on a les fichiers ">" et "a"
-
-Token: COMMAND      | Value: echo
-Token: REDIR_OUT    | Value: >
-Token: REDIR_OUT    | Value: >
-Token: FILENAME     | Value: a
-
----
 
 WhatTheShell$ cat a | > b
 minishell: syntax error near unexpected token `>'
-WhatTheShell$ exit
-exit
+
 ➜  Minishell git:(main) ✗ bash
 pmeimoun@c1r3p9:~/Minishell$ cat a | > b
