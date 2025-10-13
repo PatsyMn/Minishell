@@ -9,3 +9,14 @@ redirect after pipe : marche pas (same as builtin)
 *cat|cat|ls : a mache pus
 
 pas de wrapper autour des couleurs du prompt
+
+
+> EOF
+(PK RETOUR A LA LIGNE)
+test tes tset
+
+heredoc ctrl c ctrl d (file ne devrait pas etre cree (ctrl + c) + warning ctrl + d)
+
+
+WhatTheShell$ cat a | > b
+WhatTheShell$ cat: a: No such file or directory PB message erreur avec prompt 

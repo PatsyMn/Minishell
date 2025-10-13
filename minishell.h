@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/09 16:33:09 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/13 17:09:27 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,8 +333,8 @@ void    				my_setenv(t_env **env, char *var, char *content);
 /* ========== COLORS ========== */
 
 //prompt
-#define RESET	"\033[0m"
-#define PINK "\033[1;38;2;255;20;147m"
+#define RESET	"\001\033[0m\002"
+#define PINK "\001\033[1;38;2;255;20;147m\002"
 
 
 

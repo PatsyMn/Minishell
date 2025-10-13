@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/13 13:04:25 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:06:19 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	main(int ac, char **av, char **envp)
 	if (!export)
 		return (1);
 	ret = 1;
-	prompt = PINK "WhatTheShell" RESET "$ ";
+	prompt = PINK "WhatTheShell" RESET "$ \001\002";
 	export->env = copy_env_chained(envp);
 	export->export = copy_env_chained(envp);
 	g_status = 0;
