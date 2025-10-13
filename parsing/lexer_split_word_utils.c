@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:24:19 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 13:26:53 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:41:52 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**split_and_add_word(t_split_state *state)
 	int		end;
 	char	*word;
 
-	if (state->input[state->i] == ' ' || state->input[state->i] == 9)
+	if (state->input[state->i] == 32 || state->input[state->i] == 9)
 		end = state->i;
 	else
 		end = state->i + 1;

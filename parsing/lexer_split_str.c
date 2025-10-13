@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:50:54 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/30 15:34:05 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:27:01 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	**split_input_respecting_quotes(char *input)
 	state.context = &context;
 	state.start = -1;
 	state.i = 0;
-	state.start = -1;
 	if (!split_loop(&state))
 		return (NULL);
 	return (state.result);
