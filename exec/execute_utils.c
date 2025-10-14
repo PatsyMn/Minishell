@@ -1,38 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_utils.c                                    :+:      :+:    :+:   */
+/*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/24 14:11:36 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 17:26:11 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/10/14 17:40:48 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/10/14 17:41:40 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	sort_env_tab(char **env_tab)
+int	env_list_size(t_env *env)
 {
-	int		i;
-	int		j;
-	char	*tmp;
+	int	i;
 
 	i = 0;
-	while (env_tab[i])
+	while (env)
 	{
-		j = i + 1;
-		while (env_tab[j])
-		{
-			if (ft_strncmp(env_tab[i], env_tab[j], ft_strlen(env_tab[i])
-					+ 1) > 0)
-			{
-				tmp = env_tab[i];
-				env_tab[i] = env_tab[j];
-				env_tab[j] = tmp;
-			}
-			j++;
-		}
 		i++;
+		env = env->next;
 	}
+	return (i);
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	if (tab)
+	{
+		while (tab[i])
+		{
+			free(tab[i]);
+			i++;
+		}
+		free(tab);
+	}
+}
+
+void	free_execute(t_export *export, t_pipex *pipex)
+{
+	free_env_chained(export->env);
+	free_env_chained(export->export);
+	free(export);
+	free_commands(pipex->commands_head);
+	free(pipex);
+	rl_clear_history();
 }

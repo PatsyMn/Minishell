@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 17:23:58 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:51:39 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,11 +302,16 @@ void					reset_signals_to_default(void);
 int						execute_cmd(t_export *export, t_command *commands,
 							t_pipex *pipex);
 char					**env_list_to_tab(t_env *env);
+
+// execute_utils.c
+int						env_list_size(t_env *env);
+void					free_tab(char **tab);
 void					free_execute(t_export *export, t_pipex *pipex);
 
 // pipe_handle.c
-// void    				close_all_fds(t_pipex *pipex, t_command *command);
 int						child_process(t_command *command, t_pipex *pipex,
+							t_export *export);
+int						fork_and_exec(t_pipex *pipex, t_command *command,
 							t_export *export);
 
 // redirection.c
@@ -315,6 +320,11 @@ int						redirection(t_pipex *pipex, t_command *command,
 
 // pipe_utils.c
 void					safe_close(int *fd);
+int						restore_prompt(t_pipex *pipex);
+int						is_pipeline(t_command *commands, t_pipex *pipex,
+							t_export *export);
+int						check_pipe(t_pipex *pipex, t_command *command,
+							t_export *export);
 char					*find_token(t_token *token_list, t_token_type type);
 
 // open_files.c

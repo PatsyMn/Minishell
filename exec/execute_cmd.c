@@ -15,45 +15,6 @@
 
 #include "../minishell.h"
 
-static int	env_list_size(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (env)
-	{
-		i++;
-		env = env->next;
-	}
-	return (i);
-}
-
-static void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	if (tab)
-	{
-		while (tab[i])
-		{
-			free(tab[i]);
-			i++;
-		}
-		free(tab);
-	}
-}
-
-void	free_execute(t_export *export, t_pipex *pipex)
-{
-	free_env_chained(export->env);
-	free_env_chained(export->export);
-	free(export);
-	free_commands(pipex->commands_head);
-	free(pipex);
-	rl_clear_history();
-}
-
 static char	*join_path_cmd(char *dir, char *cmd)
 {
 	char	*tmp;

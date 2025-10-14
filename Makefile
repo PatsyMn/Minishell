@@ -6,7 +6,7 @@
 #    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/14 16:53:28 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/10/14 17:41:59 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ SRCS = main.c \
 	exec/builtin.c\
 	exec/env_handle.c\
 	exec/execute_cmd.c\
+	exec/execute_utils.c\
 	exec/open_files.c\
 	exec/pipe_handle.c\
 	exec/pipe_utils.c\
