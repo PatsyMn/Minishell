@@ -1,7 +1,0 @@
-
-
-WhatTheShell$ cat a | > b
-minishell: syntax error near unexpected token `>'
-
-➜  Minishell git:(main) ✗ bash
-pmeimoun@c1r3p9:~/Minishell$ cat a | > b
