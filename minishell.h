@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 10:52:23 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:53:11 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,6 +293,7 @@ int						child_process(t_command *command, t_pipex *pipex, t_export *export);
 int						redirection(t_pipex *pipex, t_command *command, t_export *export);
 
 // pipe_utils.c
+void					safe_close(int *fd);
 char					*find_token(t_token *token_list, t_token_type type);
 // int						*open_infiles_outfiles(t_token *token_list, t_token_type *type);
 

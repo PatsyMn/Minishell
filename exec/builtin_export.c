@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/10 15:32:36 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/14 16:29:33 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void    new_export(t_export *export, t_command *command)
     char    *equal;
     size_t  len;
     int     i;
+    char    *key;
+    char    *value;
 
     i = 1;
     while (command->args[i])
@@ -25,15 +27,15 @@ void    new_export(t_export *export, t_command *command)
         if (equal)
         {
             len = equal - command->args[i];
-            my_setenv(&export->export,
-                ft_substr(command->args[i], 0, len),
-                ft_strdup(equal + 1));
-            my_setenv(&export->env,
-                ft_substr(command->args[i], 0, len),
-                ft_strdup(equal + 1));
+            key = ft_substr(command->args[i], 0, len);
+            value = ft_strdup(equal + 1);
+            my_setenv(&export->export, ft_strdup(key), ft_strdup(value));
+            my_setenv(&export->env, ft_strdup(key), ft_strdup(value));
+            free(key);
+            free(value);
         }
         else
-            my_setenv(&export->export, command->args[1], NULL);
+            my_setenv(&export->export, ft_strdup(command->args[i]), NULL);
         i++;
     }
 }

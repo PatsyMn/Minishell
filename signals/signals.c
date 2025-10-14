@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 11:01:11 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:09:17 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	init_signals_prompt(void)
 
 void	init_signals_heredoc(void)
 {
-	signal(SIGINT, handle_signal_heredoc);
+	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
 }
 
