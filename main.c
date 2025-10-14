@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 17:17:39 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/14 17:23:46 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	handle_syntax_errors(char **split_input)
-{
-	if (has_syntax_error_first_pipe(split_input)
-		|| check_syntax_operators(split_input)
-		|| has_syntax_error_last_pipe(split_input)
-		|| has_syntax_error_ampersand(split_input))
-	{
-		free_split(split_input);
-		return (1);
-	}
-	return (0);
-}
 
 void	wait_child(void)
 {
@@ -33,7 +20,7 @@ void	wait_child(void)
 		handle_child_status(wstatus);
 }
 
-static int	init_pipex(t_pipex *pipex, t_command *commands)
+int	init_pipex(t_pipex *pipex, t_command *commands)
 {
 	pipex->n = 0;
 	pipex->commands_head = commands;
@@ -47,86 +34,31 @@ static int	init_pipex(t_pipex *pipex, t_command *commands)
 	return (1);
 }
 
-static int	handle_tokens(char **split_input, t_export *export)
-{
-	t_token		*token_list;
-	t_command	*commands;
-	t_pipex		*pipex;
-
-	token_list = tokenizer(split_input, export->env);
-	free_split(split_input);
-	if (token_list)
-	{
-		assign_filename_types(token_list);
-		expand_tokens(token_list, export->env);
-		commands = parser(token_list);
-		// print_tokens(token_list);
-		// print_commands(commands);
-		free_tokens(token_list);
-		pipex = malloc(sizeof(t_pipex));
-		if (!init_pipex(pipex, commands))
-			return (0);
-		child_process(commands, pipex, export);
-		wait_child();
-		unlink("temp");
-		free(pipex);
-		free_commands(commands);
-	}
-	return (1);
-}
-
-static int	handle_input(char *input, t_export *export)
-{
-	char	**split_input;
-
-	if (ft_strlen(input) == 0)
-	{
-		free(input);
-		return (1);
-	}
-	add_history(input);
-	if (check_unclosed_quotes(input))
-	{
-		free(input);
-		return (1);
-	}
-	split_input = split_input_respecting_quotes(input);
-	free(input);
-	if (!split_input)
-		return (1);
-	if (handle_syntax_errors(split_input))
-		return (1);
-	return (handle_tokens(split_input, export));
-}
-
 int	main(int ac, char **av, char **envp)
 {
-	char		*input;
-	t_export	*export;
-	int			ret;
-	const char	*prompt;
+	t_shell	shell;
 
 	(void)ac;
 	(void)av;
-	export = malloc(sizeof(t_export));
-	if (!export)
+	shell.export = malloc(sizeof(t_export));
+	if (!shell.export)
 		return (1);
-	ret = 1;
-	prompt = PINK "WhatTheShell" RESET "$ \001\002";
-	export->env = copy_env_chained(envp);
-	export->export = copy_env_chained(envp);
+	shell.ret = 1;
+	shell.prompt = PINK "WhatTheShell" RESET "$ \001\002";
+	shell.export->env = copy_env_chained(envp);
+	shell.export->export = copy_env_chained(envp);
 	g_status = 0;
-	while (ret)
+	while (shell.ret)
 	{
 		init_signals_prompt();
-		input = readline(prompt);
-		if (!input)
+		shell.input = readline(shell.prompt);
+		if (!shell.input)
 			break ;
-		ret = handle_input(input, export);
+		shell.ret = handle_input(shell.input, shell.export);
 	}
-	free_env_chained(export->env);
-	free_env_chained(export->export);
-	free(export);
+	free_env_chained(shell.export->env);
+	free_env_chained(shell.export->export);
+	free(shell.export);
 	rl_clear_history();
 	return (0);
 }
