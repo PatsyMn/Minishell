@@ -19,3 +19,17 @@ minishell: syntax error near unexpected token `|'
 WhatTheShell$ bash
 pmeimoun@c3r1p4:~/Minishell$ |||
 bash: syntax error near unexpected token `||'
+
+patsy_mn@Patsypro:~/Projets 42/Minishell$ echo '$?'
+$?
+patsy_mn@Patsypro:~/Projets 42/Minishell$ echo "$?"
+0
+patsy_mn@Patsypro:~/Projets 42/Minishell$ echo $?
+0
+patsy_mn@Patsypro:~/Projets 42/Minishell$
+
+• echo « «  caca ça doit imprimer espace aussi dans notre Shell avant caca mais c’est pas le cas
+• leak parfois mais pas réussi à reproduire donc bon
+• ‘$?’ Problème entre quotes ne devrait pas être gérer comme une expansion
+• += dans export dois ajouter au mot et pas créer nouvelle variable
+• unset PATH ça casse

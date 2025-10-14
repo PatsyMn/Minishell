@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 17:51:39 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 23:55:16 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ void					add_arg(t_command *cmd, char *val);
 void					free_commands(t_command *cmd);
 
 // quote_utils.c
-char					*strip_outer_single_quotes(const char *token);
+//char					*strip_outer_single_quotes(const char *token);
 char					*strip_outer_double_quotes(const char *token);
 
 // env_utils.c

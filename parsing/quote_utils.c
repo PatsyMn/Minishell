@@ -6,13 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 14:33:27 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/10 16:03:22 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 23:54:43 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*strip_outer_single_quotes(const char *token)
+/*char	*strip_outer_single_quotes(const char *token)
 {
 	size_t	len;
 	char	*new_str;
@@ -30,7 +30,7 @@ char	*strip_outer_single_quotes(const char *token)
 		return (new_str);
 	}
 	return (ft_strdup(token));
-}
+}*/
 
 char	*strip_outer_double_quotes(const char *token)
 {
