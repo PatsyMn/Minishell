@@ -6,11 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 18:03:05 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 00:44:49 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+//ajouter les autres tokens qui peuvent etre arguments
 
 static void	tok_to_args(t_command *cmd, t_token *token, int count, char **args)
 {
