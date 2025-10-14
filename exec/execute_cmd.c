@@ -75,7 +75,7 @@ static void	check_file(char *cmd, char **env, t_export *export, t_pipex *pipex)
 	{
 		if (S_ISDIR(st.st_mode))
 		{
-			write(STDERR_FILENO, "WhatTheShell: ", 11);
+			write(STDERR_FILENO, "WhatTheShell: ", 14);
 			write(STDERR_FILENO, cmd, ft_strlen(cmd));
 			write(STDERR_FILENO, ": Is a directory\n", 17);
 			free(cmd);
@@ -92,7 +92,9 @@ static char	*find_cmd(char *cmd, t_env *env)
 	char	*path_cmd;
 	int		i;
 
-	if (!cmd || access(cmd, X_OK) == 0)
+	if (!cmd)
+		return (NULL);
+	if (ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
 	path = ft_split(my_getenv(env, "PATH"), ':');
 	if (!path)
@@ -147,7 +149,7 @@ int	execute_cmd(t_export *export, t_command *commands, t_pipex *pipex)
 	cmd = find_cmd(commands->args[0], export->env);
 	if (!cmd)
 	{
-		write(STDERR_FILENO, "WhatTheShell: ", 11);
+		write(STDERR_FILENO, "WhatTheShell: ", 14);
 		write(STDERR_FILENO, commands->args[0], ft_strlen(commands->args[0]));
 		write(STDERR_FILENO, ": command not found\n", 20);
 		free_tab(env_tab);

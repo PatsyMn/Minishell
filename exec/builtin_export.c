@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 14:23:56 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:20:56 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,30 @@
 
 void	new_export(t_export *export, t_command *command)
 {
-	char	*equal;
-	size_t	len;
-	int		i;
+    char    *equal;
+    size_t  len;
+    int     i;
+    char    *key;
+    char    *value;
 
-	i = 1;
-	while (command->args[i])
-	{
-		equal = ft_strchr(command->args[i], '=');
-		if (equal)
-		{
-			len = equal - command->args[i];
-			my_setenv(&export->export, ft_substr(command->args[i], 0, len),
-				ft_strdup(equal + 1));
-			my_setenv(&export->env, ft_substr(command->args[i], 0, len),
-				ft_strdup(equal + 1));
-		}
-		else
-			my_setenv(&export->export, command->args[1], NULL);
-		i++;
-	}
+    i = 1;
+    while (command->args[i])
+    {
+        equal = ft_strchr(command->args[i], '=');
+        if (equal)
+        {
+            len = equal - command->args[i];
+            key = ft_substr(command->args[i], 0, len);
+            value = ft_strdup(equal + 1);
+            my_setenv(&export->export, ft_strdup(key), ft_strdup(value));
+            my_setenv(&export->env, ft_strdup(key), ft_strdup(value));
+            free(key);
+            free(value);
+        }
+        else
+            my_setenv(&export->export, ft_strdup(command->args[i]), NULL);
+        i++;
+    }
 }
 
 int	builtin_export(t_export *export, t_command *command)

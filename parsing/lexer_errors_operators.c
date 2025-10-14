@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_errors_operators.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 14:43:17 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:19:20 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	is_operator(char *token)
 {
 	if (!ft_strncmp(token, ">>", 3) || !ft_strncmp(token, "<<", 3)
 		|| !ft_strncmp(token, ">", 2) || !ft_strncmp(token, "<", 2)
-		|| !ft_strncmp(token, "<>", 3))
+		|| !ft_strncmp(token, "<>", 3) || !ft_strncmp(token, "|", 2))
 		return (1);
 	return (0);
 }
@@ -55,6 +55,8 @@ int	check_syntax_operators(char **split_input)
 					&& !ft_strncmp(split_input[i], split_input[i + 1],
 						ft_strlen(split_input[i])))
 					return (print_syntax_error(split_input[i]));
+				if (is_operator(split_input[i + 1]) && !split_input[i + 2])
+					return (print_syntax_error(NULL));
 			}
 		}
 		if (is_operator(split_input[i]) && !i && !split_input[i + 1])
