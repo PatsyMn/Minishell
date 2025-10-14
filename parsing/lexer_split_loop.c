@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 12:57:48 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/13 12:49:42 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 12:19:31 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	handle_operators(t_split_state *state)
 		handle_redirect(state);
 		return (1);
 	}
-	if (c == '|')
+	else if (c == '|')
 	{
 		handle_pipe(state);
 		return (1);

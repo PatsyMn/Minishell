@@ -1,8 +1,4 @@
-*redirection + builtin : cassé
 
-*redirection sans command : fête a la saucisse (et au segfault)
-
-redirect after pipe : marche pas (same as builtin)
 
 *cat|cat|ls : a mache pus --> ordre ?
 
@@ -16,3 +12,10 @@ heredoc ctrl c ctrl d (file ne devrait pas etre cree (ctrl + c) + warning ctrl +
 
 WhatTheShell$ cat a | > b
 WhatTheShell$ cat: a: No such file or directory PB message erreur avec prompt --> minishell: syntax error near unexpected token `>'
+
+
+WhatTheShell$ |||
+minishell: syntax error near unexpected token `|'
+WhatTheShell$ bash
+pmeimoun@c3r1p4:~/Minishell$ |||
+bash: syntax error near unexpected token `||'

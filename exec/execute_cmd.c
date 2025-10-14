@@ -97,7 +97,7 @@ static void	check_file(char *cmd, char **env, t_export *export, t_pipex *pipex)
 	{
 		if (S_ISDIR(st.st_mode))
 		{
-			write(STDERR_FILENO, "minishell: ", 11);
+			write(STDERR_FILENO, "WhatTheShell: ", 11);
 			write(STDERR_FILENO, cmd, ft_strlen(cmd));
 			write(STDERR_FILENO, ": Is a directory\n", 17);
 			free(cmd);
@@ -169,7 +169,7 @@ int execute_cmd(t_export *export, t_command *commands, t_pipex * pipex)
 	cmd = find_cmd(commands->args[0], export->env);
 	if (!cmd)
 	{
-		write(STDERR_FILENO, "minishell: ", 11);
+		write(STDERR_FILENO, "WhatTheShell: ", 11);
 		write(STDERR_FILENO, commands->args[0], ft_strlen(commands->args[0]));
 		write(STDERR_FILENO, ": command not found\n", 20);
 		free_tab(env_tab);
@@ -179,7 +179,7 @@ int execute_cmd(t_export *export, t_command *commands, t_pipex * pipex)
 	check_file(cmd, env_tab, export, pipex);
 	reset_signals_to_default();
 	execve(cmd, commands->args, env_tab);
-	perror("minishell");
+	perror("WhatTheShell");
 	free(cmd);
 	free_tab(env_tab);
 	free_execute(export, pipex);

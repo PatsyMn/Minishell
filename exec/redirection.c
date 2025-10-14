@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:37:20 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/10 12:41:31 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/14 13:05:34 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	redir_in(t_pipex *pipex, t_token *token)
 		if (pipex->input_fd == -1)
 		{
 			g_status = 1;
-			write(STDERR_FILENO, "minishell: ", 11);
+			write(STDERR_FILENO, "WhatTheShell: ", 11);
 			write(STDERR_FILENO, token->next->value,
 				ft_strlen(token->next->value));
 			write(STDERR_FILENO, ": ", 2);
@@ -51,7 +51,7 @@ static int	redir_out(t_pipex *pipex, t_token *token)
 		if (pipex->output_fd == -1)
 		{
 			g_status = 1;
-			write(STDERR_FILENO, "minishell: ", 11);
+			write(STDERR_FILENO, "WhatTheShell: ", 11);
 			write(STDERR_FILENO, token->next->value,
 				ft_strlen(token->next->value));
 			write(STDERR_FILENO, ": ", 2);
@@ -77,7 +77,7 @@ static int	redir_append(t_pipex *pipex, t_token *token)
 		if (pipex->output_fd == -1)
 		{
 			g_status = 1;
-			write(STDERR_FILENO, "minishell: ", 11);
+			write(STDERR_FILENO, "WhatTheShell: ", 11);
 			write(STDERR_FILENO, token->next->value,
 				ft_strlen(token->next->value));
 			write(STDERR_FILENO, ": ", 2);
