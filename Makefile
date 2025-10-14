@@ -6,7 +6,7 @@
 #    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/14 14:52:47 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/10/14 16:53:28 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 OBJ_DIR = obj
 
 SRCS = main.c \
+	parsing/input_handler.c\
 	parsing/parser.c\
 	parsing/command_split.c\
 	parsing/parser_utils.c\

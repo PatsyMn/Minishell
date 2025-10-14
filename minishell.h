@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 15:44:58 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:55:27 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,22 @@ typedef struct s_export
 	t_env				*export;
 }						t_export;
 
+typedef struct s_shell
+{
+	char		*input;
+	const char	*prompt;
+	int			ret;
+	t_export	*export;
+}	t_shell;
+
+// main.c
+void					wait_child(void);
+int						init_pipex(t_pipex *pipex, t_command *commands);
+
 /* ========== LEXER ========== */
+
+// input_handler.c
+int						handle_input(char *input, t_export *export);
 
 // lexer_utils.c
 int						count_tokens(t_token *tokens);
