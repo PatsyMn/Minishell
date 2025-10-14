@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/10 16:52:20 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 10:57:05 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ void	free_exp(t_expansion *exp)
 	if (exp->after)
 	{
 		free(exp->after);
-		exp->after = NULL;	
+		exp->after = NULL;
 	}
 	if (exp->result)
 	{
 		free(exp->result);
-		exp->result = NULL;	
+		exp->result = NULL;
 	}
 }

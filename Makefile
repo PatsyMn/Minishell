@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+         #
+#    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/10 16:38:10 by mbores           ###   ########.fr        #
+#    Updated: 2025/10/14 10:52:42 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS = main.c \
 	parsing/expansion_utils.c\
 	parsing/expand_tokens.c\
 	parsing/expansion_preparation.c\
+	parsing/expansion_extract.c\
 	parsing/quote_utils.c\
 	parsing/init.c\
 	parsing/parser_redirection.c\

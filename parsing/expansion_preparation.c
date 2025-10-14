@@ -6,59 +6,11 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/10 17:10:11 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 10:56:46 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static bool	extract_before_and_var(char *token, t_expansion *exp)
-{
-	exp->before = ft_substr(token, 0, exp->dollar_pos);
-	if (!exp->before)
-		return (false);
-	exp->var_name = extract_var_name(token + exp->dollar_pos + 1);
-	if (!exp->var_name)
-	{
-		free(exp->before);
-		exp->before = NULL;
-		return (false);
-	}
-	return (true);
-}
-
-static bool	extract_after(char *token, t_expansion *exp, t_env *env_copy)
-{
-	size_t	var_name_len;
-	size_t	var_end_index;
-	char	*after_start;
-
-	if (ft_strncmp(exp->var_name, "?", 2) == 0)
-	{
-		exp->var_value = ft_itoa(g_status);
-		if (!exp->var_value)
-		{
-			free(exp->before);
-			free(exp->var_name);
-			return (false);
-		}
-	}
-	else
-	exp->var_value = my_getenv(env_copy, exp->var_name);
-	if (!exp->var_value)
-		exp->var_value = "";
-	var_name_len = ft_strlen(exp->var_name);
-	var_end_index = (size_t)exp->dollar_pos + 1 + var_name_len;
-	after_start = token + var_end_index;
-	exp->after = ft_strdup(after_start);
-	if (!exp->after)
-	{
-		free(exp->before);
-		free(exp->var_name);
-		return (false);
-	}
-	return (true);
-}
 
 static bool	handle_dollar(char *token, t_expansion *exp, t_env *env_copy)
 {
@@ -104,7 +56,7 @@ char	*expand_variables(char *str, t_env *env_copy)
 {
 	t_expansion	exp;
 	char		*expanded;
-	
+
 	expanded = NULL;
 	init_expansion(&exp);
 	while (!exp.result)

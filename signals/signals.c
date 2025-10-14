@@ -6,13 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/02 19:19:55 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 11:01:11 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int g_status = 0;
+int		g_status = 0;
 
 void	handle_signal_prompt(int sig)
 {
@@ -33,13 +33,14 @@ void	handle_signal_heredoc(int sig)
 		write(1, "\n", 1);
 		close(0); // ferme stdin pour casser readline dans le heredoc
 		rl_on_new_line();
-		g_status = 99; // 99 = code spécial pour que le shell sache qu'on a interrompu un heredoc
+		g_status = 99;
+			// 99 = code spécial pour que le shell sache qu'on a interrompu un heredoc
 	}
 }
 
 void	handle_child_status(int status)
 {
-	int sig;
+	int	sig;
 
 	if (WIFEXITED(status))
 		g_status = WEXITSTATUS(status);

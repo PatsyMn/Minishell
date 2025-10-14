@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 13:29:30 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/10 12:08:04 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 10:54:36 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,11 @@ static int	copy_token_list(t_command_split_context *ctx, t_token *token_list)
 
 t_command	*split_token_list(t_token *token_list)
 {
-	t_command_split_context ctx;
+	t_command_split_context	ctx;
 
 	ctx.head = NULL;
 	ctx.current = NULL;
 	ctx.last_token_copy = NULL;
-
 	while (token_list)
 	{
 		if (!ctx.current)

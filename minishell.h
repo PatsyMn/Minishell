@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/13 17:09:27 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 10:52:23 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,11 @@ void							expand_tokens(t_token *tokens, t_env *env_copy);
 //expension_preparation.c
 char							*expand_variables(char *str, t_env *env_copy);
 t_expansion						prepare_expansion(char *token, t_env *env_copy);
+
+//expansion_extract.c
+bool							extract_before_and_var(char *token, t_expansion *exp);
+bool 							extract_var_value(t_expansion *exp, t_env *env_copy);
+bool 							extract_after(char *token, t_expansion *exp, t_env *env_copy);
 
 /* ========== SIGNALS ========== */
 

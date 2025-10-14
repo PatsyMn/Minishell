@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:39:15 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/07 12:17:58 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 10:57:34 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_quote_state	parse_quotes(char *str)
 		if (str[i] == '\\' && str[i + 1])
 		{
 			i += 2;
-			continue;
+			continue ;
 		}
 		if (str[i] == '\'' && state == NO_QUOTE)
 			state = IN_SINGLE;
@@ -82,4 +82,3 @@ int	check_unclosed_quotes(char *str)
 	}
 	return (0);
 }
-

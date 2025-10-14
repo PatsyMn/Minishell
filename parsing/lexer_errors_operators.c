@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/13 13:00:52 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 10:58:05 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int	check_syntax_operators(char **split_input)
 				return (check_operator_at_end(split_input[i]));
 			if (is_operator(split_input[i + 1]))
 			{
-				if (ft_strncmp(split_input[i], "<", 2) == 0 && ft_strncmp(split_input[i + 1], ">", 2) == 0)
+				if (ft_strncmp(split_input[i], "<", 2) == 0
+					&& ft_strncmp(split_input[i + 1], ">", 2) == 0)
 					return (print_syntax_error(NULL));
 				// return (print_syntax_error(split_input[i + 1]));
 			}
@@ -69,4 +70,3 @@ int	check_syntax_operators(char **split_input)
 	}
 	return (0);
 }
-
