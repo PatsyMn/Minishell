@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 11:00:22 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:41:18 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 void	build_args(t_command *cmd)
 {
 	int		count;
-	t_token	*tok;
+	t_token	*token;
 	char	**args;
 
 	count = 0;
-	tok = cmd->token_list;
-	while (tok)
+	token = cmd->token_list;
+	while (token)
 	{
-		if (tok->type == T_WORD || tok->type == T_COMMAND)
+		if (token->type == T_WORD || token->type == T_COMMAND)
 			count++;
-		tok = tok->next;
+		token = token->next;
 	}
 	if (!count)
 	{
@@ -34,13 +34,13 @@ void	build_args(t_command *cmd)
 	args = malloc(sizeof(char *) * (count + 1));
 	if (!args)
 		return ;
-	tok = cmd->token_list;
+	token = cmd->token_list;
 	count = 0;
-	while (tok)
+	while (token)
 	{
-		if (tok->type == T_WORD || tok->type == T_COMMAND)
-			args[count++] = ft_strdup(tok->value);
-		tok = tok->next;
+		if (token->type == T_WORD || token->type == T_COMMAND)
+			args[count++] = ft_strdup(token->value);
+		token = token->next;
 	}
 	args[count] = NULL;
 	cmd->args = args;

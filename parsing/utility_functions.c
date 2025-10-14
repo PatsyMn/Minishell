@@ -6,20 +6,20 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 14:59:40 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/02 13:27:01 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:43:58 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	calculate_processed_length(const char *input, int start, int end)
+static int	calculate_processed_len(const char *input, int start, int end)
 {
 	t_quote_context	context;
 	int				i;
-	int				length;
+	int				len;
 
 	i = start;
-	length = 0;
+	len = 0;
 	init_quote_context(&context);
 	while (i < end)
 	{
@@ -27,15 +27,15 @@ static int	calculate_processed_length(const char *input, int start, int end)
 		if (input[i] == '\\' && i + 1 < end)
 		{
 			i += 2;
-			length++;
+			len++;
 		}
 		else
 		{
 			i++;
-			length++;
+			len++;
 		}
 	}
-	return (length);
+	return (len);
 }
 
 static void	handle_quote_char(t_input *input, t_quote_context *context)
@@ -90,12 +90,12 @@ static void	fill_escaped_string(const char *input_str, int start,
 char	*ft_strdup_with_escape(const char *input, int start, int end)
 {
 	char	*word;
-	int		processed_length;
+	int		processed_len;
 
 	if (!input || start < 0 || end <= start)
 		return (NULL);
-	processed_length = calculate_processed_length(input, start, end);
-	word = malloc((processed_length + 1) * sizeof(char));
+	processed_len = calculate_processed_len(input, start, end);
+	word = malloc((processed_len + 1) * sizeof(char));
 	if (!word)
 		return (NULL);
 	fill_escaped_string(input, start, end, word);

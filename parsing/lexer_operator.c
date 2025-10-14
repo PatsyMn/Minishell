@@ -6,13 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:19:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/17 14:42:18 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:44:48 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	operator_length(char *str)
+int	operator_len(char *str)
 {
 	int		i;
 	char	c;
@@ -64,7 +64,7 @@ int	handle_operator(char *str, int *i, t_token **token_list)
 	int		op_len;
 	char	*sub;
 
-	op_len = operator_length(&str[*i]);
+	op_len = operator_len(&str[*i]);
 	if (op_len == -1)
 	{
 		sub = ft_substr(str, *i, 2);

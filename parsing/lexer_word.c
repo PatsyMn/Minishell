@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/10 15:11:45 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:45:20 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*extract_unquoted_segment(char *str, int *i)
 
 	start = *i;
 	while (str[*i] && str[*i] != '\'' && str[*i] != '"'
-		&& str[*i] != ' ' && operator_length(&str[*i]) == 0)
+		&& str[*i] != ' ' && operator_len(&str[*i]) == 0)
 	{
 		if (str[*i] == '\\' && str[*i + 1])
 			*i += 2;
@@ -98,7 +98,7 @@ int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 	buffer = ft_strdup("");
 	if (!buffer)
 		return (0);
-	while (str[*i] && str[*i] != ' ' && operator_length(&str[*i]) == 0)
+	while (str[*i] && str[*i] != ' ' && operator_len(&str[*i]) == 0)
 	{
 		segment = process_segment(str, i, env_copy);
 		if (!segment)

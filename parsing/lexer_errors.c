@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:32:31 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 13:13:16 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:28:32 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	has_syntax_error_ampersand(char **split_input)
 		i++;
 	if (i > 0 && ft_strncmp(split_input[i - 1], "&&", 2) == 0)
 	{
-		printf("prout3\n");
 		g_status = 2;
 		printf("WhatTheShell: syntax error near unexpected token `&&'\n");
 		return (1);

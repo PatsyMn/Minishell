@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:40:18 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/02 14:48:14 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:34:01 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	check_invalid_tokens(t_token *token_list)
 	return (0);
 }
 
-void	mark_commands(t_token *tokens)
+void	detect_command_tokens(t_token *tokens)
 {
 	int	expect_command;
 

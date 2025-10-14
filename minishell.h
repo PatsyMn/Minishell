@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 14:52:17 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:44:58 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ typedef struct s_export
 // lexer_utils.c
 int						count_tokens(t_token *tokens);
 int						check_invalid_tokens(t_token *token_list);
-void					mark_commands(t_token *tokens);
+void					detect_command_tokens(t_token *tokens);
 
 // token_utils.c
 t_token					*create_token(t_token_type type, char *str);
@@ -193,7 +193,7 @@ char					*ft_strdup_with_escape(const char *input, int start,
 int						is_operator_char(char c);
 
 // lexer_operator.c
-int						operator_length(char *str);
+int						operator_len(char *str);
 int						is_invalid_operator(char *str);
 int						handle_operator(char *str, int *i,
 							t_token **token_list);

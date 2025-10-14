@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 10:57:05 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:39:33 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,21 @@ char	*clean_and_strip_token(char *token)
 
 char	*build_expansion(t_expansion *exp)
 {
-	char	*res;
+	char	*result;
 	size_t	total_len;
 
 	if (exp->dollar_pos < 0)
 		return (NULL);
 	total_len = ft_strlen(exp->before) + ft_strlen(exp->var_value)
 		+ ft_strlen(exp->after) + 1;
-	res = malloc(total_len);
-	if (!res)
+	result = malloc(total_len);
+	if (!result)
 		return (NULL);
-	res[0] = '\0';
-	ft_strlcat(res, exp->before, total_len);
-	ft_strlcat(res, exp->var_value, total_len);
-	ft_strlcat(res, exp->after, total_len);
-	return (res);
+	result[0] = '\0';
+	ft_strlcat(result, exp->before, total_len);
+	ft_strlcat(result, exp->var_value, total_len);
+	ft_strlcat(result, exp->after, total_len);
+	return (result);
 }
 
 void	free_exp(t_expansion *exp)
