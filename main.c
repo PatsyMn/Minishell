@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 14:13:33 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:25:53 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ static int	handle_syntax_errors(char **split_input)
 	return (0);
 }
 
-void	wait_child()
+void	wait_child(void)
 {
-	int wstatus;
-	
+	int	wstatus;
+
 	while (wait(&wstatus) > 0)
 		handle_child_status(wstatus);
 }
 
-static int	init_pipex(t_pipex *pipex, t_command * commands)
+static int	init_pipex(t_pipex *pipex, t_command *commands)
 {
 	pipex->n = 0;
 	pipex->commands_head = commands;
@@ -74,7 +74,7 @@ static int	handle_tokens(char **split_input, t_export *export)
 	return (1);
 }
 
-static int	handle_input(char *input, t_export	*export)
+static int	handle_input(char *input, t_export *export)
 {
 	char	**split_input;
 
@@ -84,7 +84,7 @@ static int	handle_input(char *input, t_export	*export)
 		return (1);
 	}
 	add_history(input);
-	if (check_unclosed_quotes(input)) /*|| check_special_chars(input))*/
+	if (check_unclosed_quotes(input))
 	{
 		free(input);
 		return (1);
@@ -100,7 +100,6 @@ static int	handle_input(char *input, t_export	*export)
 
 int	main(int ac, char **av, char **envp)
 {
-	/* Modifier "bash" et "minishell" en "WhatTheShell" */
 	char		*input;
 	t_export	*export;
 	int			ret;
@@ -130,4 +129,3 @@ int	main(int ac, char **av, char **envp)
 	rl_clear_history();
 	return (0);
 }
-

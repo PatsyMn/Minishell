@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:37:20 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 13:05:34 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:24:35 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static int	redir_out(t_pipex *pipex, t_token *token)
 			close(pipex->output_fd);
 			pipex->output_fd = -1;
 		}
-		pipex->output_fd = open(token->next->value, 
-			O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		pipex->output_fd = open(token->next->value,
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (pipex->output_fd == -1)
 		{
 			g_status = 1;
@@ -72,8 +72,8 @@ static int	redir_append(t_pipex *pipex, t_token *token)
 			close(pipex->output_fd);
 			pipex->output_fd = -1;
 		}
-		pipex->output_fd = open(token->next->value, 
-			O_WRONLY | O_CREAT | O_APPEND, 0644);
+		pipex->output_fd = open(token->next->value,
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (pipex->output_fd == -1)
 		{
 			g_status = 1;
@@ -89,7 +89,7 @@ static int	redir_append(t_pipex *pipex, t_token *token)
 	return (1);
 }
 
-static int	redir_heredoc(t_pipex * pipex, t_command *command, t_export *export)
+static int	redir_heredoc(t_pipex *pipex, t_command *command, t_export *export)
 {
 	int	status;
 
@@ -117,7 +117,7 @@ static int	redir_heredoc(t_pipex * pipex, t_command *command, t_export *export)
 
 int	redirection(t_pipex *pipex, t_command *command, t_export *export)
 {
-	t_token *tok;
+	t_token	*tok;
 
 	tok = command->token_list;
 	while (tok)

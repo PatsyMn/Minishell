@@ -6,7 +6,7 @@
 #    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/14 10:52:42 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/10/14 14:52:47 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,6 @@ SRCS = main.c \
 	parsing/expansion_extract.c\
 	parsing/quote_utils.c\
 	parsing/init.c\
-	parsing/parser_redirection.c\
 	exec/builtin_cd.c\
 	exec/builtin_echo.c\
 	exec/builtin_env.c\
@@ -64,7 +63,8 @@ SRCS = main.c \
 	exec/pipe_handle.c\
 	exec/pipe_utils.c\
 	exec/redirection.c\
-	signals/signals.c\
+	signals/signals_prompt.c\
+	signals/signals_heredoc.c\
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
 

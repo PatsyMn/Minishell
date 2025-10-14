@@ -6,13 +6,13 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:10:50 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 12:35:03 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:38:03 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_redirect(t_split_state *state)
+void	handle_redirection(t_split_state *state)
 {
 	if (state->start != state->i)
 	{

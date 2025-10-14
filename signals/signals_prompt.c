@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   signals_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 11:01:11 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/10/14 14:53:11 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/10/14 14:53:38 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,6 @@ void	handle_signal_prompt(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-	}
-}
-
-void	handle_signal_heredoc(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		close(0); // ferme stdin pour casser readline dans le heredoc
-		rl_on_new_line();
-		g_status = 99;
-			// 99 = code spécial pour que le shell sache qu'on a interrompu un heredoc
 	}
 }
 
@@ -59,16 +47,4 @@ void	init_signals_prompt(void)
 {
 	signal(SIGINT, handle_signal_prompt);
 	signal(SIGQUIT, SIG_IGN);
-}
-
-void	init_signals_heredoc(void)
-{
-	signal(SIGINT, handle_signal_heredoc);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	reset_signals_to_default(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 }

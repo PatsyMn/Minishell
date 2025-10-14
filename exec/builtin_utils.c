@@ -3,31 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:11:36 by mbores            #+#    #+#             */
-/*   Updated: 2025/09/25 16:44:18 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/14 14:56:48 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    sort_env_tab(char **env_tab)
+void	sort_env_tab(char **env_tab)
 {
-    int   i;
-    int   j;
-    char  *tmp;
+	int		i;
+	int		j;
+	char	*tmp;
 
-    for (i = 0; env_tab[i]; i++)
-    {
-        for (j = i + 1; env_tab[j]; j++)
-        {
-            if (ft_strncmp(env_tab[i], env_tab[j], ft_strlen(env_tab[i])) > 0)
-            {
-                tmp = env_tab[i];
-                env_tab[i] = env_tab[j];
-                env_tab[j] = tmp;
-            }
-        }
-    }
+	i = 0;
+	while (env_tab[i])
+	{
+		j = i + 1;
+		while (env_tab[j])
+		{
+			if (ft_strncmp(env_tab[i], env_tab[j],
+					ft_strlen(env_tab[i]) + 1) > 0)
+			{
+				tmp = env_tab[i];
+				env_tab[i] = env_tab[j];
+				env_tab[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
 }

@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/09/11 13:08:09 by mbores            #+#    #+#             */
 /*   Updated: 2025/09/11 13:08:09 by mbores           ###   ########.fr       */
 /*                                                                            */
@@ -12,42 +15,17 @@
 
 #include "../minishell.h"
 
-// static char	*concat_command(t_command *command)
-// {
-// 	char	*cmd;
-// 	char	*tmp;
-// 	int		i;
-
-// 	if (!command->args || !command->args[0])
-// 		return (NULL);
-// 	cmd = NULL;
-// 	i = 0;
-// 	cmd = ft_strjoin(cmd, command->args[i]);
-// 	i++;
-// 	while (command->args[i])
-// 	{
-// 		if (command->outfile && !ft_strncmp(command->outfile, command->args[i], ft_strlen(command->outfile)))
-// 			break ;
-// 		tmp = ft_strjoin(cmd, " ");
-// 		free(cmd);
-// 		cmd = tmp;
-// 		tmp = ft_strjoin(cmd, command->args[i]);
-// 		free(cmd);
-// 		cmd = tmp;
-// 		i++;
-// 	}
-// 	return (cmd);
-// }
-
-static int env_list_size(t_env *env)
+static int	env_list_size(t_env *env)
 {
-    int i = 0;
-    while (env)
-    {
-        i++;
-        env = env->next;
-    }
-    return (i);
+	int	i;
+
+	i = 0;
+	while (env)
+	{
+		i++;
+		env = env->next;
+	}
+	return (i);
 }
 
 static void	free_tab(char **tab)
@@ -66,7 +44,7 @@ static void	free_tab(char **tab)
 	}
 }
 
-void	free_execute(t_export *export, t_pipex * pipex)
+void	free_execute(t_export *export, t_pipex *pipex)
 {
 	free_env_chained(export->env);
 	free_env_chained(export->export);
@@ -76,10 +54,10 @@ void	free_execute(t_export *export, t_pipex * pipex)
 	rl_clear_history();
 }
 
-static char *join_path_cmd(char *dir, char *cmd)
+static char	*join_path_cmd(char *dir, char *cmd)
 {
-	char *tmp;
-	char *full;
+	char	*tmp;
+	char	*full;
 
 	tmp = ft_strjoin(dir, "/");
 	if (!tmp)
@@ -160,7 +138,7 @@ char	**env_list_to_tab(t_env *env)
 	return (env_tab);
 }
 
-int execute_cmd(t_export *export, t_command *commands, t_pipex * pipex)
+int	execute_cmd(t_export *export, t_command *commands, t_pipex *pipex)
 {
 	char	**env_tab;
 	char	*cmd;

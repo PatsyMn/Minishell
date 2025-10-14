@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_redirection.c                               :+:      :+:    :+:   */
+/*   signals_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/01 14:29:50 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/13 11:52:24 by pmeimoun         ###   ########.fr       */
+/*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
+/*   Updated: 2025/10/14 14:50:16 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*void handle_redirection(t_token **token)
+void	handle_signal_heredoc(int sig)
 {
-	if (!token || !(*token))
-		return ;
-	if ((*token)->next)
-		*token = (*token)->next->next;
-	else
-		*token = NULL;
-}*/
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		close(0);
+		rl_on_new_line();
+		g_status = 99;
+	}
+}
+
+void	init_signals_heredoc(void)
+{
+	signal(SIGINT, handle_signal_heredoc);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	reset_signals_to_default(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}

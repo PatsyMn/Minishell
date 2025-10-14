@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 14:11:33 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:43:17 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,14 @@ static int	print_syntax_error(char *token)
 	if (token)
 	{
 		g_status = 2;
-		printf("WhatTheShell: syntax error near unexpected token `%s'\n", token);
+		printf("WhatTheShell: syntax error near `%s'\n", token);
+		printf("unexpected token `%s'\n", token);
 	}
 	else
 	{
 		g_status = 2;
-		printf("WhatTheShell: syntax error near unexpected token `newline'\n");
+		printf("WhatTheShell: syntax error near");
+		printf("unexpected token `newline'\n");
 	}
 	return (1);
 }
