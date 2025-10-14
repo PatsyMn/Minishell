@@ -6,7 +6,7 @@
 #    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/14 17:41:59 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/10/14 21:35:31 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,85 +21,75 @@ LIBFT = $(LIBFT_DIR)/libft.a
 OBJ_DIR = obj
 
 SRCS = main.c \
-	parsing/input_handler.c\
-	parsing/parser.c\
-	parsing/command_split.c\
-	parsing/parser_utils.c\
-	parsing/token_utils.c\
-	parsing/utility_functions.c\
-	parsing/utility_functions2.c\
-	parsing/lexer_utils.c\
-	parsing/lexer_check_quotes.c\
-	parsing/lexer_check.c\
-	parsing/lexer_metachar.c\
-	parsing/lexer_operator.c\
-	parsing/lexer_split_str.c\
-	parsing/lexer_split_loop.c\
-	parsing/lexer_split_loop_utils.c\
-	parsing/lexer_split_word_utils.c\
-	parsing/lexer_errors.c\
-	parsing/lexer_errors_operators.c\
-	parsing/lexer_word.c\
-	parsing/lexer_files.c\
-	parsing/lexer_tokenize.c\
-	parsing/env_utils.c\
-	parsing/expansion_utils.c\
-	parsing/expand_tokens.c\
-	parsing/expansion_preparation.c\
-	parsing/expansion_extract.c\
-	parsing/quote_utils.c\
-	parsing/init.c\
-	exec/builtin_cd.c\
-	exec/builtin_echo.c\
-	exec/builtin_env.c\
-	exec/builtin_exit.c\
-	exec/builtin_export.c\
-	exec/builtin_pwd.c\
-	exec/builtin_unset.c\
-	exec/builtin_utils.c\
-	exec/builtin.c\
-	exec/env_handle.c\
-	exec/execute_cmd.c\
-	exec/execute_utils.c\
-	exec/open_files.c\
-	exec/pipe_handle.c\
-	exec/pipe_utils.c\
-	exec/redirection.c\
-	signals/signals_prompt.c\
-	signals/signals_heredoc.c\
+	parsing/input_handler.c \
+	parsing/parser.c \
+	parsing/command_split.c \
+	parsing/parser_utils.c \
+	parsing/token_utils.c \
+	parsing/utility_functions.c \
+	parsing/utility_functions2.c \
+	parsing/lexer_utils.c \
+	parsing/lexer_check_quotes.c \
+	parsing/lexer_check.c \
+	parsing/lexer_metachar.c \
+	parsing/lexer_operator.c \
+	parsing/lexer_split_str.c \
+	parsing/lexer_split_loop.c \
+	parsing/lexer_split_loop_utils.c \
+	parsing/lexer_split_word_utils.c \
+	parsing/lexer_errors.c \
+	parsing/lexer_errors_operators.c \
+	parsing/lexer_word.c \
+	parsing/lexer_files.c \
+	parsing/lexer_tokenize.c \
+	parsing/env_utils.c \
+	parsing/expansion_utils.c \
+	parsing/expand_tokens.c \
+	parsing/expansion_preparation.c \
+	parsing/expansion_extract.c \
+	parsing/quote_utils.c \
+	parsing/init.c \
+	exec/builtin_cd.c \
+	exec/builtin_echo.c \
+	exec/builtin_env.c \
+	exec/builtin_exit.c \
+	exec/builtin_export.c \
+	exec/builtin_pwd.c \
+	exec/builtin_unset.c \
+	exec/builtin_utils.c \
+	exec/builtin.c \
+	exec/env_handle.c \
+	exec/execute_cmd.c \
+	exec/execute_utils.c \
+	exec/open_files.c \
+	exec/pipe_handle.c \
+	exec/pipe_utils.c \
+	exec/redirection.c \
+	signals/signals_prompt.c \
+	signals/signals_heredoc.c
 
-OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(notdir $(SRCS)))
+OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) antoine_daniel
+$(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline
 	@echo "✅ Compilation successful! WhatTheShell is ready."
+	@$(MAKE) antoine_daniel
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
-
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
-	@$(CC) -c $(CFLAGS) -o $@ $<
-
-$(OBJ_DIR)/%.o: parsing/%.c | $(OBJ_DIR)
-	@$(CC) -c $(CFLAGS) -o $@ $<
-
-$(OBJ_DIR)/%.o: signals/%.c | $(OBJ_DIR)
-	@$(CC) -c $(CFLAGS) -o $@ $<
-
-$(OBJ_DIR)/%.o: exec/%.c | $(OBJ_DIR)
-	@$(CC) -c $(CFLAGS) -o $@ $<
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(MAKE) clean -C $(LIBFT_DIR)
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@$(MAKE) fclean -s -C $(LIBFT_DIR)
+	@$(MAKE) fclean -C $(LIBFT_DIR)
 	@rm -f $(NAME)
 
 re: fclean all

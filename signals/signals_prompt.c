@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:53:11 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 17:18:53 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/14 21:27:26 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int		g_status = 0;
 
-void	handle_signal_prompt(int sig)
+void	handle_signal_prompt(int signal)
 {
-	if (sig == SIGINT)
+	if (signal == SIGINT)
 	{
 		g_status = 130;
 		write(1, "\n", 1);
@@ -26,19 +26,19 @@ void	handle_signal_prompt(int sig)
 	}
 }
 
-void	handle_child_status(int status)
+void	handle_child_status(int exit_status)
 {
-	int	sig;
+	int	signal;
 
-	if (WIFEXITED(status))
-		g_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
+	if (WIFEXITED(exit_status))
+		g_status = WEXITSTATUS(exit_status);
+	else if (WIFSIGNALED(exit_status))
 	{
-		sig = WTERMSIG(status);
-		g_status = 128 + sig;
-		if (sig == SIGQUIT)
+		signal = WTERMSIG(exit_status);
+		g_status = 128 + signal;
+		if (signal == SIGQUIT)
 			write(1, "Quit (core dumped)\n", 20);
-		else if (sig == SIGINT)
+		else if (signal == SIGINT)
 			write(1, "\n", 1);
 	}
 }

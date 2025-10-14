@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   signals_heredoc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 17:19:02 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/14 21:23:09 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_signal_heredoc(int sig)
+void	handle_signal_heredoc(int signal)
 {
-	if (sig == SIGINT)
+	if (signal == SIGINT)
 	{
 		write(1, "\n", 1);
 		close(0);
