@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:23:21 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 14:23:45 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:23:22 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	echo_arg(char *arg, int *printable)
 	i = 0;
 	while (arg[i])
 	{
-		if (arg[i] == '$' && arg[i + 1] == '?')
+		if (arg[i] == '$' && arg[i + 1] == '?') // TODO: pb 
 		{
 			status = ft_itoa(g_status);
 			status_len = ft_strlen(status);

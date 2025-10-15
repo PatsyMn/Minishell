@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:53:11 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 21:27:26 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:08:30 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,16 @@ void	handle_signal_prompt(int signal)
 	}
 }
 
-void	handle_child_status(int exit_status)
+void handle_child_status(int exit_status)
 {
-	int	signal;
+	int signal;
 
-	if (WIFEXITED(exit_status))
-		g_status = WEXITSTATUS(exit_status);
-	else if (WIFSIGNALED(exit_status))
+	printf("test");
+	if ((exit_status & 0x7F) == 0)
+		g_status = (exit_status >> 8) & 0xFF;
+	else
 	{
-		signal = WTERMSIG(exit_status);
+		signal = exit_status & 0x7F;
 		g_status = 128 + signal;
 		if (signal == SIGQUIT)
 			write(1, "Quit (core dumped)\n", 20);

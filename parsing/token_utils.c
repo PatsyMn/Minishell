@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:06:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/08/27 18:25:43 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 09:48:01 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_token	*create_token(t_token_type type, char *str)
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
+	if (str[0] == 0)
+		str = ft_strdup(" ");
 	token->type = type;
 	token->value = str;
 	token->next = NULL;

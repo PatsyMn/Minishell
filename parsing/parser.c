@@ -6,19 +6,19 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:41 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/15 00:44:49 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 09:43:09 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//ajouter les autres tokens qui peuvent etre arguments
-
 static void	tok_to_args(t_command *cmd, t_token *token, int count, char **args)
 {
 	while (token)
 	{
-		if (token->type == T_WORD || token->type == T_COMMAND)
+		if (token->type == T_WORD || token->type == T_COMMAND 
+			|| token->type == T_SINGLE_QUOTE || token->type == T_DOUBLE_QUOTE 
+			|| token->type == T_FILENAME || token->type == T_DOLLAR_VAR)
 			args[count++] = ft_strdup(token->value);
 		token = token->next;
 	}
@@ -36,7 +36,9 @@ void	build_args(t_command *cmd)
 	token = cmd->token_list;
 	while (token)
 	{
-		if (token->type == T_WORD || token->type == T_COMMAND)
+		if (token->type == T_WORD || token->type == T_COMMAND 
+			|| token->type == T_SINGLE_QUOTE || token->type == T_DOUBLE_QUOTE 
+			|| token->type == T_FILENAME || token->type == T_DOLLAR_VAR)
 			count++;
 		token = token->next;
 	}

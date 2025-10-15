@@ -33,3 +33,7 @@ patsy_mn@Patsypro:~/Projets 42/Minishell$
 • ‘$?’ Problème entre quotes ne devrait pas être gérer comme une expansion
 • += dans export dois ajouter au mot et pas créer nouvelle variable
 • unset PATH ça casse
+
+
+ echo "" "" "" | cat -e
+     $ trop despace
