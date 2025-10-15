@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:23:21 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 11:35:52 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:09:01 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,17 @@ static int	is_option_n(char *arg)
 	return (arg[i] == '\0');
 }
 
-static void	echo_arg(char *arg, int *printable)
+static void	echo_arg(t_token *token, int *printable)
 {
 	int		i;
 	int		status_len;
 	char	*status;
 
 	i = 0;
-	while (arg[i])
+	while (token->value[i])
 	{
-		if (arg[i] == '$' && arg[i + 1] == '?') // TODO: pb recupere 
+		if (token->value[i] == '$' && token->value[i + 1] == '?'
+			&& token->type != T_SINGLE_QUOTE)
 		{
 			status = ft_itoa(g_status);
 			status_len = ft_strlen(status);
@@ -46,31 +47,33 @@ static void	echo_arg(char *arg, int *printable)
 		}
 		else
 		{
-			write(STDOUT_FILENO, &arg[i], 1);
+			write(STDOUT_FILENO, &token->value[i], 1);
 			*printable = 1;
 			i++;
 		}
 	}
 }
 
-int	builtin_echo(char **args, t_pipex *pipex)
+int	builtin_echo(t_command *command, t_pipex *pipex)
 {
-	int	i;
-	int	printable;
+	int		i;
+	int		printable;
+	t_token	*cur;
 
 	i = 1;
 	printable = 0;
-	while (args[i] && is_option_n(args[i]))
+	while (command->args[i] && is_option_n(command->args[i]))
 	{
 		pipex->n = 1;
 		i++;
 	}
-	while (args[i])
+	cur = command->token_list->next;
+	while (cur)
 	{
-		echo_arg(args[i], &printable);
-		if (args[i + 1] && printable)
+		echo_arg(cur, &printable);
+		if (cur->next && printable)
 			write(STDOUT_FILENO, " ", 1);
-		i++;
+		cur = cur->next;
 	}
 	if (!pipex->n)
 		write(STDOUT_FILENO, "\n", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 16:51:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 17:53:16 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:30:25 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	handle_tokens(char **split_input, t_export *export)
 	{
 		assign_filename_types(token_list);
 		expand_tokens(token_list, export->env);
+		print_token_list(token_list);
 		commands = parser(token_list);
 		free_tokens(token_list);
 		pipex = malloc(sizeof(t_pipex));

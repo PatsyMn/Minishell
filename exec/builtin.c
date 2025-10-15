@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:24:44 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 14:24:14 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:54:02 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	execute_builtin(t_command *commands, t_export *export, t_pipex *pipex)
 	if (!commands->args)
 		return (0);
 	else if (!ft_strncmp(commands->args[0], "echo", 5))
-		return (builtin_echo(commands->args, pipex));
+		return (builtin_echo(commands, pipex));
 	else if (!ft_strncmp(commands->args[0], "env", 4) && !commands->args[1])
 		return (builtin_env(export->env));
 	else if (!ft_strncmp(commands->args[0], "pwd", 4) && !commands->args[1])

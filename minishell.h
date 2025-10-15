@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 10:46:46 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:22:40 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ typedef struct s_shell
 void					wait_child(void);
 int						init_pipex(t_pipex *pipex, t_command *commands);
 
+void	print_token_list(t_token *list);
 /* ========== LEXER ========== */
 
 // input_handler.c
@@ -232,8 +233,6 @@ void					assign_filename_types(t_token *tokens);
 t_token_type			get_token_type_from_str(char *str);
 t_token					*tokenizer(char **split_input, t_env *env_copy);
 char					**tokens_to_tab(t_token *tokens);
-// debug
-void					print_tokens(t_token *tokens);
 
 /* ========== PARSER ========== */
 
@@ -343,7 +342,7 @@ void					new_export(t_export *export, t_command *command);
 int						builtin_export(t_export *export, t_command *command);
 
 // builtin_echo.c
-int						builtin_echo(char **args, t_pipex *pipex);
+int						builtin_echo(t_command *command, t_pipex *pipex);
 
 // builtin_env.c
 int						builtin_env(t_env *env);
