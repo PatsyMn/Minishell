@@ -6,7 +6,7 @@
 #    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/14 21:35:31 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/10/15 21:31:09 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ MAKEFLAGS += --no-print-directory
 
 CC = cc
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -ggdb -I./Libft -I. -g3
+CFLAGS = -Wall -Wextra -Werror -ggdb -g3 -fsanitize=address -I./Libft -I.
 
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a

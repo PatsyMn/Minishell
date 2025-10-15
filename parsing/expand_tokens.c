@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:52:49 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/15 12:31:26 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/15 21:39:22 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ static void	expand_variable_token(t_token *token, t_env *env_copy)
 	{
 		free(token->value);
 		token->value = exp.expanded;
+		// Ne pas free dans free_exp
+		exp.expanded = NULL;
+		exp.result = NULL;
 	}
 	free_exp(&exp);
 }

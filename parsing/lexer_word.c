@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/15 14:27:46 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 21:41:42 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 		{
 			g_status = 0;
 			printf("WhatTheShell: syntax error: unclosed quote\n");
+			free(buffer);
 			return (0);
 		}
 		else
