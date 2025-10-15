@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_word.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/15 12:13:37 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/15 14:27:46 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static char	*extract_unquoted_segment(char *str, int *i)
 	char	*sub;
 
 	start = *i;
-	while (str[*i] && str[*i] != '\'' && str[*i] != '"'
-		&& str[*i] != ' ' && operator_len(&str[*i]) == 0)
+	while (str[*i] && str[*i] != '\'' && str[*i] != '"' && str[*i] != ' '
+		&& operator_len(&str[*i]) == 0)
 	{
 		if (str[*i] == '\\' && str[*i + 1])
 			*i += 2;
@@ -110,11 +110,7 @@ int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 		else
 			buffer = append_and_free(buffer, segment);
 	}
-	/*if (!*buffer)
-	{
-		free(buffer);
-		return (1);
-	}*/
-	add_token_to_list(token_list, create_token(get_token_type_from_str(str), buffer));
+	add_token_to_list(token_list, create_token(get_token_type_from_str(str),
+			buffer));
 	return (1);
 }
