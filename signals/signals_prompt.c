@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:53:11 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/15 12:23:37 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:57:02 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,15 @@ void	handle_signal_prompt(int signal)
 
 void	wait_child(void)
 {
+	int	children;
 	int	wstatus;
 	int	signum;
 
+	children = 0;
 	while (wait(&wstatus) > 0)
-		continue ;
+		++children;
+	if (!children)
+		return ;
 	if ((wstatus & 0x7F) == 0)
 		g_status = (wstatus >> 8) & 0xFF;
 	else
