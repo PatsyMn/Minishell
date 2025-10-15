@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_errors_operators.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 17:19:20 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/15 11:57:04 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ static int	print_syntax_error(char *token)
 	if (token)
 	{
 		g_status = 2;
-		printf("WhatTheShell: syntax error near `%s'\n", token);
+		printf("WhatTheShell: syntax error near ");
 		printf("unexpected token `%s'\n", token);
 	}
 	else
 	{
 		g_status = 2;
-		printf("WhatTheShell: syntax error near");
+		printf("WhatTheShell: syntax error near ");
 		printf("unexpected token `newline'\n");
 	}
 	return (1);
