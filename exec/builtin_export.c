@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 14:20:19 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/15 14:47:36 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ static int	add_export(t_export *export, t_command *command, int i)
 		if (command->args[i][ft_strlen(equal) - 1] != '+')
 		{
 			key_value = ft_split(command->args[i], '=');
-			my_setenv(&export->export, ft_strdup(key_value[0]), ft_strdup(key_value[1]));
-			my_setenv(&export->env, ft_strdup(key_value[0]), ft_strdup(key_value[1]));
+			my_setenv(&export->export, ft_strdup(key_value[0]),
+				ft_strdup(key_value[1]));
+			my_setenv(&export->env, ft_strdup(key_value[0]),
+				ft_strdup(key_value[1]));
 			free_key_value(key_value);
 			return (1);
 		}
