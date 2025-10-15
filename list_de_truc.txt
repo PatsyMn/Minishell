@@ -37,3 +37,6 @@ patsy_mn@Patsypro:~/Projets 42/Minishell$
 
  echo "" "" "" | cat -e
      $ trop despace
+
+ctrl\ signal se duplique
+ctrl d recupere signal linux 
