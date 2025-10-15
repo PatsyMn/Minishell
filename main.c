@@ -6,18 +6,18 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 17:23:46 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:37:52 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wait_child(void)
+static void	free_in_main(t_shell *shell)
 {
-	int	wstatus;
-
-	while (wait(&wstatus) > 0)
-		handle_child_status(wstatus);
+	free_env_chained(shell->export->env);
+	free_env_chained(shell->export->export);
+	free(shell->export);
+	rl_clear_history();
 }
 
 int	init_pipex(t_pipex *pipex, t_command *commands)
@@ -53,12 +53,12 @@ int	main(int ac, char **av, char **envp)
 		init_signals_prompt();
 		shell.input = readline(shell.prompt);
 		if (!shell.input)
+		{
+			write(1, "exit\n", 5);
 			break ;
+		}
 		shell.ret = handle_input(shell.input, shell.export);
 	}
-	free_env_chained(shell.export->env);
-	free_env_chained(shell.export->export);
-	free(shell.export);
-	rl_clear_history();
-	return (0);
+	free_in_main(&shell);
+	return (g_status);
 }

@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 17:50:21 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:11:55 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	fork_and_exec(t_pipex *pipex, t_command *command, t_export *export)
 static void	exec_pipeline(t_command *cmds, t_pipex *px, t_export *ex)
 {
 	t_command	*cmd;
-	int			status;
 
 	cmd = cmds;
 	while (cmd)
@@ -90,8 +89,7 @@ static void	exec_pipeline(t_command *cmds, t_pipex *px, t_export *ex)
 		cmd = cmd->next;
 		px->cmd_count++;
 	}
-	while (wait(&status) > 0)
-		handle_child_status(status);
+	wait_child();
 }
 
 int	child_process(t_command *commands, t_pipex *pipex, t_export *export)
