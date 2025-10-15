@@ -6,7 +6,7 @@
 #    By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 09:47:34 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/09 17:02:38 by mbores           ###   ########.fr        #
+#    Updated: 2025/10/15 13:40:44 by mbores           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCS =	ft_isalpha.c\
 		ft_strjoin.c\
 		ft_strtrim.c\
 		ft_split.c\
+		new_ft_split.c\
 		ft_itoa.c\
 		ft_strmapi.c\
 		ft_striteri.c\

@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 12:22:40 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/15 13:58:46 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,7 +338,6 @@ int						execute_builtin(t_command *command, t_export *export,
 int						is_builtin(t_command *commands);
 
 // builtin_export.c
-void					new_export(t_export *export, t_command *command);
 int						builtin_export(t_export *export, t_command *command);
 
 // builtin_echo.c

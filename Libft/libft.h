@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 09:47:28 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/09/19 14:09:00 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/15 13:40:18 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strtrim(char const *s1, char const *set);
 char		**ft_split(char const *s, char c);
+char		**new_ft_split(const char *s, const char *sep);
 char		*ft_itoa(int n);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
