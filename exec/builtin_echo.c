@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:23:21 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 12:09:01 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/15 15:05:57 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,15 @@ int	builtin_echo(t_command *command, t_pipex *pipex)
 	int		printable;
 	t_token	*cur;
 
+	cur = command->token_list->next;
 	i = 1;
 	printable = 0;
 	while (command->args[i] && is_option_n(command->args[i]))
 	{
 		pipex->n = 1;
 		i++;
+		cur = cur->next;
 	}
-	cur = command->token_list->next;
 	while (cur)
 	{
 		echo_arg(cur, &printable);
