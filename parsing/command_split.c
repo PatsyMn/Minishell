@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 13:29:30 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 10:54:36 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:11:50 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_token	*copy_token(t_token *token)
 	if (!new_tok)
 		return (NULL);
 	new_tok->type = token->type;
-	new_tok->value = strdup(token->value);
+	new_tok->value = ft_strdup(token->value);
 	new_tok->next = NULL;
 	return (new_tok);
 }

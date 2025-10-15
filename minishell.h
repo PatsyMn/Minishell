@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 14:25:13 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/15 14:38:00 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,17 +145,17 @@ typedef struct s_export
 
 typedef struct s_shell
 {
-	char		*input;
-	const char	*prompt;
-	int			ret;
-	t_export	*export;
-}	t_shell;
+	char				*input;
+	const char			*prompt;
+	int					ret;
+	t_export			*export;
+}						t_shell;
 
 // main.c
 void					wait_child(void);
 int						init_pipex(t_pipex *pipex, t_command *commands);
 
-void	print_token_list(t_token *list);
+void					print_token_list(t_token *list);
 /* ========== LEXER ========== */
 
 // input_handler.c
@@ -253,7 +253,7 @@ void					add_arg(t_command *cmd, char *val);
 void					free_commands(t_command *cmd);
 
 // quote_utils.c
-//char					*strip_outer_single_quotes(const char *token);
+// char					*strip_outer_single_quotes(const char *token);
 char					*strip_outer_double_quotes(const char *token);
 
 // env_utils.c
