@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:52:49 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/15 12:31:26 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/15 14:44:03 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	expand_tokens(t_token *tokens, t_env *env_copy)
 {
 	while (tokens)
 	{
-		if (tokens->type == T_DOLLAR_VAR && tokens->value[1] != '?')
+		if (tokens->type == T_DOLLAR_VAR && tokens->value[1] != '?'
+			&& tokens->value[0] == '$')
 			expand_variable_token(tokens, env_copy);
 		else if (tokens->type == T_DOUBLE_QUOTE)
 			process_double_quoted_token(tokens);
