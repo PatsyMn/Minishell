@@ -13,13 +13,6 @@ heredoc ctrl c ctrl d (file ne devrait pas etre cree (ctrl + c) + warning ctrl +
 WhatTheShell$ cat a | > b
 WhatTheShell$ cat: a: No such file or directory PB message erreur avec prompt --> minishell: syntax error near unexpected token `>'
 
-
-WhatTheShell$ |||
-minishell: syntax error near unexpected token `|'
-WhatTheShell$ bash
-pmeimoun@c3r1p4:~/Minishell$ |||
-bash: syntax error near unexpected token `||'
-
 patsy_mn@Patsypro:~/Projets 42/Minishell$ echo '$?'
 $?
 patsy_mn@Patsypro:~/Projets 42/Minishell$ echo "$?"

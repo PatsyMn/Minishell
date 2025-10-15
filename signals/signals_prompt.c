@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:53:11 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/15 11:08:30 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:57:02 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,26 @@ void	handle_signal_prompt(int signal)
 	}
 }
 
-void handle_child_status(int exit_status)
+void	wait_child(void)
 {
-	int signal;
+	int	children;
+	int	wstatus;
+	int	signum;
 
-	printf("test");
-	if ((exit_status & 0x7F) == 0)
-		g_status = (exit_status >> 8) & 0xFF;
+	children = 0;
+	while (wait(&wstatus) > 0)
+		++children;
+	if (!children)
+		return ;
+	if ((wstatus & 0x7F) == 0)
+		g_status = (wstatus >> 8) & 0xFF;
 	else
 	{
-		signal = exit_status & 0x7F;
-		g_status = 128 + signal;
-		if (signal == SIGQUIT)
+		signum = wstatus & 0x7F;
+		g_status = 128 + signum;
+		if (signum == SIGQUIT)
 			write(1, "Quit (core dumped)\n", 20);
-		else if (signal == SIGINT)
+		else if (signum == SIGINT)
 			write(1, "\n", 1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 13:58:46 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/15 14:25:13 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,6 @@ bool					extract_after(char *token, t_expansion *exp,
 // signals_prompt.c
 extern int				g_status;
 void					handle_signal_prompt(int sig);
-void					handle_child_status(int status);
 void					init_signals_prompt(void);
 
 // signals_heredoc.c
