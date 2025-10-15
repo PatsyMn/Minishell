@@ -6,7 +6,7 @@
 #    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/14 21:35:31 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/10/15 15:16:59 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,7 @@ $(OBJ_DIR)/%.o: %.c
 clean:
 	@$(MAKE) clean -C $(LIBFT_DIR)
 	@rm -rf $(OBJ_DIR)
+	@rm -rf main.o
 
 fclean: clean
 	@$(MAKE) fclean -C $(LIBFT_DIR)
