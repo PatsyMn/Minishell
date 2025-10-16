@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:23:21 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 15:05:57 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/16 12:18:11 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@ static int	is_option_n(char *arg)
 	return (arg[i] == '\0');
 }
 
+static int	is_printable_token(t_token *token)
+{
+	if (token->type == T_APPEND_OUT || token->type == T_FILENAME
+		|| token->type == T_HEREDOC || token->type == T_REDIR_IN
+		|| token->type == T_REDIR_OUT)
+		return (0);
+	return (1);
+}
+
 static void	echo_arg(t_token *token, int *printable)
 {
 	int		i;
@@ -34,6 +43,8 @@ static void	echo_arg(t_token *token, int *printable)
 	char	*status;
 
 	i = 0;
+	if (!is_printable_token(token))
+		return ;
 	while (token->value[i])
 	{
 		if (token->value[i] == '$' && token->value[i + 1] == '?'
@@ -43,14 +54,14 @@ static void	echo_arg(t_token *token, int *printable)
 			status_len = ft_strlen(status);
 			write(STDOUT_FILENO, status, status_len);
 			free(status);
-			i += 2;
+			i++;
 		}
 		else
 		{
 			write(STDOUT_FILENO, &token->value[i], 1);
 			*printable = 1;
-			i++;
 		}
+		i++;
 	}
 }
 
