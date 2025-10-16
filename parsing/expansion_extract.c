@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:50:30 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 10:56:17 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/16 11:46:56 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,21 @@ bool	extract_before_and_var(char *token, t_expansion *exp)
 	exp->before = ft_substr(token, 0, exp->dollar_pos);
 	if (!exp->before)
 		return (false);
+	char *var_start = token + exp->dollar_pos + 1;
 	exp->var_name = extract_var_name(token + exp->dollar_pos + 1);
-	if (!exp->var_name)
+	if (*var_start == '\0' || *var_start == '>' || *var_start == '<' || *var_start == '|')
 	{
+		printf("bash: syntax error near unexpected token `newline'\n");
 		free(exp->before);
-		exp->before = NULL;
+		return (false);
+	}
+	exp->var_name = extract_var_name(var_start);exp->var_name = extract_var_name(var_start);
+	if (!exp->var_name || exp->var_name[0] == '\0')
+	{
+		printf("bash: syntax error near unexpected token `newline'\n");
+		free(exp->before);
+		if (exp->var_name)
+			free(exp->var_name);
 		return (false);
 	}
 	return (true);

@@ -6,7 +6,7 @@
 #    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/15 15:20:46 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/10/16 12:03:35 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ MAKEFLAGS += --no-print-directory
 
 CC = cc
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -ggdb -I./Libft -I. -g3
+CFLAGS = -Wall -Wextra -Werror -ggdb -g3 -fsanitize=address -I./Libft -I.
 
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -68,25 +68,14 @@ SRCS = main.c \
 	signals/signals_prompt.c \
 	signals/signals_heredoc.c
 
-OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRCS))
+OBJS = $(patsubexp->before = NULL;st %.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline
 	@echo "✅ Compilation successful! WhatTheShell is ready."
-	@$(MAKE) antoine_daniel
-
-$(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR)
-
-$(OBJ_DIR)/%.o: %.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-clean:
-	@$(MAKE) clean -C $(LIBFT_DIR)
-	@rm -rf $(OBJ_DIR)
+	@$(MAKE) anexp->before = NULL;OBJ_DIR)
 
 fclean: clean
 	@$(MAKE) fclean -C $(LIBFT_DIR)
