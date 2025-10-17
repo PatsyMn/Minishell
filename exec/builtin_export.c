@@ -3,69 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 14:47:36 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/17 13:53:01 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	free_key_value(char **key_value)
-{
-	free(key_value[0]);
-	free(key_value[1]);
-	free(key_value);
-}
-
 static int	add_export(t_export *export, t_command *command, int i)
 {
 	char	*equal;
 	char	**key_value;
+	char	*key;
+	char	*value;
 
 	equal = ft_strchr(command->args[i], '=');
-	if (equal)
-	{
-		if (command->args[i][ft_strlen(equal) - 1] != '+')
-		{
-			key_value = ft_split(command->args[i], '=');
-			my_setenv(&export->export, ft_strdup(key_value[0]),
-				ft_strdup(key_value[1]));
-			my_setenv(&export->env, ft_strdup(key_value[0]),
-				ft_strdup(key_value[1]));
-			free_key_value(key_value);
-			return (1);
-		}
-	}
-	return (0);
+	if (!equal)
+		return (0);
+	key_value = ft_split(command->args[i], '=');
+	if (!key_value || !key_value[0])
+		return (0);
+	key = ft_strdup(key_value[0]);
+	value = NULL;
+	if (key_value[1])
+		value = ft_strdup(key_value[1]);
+	add_to_envs(export, key, value);
+	free_key_value(key_value);
+	free(key);
+	free(value);
+	return (1);
 }
 
 static int	append_export(t_export *export, t_command *command, int i)
 {
-	char	*plus;
 	char	**key_value;
-	char	*env;
 
-	plus = ft_strchr(command->args[i], '+');
-	if (plus)
+	if (!ft_strnstr(command->args[i], "+=", ft_strlen(command->args[i])))
+		return (0);
+	key_value = new_ft_split(command->args[i], "+=");
+	if (!key_value || !key_value[0])
 	{
-		if (plus[1] == '=')
-		{
-			key_value = new_ft_split(command->args[i], "+=");
-			env = my_getenv(export->export, key_value[0]);
-			if (!env)
-				env = key_value[1];
-			else
-				ft_strlcat(env, key_value[1],
-					ft_strlen(env) + ft_strlen(key_value[1]) + 1);
-			my_setenv(&export->export, ft_strdup(key_value[0]), ft_strdup(env));
-			my_setenv(&export->env, ft_strdup(key_value[0]), ft_strdup(env));
-			free_key_value(key_value);
-			return (1);
-		}
+		free_key_value(key_value);
+		return (0);
 	}
-	return (0);
+	append_to_envs(&export->export, key_value[0], key_value[1]);
+	append_to_envs(&export->env, key_value[0], key_value[1]);
+	free_key_value(key_value);
+	return (1);
 }
 
 static void	new_export(t_export *export, t_command *command)
@@ -79,9 +65,14 @@ static void	new_export(t_export *export, t_command *command)
 	{
 		while (command->args[i][j])
 		{
-			if (command->args[i][j] == '+' && command->args[i][j + 1] != '=')
+			if ((command->args[i][j] == '=' && j == 0)
+				|| (command->args[i][j] == '+' 
+					&& command->args[i][j + 1] != '='))
 			{
-				perror("WhatTheShell: export");
+				write(STDERR_FILENO, "WhatTheShell: export: `", 23);
+				write(STDERR_FILENO, command->args[i],
+					ft_strlen(command->args[i]));
+				write(STDERR_FILENO, "': not a valid identifier\n", 26);
 				return ;
 			}
 			else if (append_export(export, command, i))

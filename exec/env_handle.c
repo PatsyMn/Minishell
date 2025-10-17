@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 15:20:03 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 17:26:17 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/17 13:42:58 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	new_env(t_env **env, t_env *tmp, char *var, char *content)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return ;
-	node->key = ft_strdup(var);
+	node->key = var;
 	if (content)
-		node->content = ft_strdup(content);
+		node->content = content;
 	else
 		node->content = NULL;
 	node->next = NULL;
@@ -61,10 +61,8 @@ void	my_setenv(t_env **env, char *var, char *content)
 		if (!ft_strncmp(tmp->key, var, len) && tmp->key[len] == '\0')
 		{
 			free(tmp->content);
-			if (content)
-				tmp->content = ft_strdup(content);
-			else
-				tmp->content = NULL;
+			tmp->content = content;
+			free(var);
 			return ;
 		}
 		tmp = tmp->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 14:38:00 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/17 13:52:34 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,6 +330,9 @@ void					open_heredoc(t_command *command);
 
 // builtin_utils.c
 void					sort_env_tab(char **env_tab);
+void					free_key_value(char **key_value);
+void					add_to_envs(t_export *export, char *key, char *value);
+void					append_to_envs(t_env **env, char *key, char *new_value);
 
 // builtin.c
 int						execute_builtin(t_command *command, t_export *export,
