@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/17 13:52:34 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/17 16:42:07 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ typedef struct s_shell
 void					wait_child(void);
 int						init_pipex(t_pipex *pipex, t_command *commands);
 
-void					print_token_list(t_token *list);
 /* ========== LEXER ========== */
 
 // input_handler.c

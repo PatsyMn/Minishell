@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:37:20 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/14 17:26:34 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/17 15:12:52 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	redir_in(t_pipex *pipex, t_token *token)
 {
-	if (token->type == T_REDIR_IN)
+	if (token->type == T_REDIR_IN && token->next)
 	{
 		if (pipex->input_fd >= 0)
 		{
@@ -39,7 +39,7 @@ static int	redir_in(t_pipex *pipex, t_token *token)
 
 static int	redir_out(t_pipex *pipex, t_token *token)
 {
-	if (token->type == T_REDIR_OUT)
+	if (token->type == T_REDIR_OUT && token->next)
 	{
 		if (pipex->output_fd >= 0)
 		{
@@ -65,7 +65,7 @@ static int	redir_out(t_pipex *pipex, t_token *token)
 
 static int	redir_append(t_pipex *pipex, t_token *token)
 {
-	if (token->type == T_APPEND_OUT)
+	if (token->type == T_APPEND_OUT && token->next)
 	{
 		if (pipex->output_fd >= 0)
 		{
@@ -126,7 +126,7 @@ int	redirection(t_pipex *pipex, t_command *command, t_export *export)
 		if (!redir_in(pipex, tok) || !redir_out(pipex, tok)
 			|| !redir_append(pipex, tok))
 			return (0);
-		if (tok->type == T_HEREDOC)
+		if (tok->type == T_HEREDOC && tok->next)
 		{
 			if (!redir_heredoc(pipex, command, export))
 				return (0);

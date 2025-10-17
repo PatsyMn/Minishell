@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_extract.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:50:30 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/16 13:01:14 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:14:35 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 bool extract_before_and_var(char *token, t_expansion *exp)
 {
+	char *var_start;
+
 	exp->before = ft_substr(token, 0, exp->dollar_pos);
 	if (!exp->before)
 		return (false);
-
-	char *var_start = token + exp->dollar_pos + 1;
-
+	var_start = token + exp->dollar_pos + 1;
 	if (*var_start == '\0'
 		|| ft_strncmp(var_start, ">>", 2) == 0 || ft_strncmp(var_start, "<<", 2) == 0
 		|| *var_start == '>' || *var_start == '<' || *var_start == '|')
