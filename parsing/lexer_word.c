@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:46:14 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/15 21:41:42 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/18 10:43:13 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static char	*append_and_free(char *s1, char *s2)
 	new_str = ft_strjoin(s1, s2);
 	free(s1);
 	free(s2);
+	if (!new_str)
+		return (NULL);
 	return (new_str);
 }
 
@@ -94,6 +96,7 @@ int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 {
 	char	*buffer;
 	char	*segment;
+	char	*tmp;
 
 	buffer = ft_strdup("");
 	if (!buffer)
@@ -108,10 +111,16 @@ int	handle_word(char *str, int *i, t_token **token_list, t_env *env_copy)
 			free(buffer);
 			return (0);
 		}
-		else
-			buffer = append_and_free(buffer, segment);
+		tmp = append_and_free(buffer, segment);
+		if (!tmp)
+		{
+			g_status = 1;
+			free(buffer);
+			return (0);
+		}
+		buffer = tmp;
 	}
-	add_token_to_list(token_list, create_token(get_token_type_from_str(str),
-			buffer));
+	add_token_to_list(token_list, create_token(get_token_type_from_str(str), buffer));
 	return (1);
 }
+

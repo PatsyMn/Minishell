@@ -6,21 +6,33 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:06:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/15 09:48:01 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/18 10:58:54 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	*create_token(t_token_type type, char *str)
+t_token *create_token(t_token_type type, char *str)
 {
-	t_token	*token;
+	t_token *token;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
+	{
+		free(str);
 		return (NULL);
+	}
 	if (str[0] == 0)
-		str = ft_strdup(" ");
+	{
+		free(str); 
+		str = ft_strdup("");
+	}
+	else
+	{
+		char *tmp = ft_strdup(str);
+		free(str); 
+		str = tmp;
+	}
 	token->type = type;
 	token->value = str;
 	token->next = NULL;

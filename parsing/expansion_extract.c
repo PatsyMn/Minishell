@@ -6,23 +6,23 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:50:30 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/18 09:55:59 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/18 13:07:10 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool extract_before_and_var(char *token, t_expansion *exp)
+bool	extract_before_and_var(char *token, t_expansion *exp)
 {
+	char	*var_start;
+
 	exp->before = ft_substr(token, 0, exp->dollar_pos);
 	if (!exp->before)
 		return (false);
-
-	char *var_start = token + exp->dollar_pos + 1;
-
-	if (*var_start == '\0'
-		|| ft_strncmp(var_start, ">>", 2) == 0 || ft_strncmp(var_start, "<<", 2) == 0
-		|| *var_start == '>' || *var_start == '<' || *var_start == '|')
+	var_start = token + exp->dollar_pos + 1;
+	if (*var_start == '\0' || ft_strncmp(var_start, ">>", 2) == 0
+		|| ft_strncmp(var_start, "<<", 2) == 0 || *var_start == '>'
+		|| *var_start == '<' || *var_start == '|')
 	{
 		printf("WhatTheShell: syntax error near unexpected token `newline'\n");
 		return (false);
@@ -31,9 +31,6 @@ bool extract_before_and_var(char *token, t_expansion *exp)
 	if (!exp->var_name || exp->var_name[0] == '\0')
 	{
 		printf("WhatTheShell: syntax error near unexpected token `newline'\n");
-		free(exp->before);
-		if (exp->var_name)
-			free(exp->var_name);
 		return (false);
 	}
 	return (true);
@@ -43,15 +40,22 @@ bool	extract_var_value(t_expansion *exp, t_env *env_copy)
 {
 	if (ft_strncmp(exp->var_name, "?", 2) == 0)
 	{
-		exp->var_value = ft_itoa(g_status);
+		char *tmp = ft_itoa(g_status);
+		if (!tmp)
+			return (false);
+		exp->var_value = ft_strdup(tmp);
+		free(tmp); 
 		if (!exp->var_value)
 			return (false);
 	}
 	else
 	{
-		exp->var_value = my_getenv(env_copy, exp->var_name);
+		char *env_val = my_getenv(env_copy, exp->var_name);
+		if (!env_val)
+			env_val = "";
+		exp->var_value = ft_strdup(env_val);
 		if (!exp->var_value)
-			exp->var_value = "";
+			return (false);
 	}
 	return (true);
 }
