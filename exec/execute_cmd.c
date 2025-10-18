@@ -101,22 +101,36 @@ char	**env_list_to_tab(t_env *env)
 	return (env_tab);
 }
 
+char	*error_exec(t_export *exp, t_command *com, t_pipex *pip, char **env_t)
+{
+	char *cmd;
+
+	if (com->token_list->value[0] == '\0' && !com->token_list->next)
+	{
+		free_tab(env_t);
+		free_execute(exp, pip);
+		exit (0);
+	}
+	cmd = find_cmd(com->args[0], exp->env);
+	if (!cmd)
+	{
+		write(STDERR_FILENO, "WhatTheShell: ", 14);
+		write(STDERR_FILENO, com->args[0], ft_strlen(com->args[0]));
+		write(STDERR_FILENO, ": command not found\n", 20);
+		free_tab(env_t);
+		free_execute(exp, pip);
+		exit(127);
+	}
+	return (cmd);
+}
+
 int	execute_cmd(t_export *export, t_command *commands, t_pipex *pipex)
 {
 	char	**env_tab;
 	char	*cmd;
 
 	env_tab = env_list_to_tab(export->env);
-	cmd = find_cmd(commands->args[0], export->env);
-	if (!cmd)
-	{
-		write(STDERR_FILENO, "WhatTheShell: ", 14);
-		write(STDERR_FILENO, commands->args[0], ft_strlen(commands->args[0]));
-		write(STDERR_FILENO, ": command not found\n", 20);
-		free_tab(env_tab);
-		free_execute(export, pipex);
-		exit(127);
-	}
+	cmd = error_exec(export, commands, pipex, env_tab);
 	check_file(cmd, env_tab, export, pipex);
 	reset_signals_to_default();
 	execve(cmd, commands->args, env_tab);
