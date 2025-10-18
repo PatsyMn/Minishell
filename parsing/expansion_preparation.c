@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:51:04 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 10:56:46 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/18 13:09:30 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,22 @@ static bool	handle_dollar(char *token, t_expansion *exp, t_env *env_copy)
 	exp->dollar_pos = find_dollar(token);
 	if (exp->dollar_pos == -1)
 	{
+		free_exp(exp);
 		exp->result = ft_strdup(token);
 		return (false);
 	}
 	if (!extract_before_and_var(token, exp))
 	{
+		free_exp(exp);
 		exp->result = ft_strdup(token);
 		return (false);
 	}
 	if (!extract_after(token, exp, env_copy))
 	{
+		free_exp(exp);
 		exp->result = ft_strdup(token);
 		return (false);
 	}
-	exp->result = NULL;
 	return (true);
 }
 

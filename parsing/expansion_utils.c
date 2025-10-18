@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/14 15:39:33 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/18 13:10:53 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ char	*extract_var_name(char *str)
 	int		i;
 	char	*var_name;
 
+	if (!str)
+		return (NULL);
+	if (str[0] == '?')
+		return (ft_strdup("?"));
 	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
 		return (NULL);
 	i = 1;
@@ -88,6 +92,11 @@ void	free_exp(t_expansion *exp)
 	{
 		free(exp->var_name);
 		exp->var_name = NULL;
+	}
+	if (exp->var_value)
+	{
+		free(exp->var_value);
+		exp->var_value = NULL;
 	}
 	if (exp->after)
 	{

@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:52:49 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/16 12:02:15 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/18 11:00:19 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	expand_tokens(t_token *tokens, t_env *env_copy)
 {
 	while (tokens)
 	{
-		if (tokens->type == T_DOLLAR_VAR && tokens->value[1] != '?'
-			&& tokens->value[0] == '$')
+		if (tokens->type == T_DOLLAR_VAR && tokens->value[0] == '$'
+			&& tokens->value[1] != '\0' && tokens->value[1] != '?')
 			expand_variable_token(tokens, env_copy);
 		else if (tokens->type == T_DOUBLE_QUOTE)
 			process_double_quoted_token(tokens);
