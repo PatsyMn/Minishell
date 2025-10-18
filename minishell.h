@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/17 16:42:07 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/18 17:52:49 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ char					*clean_and_strip_token(char *token);
 void					free_exp(t_expansion *exp);
 
 // expand_tokens.c
-void					expand_tokens(t_token *tokens, t_env *env_copy);
+int					expand_tokens(t_token *tokens, t_env *env_copy);
 
 // expension_preparation.c
 char					*expand_variables(char *str, t_env *env_copy);

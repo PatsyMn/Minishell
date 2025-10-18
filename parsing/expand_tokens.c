@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:52:49 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/18 11:00:19 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/18 17:54:21 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	process_double_quoted_token(t_token *token)
 		free(tmp);
 }
 
-void	expand_tokens(t_token *tokens, t_env *env_copy)
+int	expand_tokens(t_token *tokens, t_env *env_copy)
 {
 	while (tokens)
 	{
@@ -51,6 +51,16 @@ void	expand_tokens(t_token *tokens, t_env *env_copy)
 			expand_variable_token(tokens, env_copy);
 		else if (tokens->type == T_DOUBLE_QUOTE)
 			process_double_quoted_token(tokens);
+		else if (tokens->type == T_REDIR_OUT && !tokens->next)
+		{
+			printf("test\n");
+			g_status = 2;
+			printf("WhatTheShell: syntax error near ");
+			printf("unexpected token `newline'\n");
+			free_tokens(tokens);
+			return (0);
+		}
 		tokens = tokens->next;
 	}
+	return (1);
 }

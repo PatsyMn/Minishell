@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/15 11:57:04 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/18 17:18:10 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	check_syntax_operators(char **split_input)
 				if (is_operator(split_input[i + 1]) && !split_input[i + 2])
 					return (print_syntax_error(NULL));
 			}
+			else 
+				return (print_syntax_error(NULL));
 		}
 		if (is_operator(split_input[i]) && !i && !split_input[i + 1])
 			return (print_syntax_error(NULL));
