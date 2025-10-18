@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:50:30 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/16 13:01:14 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/18 09:55:59 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ bool extract_before_and_var(char *token, t_expansion *exp)
 		|| ft_strncmp(var_start, ">>", 2) == 0 || ft_strncmp(var_start, "<<", 2) == 0
 		|| *var_start == '>' || *var_start == '<' || *var_start == '|')
 	{
-		printf("bash: syntax error near unexpected token `newline'\n");
+		printf("WhatTheShell: syntax error near unexpected token `newline'\n");
 		return (false);
 	}
 	exp->var_name = extract_var_name(var_start);
 	if (!exp->var_name || exp->var_name[0] == '\0')
 	{
-		printf("bash: syntax error near unexpected token `newline'\n");
+		printf("WhatTheShell: syntax error near unexpected token `newline'\n");
 		free(exp->before);
 		if (exp->var_name)
 			free(exp->var_name);
