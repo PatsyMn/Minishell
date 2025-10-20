@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/18 13:10:53 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:26:07 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*extract_var_name(char *str)
 		return (NULL);
 	if (str[0] == '?')
 		return (ft_strdup("?"));
+	if (ft_isdigit(str[0])) 
+		return (ft_substr(str, 0, 1)); 
 	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
 		return (NULL);
 	i = 1;
