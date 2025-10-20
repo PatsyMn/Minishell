@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 15:43:05 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 15:44:16 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,10 @@ bool					extract_before_and_var(char *token, t_expansion *exp);
 bool					extract_var_value(t_expansion *exp, t_env *env_copy);
 bool					extract_after(char *token, t_expansion *exp,
 							t_env *env_copy);
+
+// expansion_name.c
+bool					check_var_syntax(char *var_start);
+bool					get_valid_var_name(char *var_start, t_expansion *exp);
 
 /* ========== SIGNALS ========== */
 
