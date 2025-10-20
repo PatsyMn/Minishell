@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 16:51:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/20 17:41:10 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:42:38 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	handle_tokens(char **split_input, t_export *export)
 	t_command	*commands;
 
 	token_list = tokenizer(split_input, export->env);
-	print_token_list(token_list);
 	if (!token_list)
 		return (0);
 	assign_filename_types(token_list);
@@ -60,7 +59,6 @@ static int	handle_tokens(char **split_input, t_export *export)
 		return (0);
 	}
 	commands = parser(token_list);
-	// print_token_list(commands->token_list);
 	free_tokens(token_list);
 	if (!commands)
 		return (0);
