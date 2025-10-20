@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:24:44 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 11:54:02 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 13:05:30 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	execute_builtin(t_command *commands, t_export *export, t_pipex *pipex)
 		return (builtin_echo(commands, pipex));
 	else if (!ft_strncmp(commands->args[0], "env", 4) && !commands->args[1])
 		return (builtin_env(export->env));
-	else if (!ft_strncmp(commands->args[0], "pwd", 4) && !commands->args[1])
+	else if (!ft_strncmp(commands->args[0], "pwd", 4))
 		return (builtin_pwd());
 	else
 		return (execute_builtin_2(commands, export, pipex));
@@ -46,7 +46,7 @@ int	is_builtin(t_command *commands)
 		return (1);
 	if (!ft_strncmp(commands->args[0], "echo", 5)
 		|| (!ft_strncmp(commands->args[0], "env", 4) && !commands->args[1])
-		|| (!ft_strncmp(commands->args[0], "pwd", 4) && !commands->args[1])
+		|| !ft_strncmp(commands->args[0], "pwd", 4)
 		|| !ft_strncmp(commands->args[0], "export", 7)
 		|| !ft_strncmp(commands->args[0], "unset", 6)
 		|| !ft_strncmp(commands->args[0], "cd", 3)
