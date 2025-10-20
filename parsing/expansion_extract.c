@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:50:30 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/20 12:05:49 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:24:15 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static bool	check_var_syntax(char *var_start, t_expansion *exp)
 		printf("unexpected token `newline'\n");
 		return (false);
 	}
-	if (!ft_isalpha(*var_start) && *var_start != '_' && *var_start != '?')
+	if (!ft_isalpha(*var_start) && *var_start != '_' && *var_start != '?' && !ft_isdigit(*var_start))
 	{
 		exp->var_name = NULL;
 		return (true);
-	}
+	}	
 	exp->var_name = extract_var_name(var_start);
 	if (!exp->var_name || exp->var_name[0] == '\0')
 	{
