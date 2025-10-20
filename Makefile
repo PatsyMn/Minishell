@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+         #
+#    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/18 13:50:47 by mbores           ###   ########.fr        #
+#    Updated: 2025/10/20 12:57:23 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS = main.c \
 	parsing/lexer_errors.c \
 	parsing/lexer_errors_operators.c \
 	parsing/lexer_word.c \
+	parsing/lexer_word_utils.c \
 	parsing/lexer_files.c \
 	parsing/lexer_tokenize.c \
 	parsing/env_utils.c \

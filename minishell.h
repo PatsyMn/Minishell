@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 13:05:24 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 13:08:55 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,10 @@ int						check_syntax_operators(char **split_input);
 // lexer_word.c
 int						handle_word(char *str, int *i, t_token **token_list,
 							t_env *env_copy);
+
+// lexer_word_utils.c
+char					*process_segment(char *str, int *i, t_env *env_copy);
+char					*append_and_free(char *s1, char *s2);
 
 // lexer_files.c
 void					assign_filename_types(t_token *tokens);
