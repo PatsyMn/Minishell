@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 16:51:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/18 13:51:55 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 12:39:40 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,36 @@ static int	handle_syntax_errors(char **split_input)
 	return (0);
 }
 
+static int	execute_pipeline(t_command *commands, t_export *export)
+{
+	t_pipex	*pipex;
+
+	pipex = malloc(sizeof(t_pipex));
+	if (!pipex || !init_pipex(pipex, commands))
+	{
+		free(pipex);
+		free_commands(commands);
+		return (0);
+	}
+	child_process(commands, pipex, export);
+	wait_child();
+	unlink("temp");
+	free(pipex);
+	free_commands(commands);
+	return (1);
+}
+
 static int	handle_tokens(char **split_input, t_export *export)
 {
 	t_token		*token_list;
 	t_command	*commands;
-	t_pipex		*pipex;
 
 	token_list = tokenizer(split_input, export->env);
-	free_split(split_input);
-	if (token_list)
+	if (!token_list)
+		return (0);
+	assign_filename_types(token_list);
+	if (!expand_tokens(token_list, export->env))
 	{
-		assign_filename_types(token_list);
-		expand_tokens(token_list, export->env);
-		commands = parser(token_list);
 		free_tokens(token_list);
 		pipex = malloc(sizeof(t_pipex));
 		if (!init_pipex(pipex, commands))
@@ -48,12 +65,17 @@ static int	handle_tokens(char **split_input, t_export *export)
 		free(pipex);
 		free_commands(commands);
 	}
-	return (1);
+	commands = parser(token_list);
+	free_tokens(token_list);
+	if (!commands)
+		return (0);
+	return (execute_pipeline(commands, export));
 }
 
 int	handle_input(char *input, t_export *export)
 {
 	char	**split_input;
+	int		ret;
 
 	if (ft_strlen(input) == 0)
 	{
@@ -72,5 +94,9 @@ int	handle_input(char *input, t_export *export)
 		return (1);
 	if (handle_syntax_errors(split_input))
 		return (1);
-	return (handle_tokens(split_input, export));
+	ret = handle_tokens(split_input, export);
+	free_split(split_input);
+	if (!ret)
+		return (1);
+	return (1);
 }

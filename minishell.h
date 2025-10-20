@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/18 13:52:03 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 12:38:45 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,6 @@ void					add_arg(t_command *cmd, char *val);
 void					free_commands(t_command *cmd);
 
 // quote_utils.c
-// char					*strip_outer_single_quotes(const char *token);
 char					*strip_outer_double_quotes(const char *token);
 
 // env_utils.c
@@ -261,8 +260,6 @@ t_env					*new_env_node(char *str);
 t_env					*copy_env_chained(char **envp);
 void					free_env_chained(t_env *env);
 void					free_env(char **env);
-// char							**copy_env(char **envp);
-// char							*get_env_value(char *var_name, char **env_copy);
 
 // expansion_utils.c
 int						find_dollar(char *str);
@@ -272,7 +269,7 @@ char					*clean_and_strip_token(char *token);
 void					free_exp(t_expansion *exp);
 
 // expand_tokens.c
-void					expand_tokens(t_token *tokens, t_env *env_copy);
+int						expand_tokens(t_token *tokens, t_env *env_copy);
 
 // expension_preparation.c
 char					*expand_variables(char *str, t_env *env_copy);
