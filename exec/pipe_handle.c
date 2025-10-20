@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:23:45 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 16:36:40 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 17:03:41 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,15 @@ static void	exec_pipeline(t_command *cmds, t_pipex *px, t_export *ex)
 		{
 			safe_close(&px->pipe_fd[0]);
 			safe_close(&px->pipe_fd[1]);
-			return ;
+			// return ;
 		}
-		if (create_pipe_if_needed(px, cmd) == -1)
-			return ;
-		if (!check_pipe(px, cmd, ex))
-			return ;
+		else
+		{
+			if (create_pipe_if_needed(px, cmd) == -1)
+				return ;
+			if (!check_pipe(px, cmd, ex))
+				return ;
+		}
 		cmd = cmd->next;
 		px->cmd_count++;
 	}
