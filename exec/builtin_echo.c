@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:23:21 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/16 12:18:11 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 15:34:52 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	builtin_echo(t_command *command, t_pipex *pipex)
 	while (cur)
 	{
 		echo_arg(cur, &printable);
-		if (cur->next && printable)
+		if (is_printable_token(cur) && cur->next && printable)
 			write(STDOUT_FILENO, " ", 1);
 		cur = cur->next;
 	}

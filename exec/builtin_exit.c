@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:49:08 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/15 12:34:27 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:45:03 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	builtin_exit(t_command *command, t_export *export, t_pipex *pipex)
 		if (!is_numeric(command->args[1]))
 		{
 			write(2, "exit: numeric argument required\n", 31);
-			exit(255);
+			exit(2);
 		}
 		exit_code = ft_atoi(command->args[1]);
 		if (command->args[2])

@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 15:20:03 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/17 13:42:58 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 14:32:59 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	my_setenv(t_env **env, char *var, char *content)
 {
 	t_env	*tmp;
 	int		len;
+	char	*new_key;
+	char	*new_value;
 
 	if (!env || !var)
 		return ;
@@ -61,11 +63,17 @@ void	my_setenv(t_env **env, char *var, char *content)
 		if (!ft_strncmp(tmp->key, var, len) && tmp->key[len] == '\0')
 		{
 			free(tmp->content);
-			tmp->content = content;
-			free(var);
+			if (content)
+				tmp->content = ft_strdup(content);
+			else
+				tmp->content = NULL;
 			return ;
 		}
 		tmp = tmp->next;
 	}
-	new_env(env, tmp, var, content);
+	new_key = ft_strdup(var);
+	new_value = NULL;
+	if (content)
+		new_value = ft_strdup(content);
+	new_env(env, tmp, new_key, new_value);
 }

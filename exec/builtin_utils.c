@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:11:36 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/17 13:54:01 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 14:43:58 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void	add_to_envs(t_export *export, char *key, char *value)
 {
 	if (value)
 	{
-		my_setenv(&export->export, ft_strdup(key), ft_strdup(value));
-		my_setenv(&export->env, ft_strdup(key), ft_strdup(value));
+		my_setenv(&export->export, key, value);
+		my_setenv(&export->env, key, value);
 	}
 	else
-		my_setenv(&export->export, ft_strdup(key), NULL);
+		my_setenv(&export->export, key, NULL);
 }
 
 void	append_to_envs(t_env **env, char *key, char *new_value)
@@ -72,5 +72,5 @@ void	append_to_envs(t_env **env, char *key, char *new_value)
 		}
 		tmp = tmp->next;
 	}
-	my_setenv(env, ft_strdup(key), ft_strdup(new_value));
+	my_setenv(env, key, new_value);
 }

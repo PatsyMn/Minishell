@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 13:33:37 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 14:42:24 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	dash_before_equal(char *arg)
 	i = 0;
 	while(arg[i])
 	{
-		if (arg[i] == '-')
+		if (arg[i] == '-' || !ft_isalpha(arg[i]))
 			break ;
 		i++;
 	}
@@ -105,7 +105,7 @@ static int	new_export(t_export *export, t_command *command)
 			else if (add_export(export, command, i))
 				break ;
 			else if (!command->args[i][j + 1])
-				my_setenv(&export->export, ft_strdup(command->args[i]), NULL);
+				my_setenv(&export->export, command->args[i], NULL);
 			j++;
 		}
 		j = 0;
