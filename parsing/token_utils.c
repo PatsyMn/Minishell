@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 22:06:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/20 17:29:18 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 18:34:23 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 t_token	*create_token(t_token_type type, char *str)
 {
 	t_token	*token;
-	char	*tmp;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
@@ -23,16 +22,10 @@ t_token	*create_token(t_token_type type, char *str)
 		free(str);
 		return (NULL);
 	}
-	if (str[0] == 0)
+	if (!str || str[0] == '\0')
 	{
 		free(str);
 		str = ft_strdup("");
-	}
-	else
-	{
-		tmp = ft_strdup(str);
-		free(str);
-		str = tmp;
 	}
 	token->type = type;
 	token->value = str;
