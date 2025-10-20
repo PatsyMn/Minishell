@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 16:51:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/20 12:39:40 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 12:42:38 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,7 @@ static int	handle_tokens(char **split_input, t_export *export)
 	if (!expand_tokens(token_list, export->env))
 	{
 		free_tokens(token_list);
-		pipex = malloc(sizeof(t_pipex));
-		if (!init_pipex(pipex, commands))
-			return (0);
-		child_process(commands, pipex, export);
-		wait_child();
-		unlink("temp");
-		free(pipex);
-		free_commands(commands);
+		return (0);
 	}
 	commands = parser(token_list);
 	free_tokens(token_list);
