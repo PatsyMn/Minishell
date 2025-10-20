@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:37:20 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 15:08:55 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 15:47:53 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	redir_in(t_pipex *pipex, t_token *token)
 		pipex->input_fd = open(token->next->value, O_RDONLY);
 		if (pipex->input_fd == -1)
 		{
-			printf("coucou\n");
 			g_status = 1;
 			write(STDERR_FILENO, "WhatTheShell: ", 14);
 			write(STDERR_FILENO, token->next->value,
@@ -51,7 +50,6 @@ static int	redir_out(t_pipex *pipex, t_token *token)
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (pipex->output_fd == -1)
 		{
-			printf("coucou1\n");
 			g_status = 1;
 			write(STDERR_FILENO, "WhatTheShell: ", 14);
 			write(STDERR_FILENO, token->next->value,
@@ -78,7 +76,6 @@ static int	redir_append(t_pipex *pipex, t_token *token)
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (pipex->output_fd == -1)
 		{
-			printf("coucou2\n");
 			g_status = 1;
 			write(STDERR_FILENO, "WhatTheShell: ", 14);
 			write(STDERR_FILENO, token->next->value,

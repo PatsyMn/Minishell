@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 16:51:02 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/20 15:42:58 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 16:23:05 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static int	handle_tokens(char **split_input, t_export *export)
 		return (0);
 	}
 	commands = parser(token_list);
+	// print_token_list(commands->token_list);
 	free_tokens(token_list);
 	if (!commands)
 		return (0);
