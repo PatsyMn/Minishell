@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 16:27:33 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/18 17:18:10 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 11:13:50 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,28 @@ static int	print_syntax_error(char *token)
 	return (1);
 }
 
+static int	check_operator_errors(char **split_input, int i)
+{
+	if (!ft_strncmp(split_input[i], "||", 3))
+		return (print_syntax_error("||"));
+	if (is_operator(split_input[i]))
+	{
+		if (split_input[i + 1])
+		{
+			if (is_operator(split_input[i + 1]) && !ft_strncmp(split_input[i],
+					split_input[i + 1], ft_strlen(split_input[i])))
+				return (print_syntax_error(split_input[i]));
+			if (is_operator(split_input[i + 1]) && !split_input[i + 2])
+				return (print_syntax_error(NULL));
+		}
+		else
+			return (print_syntax_error(NULL));
+	}
+	if (is_operator(split_input[i]) && i == 0 && !split_input[i + 1])
+		return (print_syntax_error(NULL));
+	return (0);
+}
+
 int	check_syntax_operators(char **split_input)
 {
 	int	i;
@@ -45,24 +67,8 @@ int	check_syntax_operators(char **split_input)
 	i = 0;
 	while (split_input[i])
 	{
-		if (!ft_strncmp(split_input[i], "||", 3))
-			return (print_syntax_error("||"));
-		if (is_operator(split_input[i]))
-		{
-			if (split_input[i + 1])
-			{
-				if (is_operator(split_input[i + 1])
-					&& !ft_strncmp(split_input[i], split_input[i + 1],
-						ft_strlen(split_input[i])))
-					return (print_syntax_error(split_input[i]));
-				if (is_operator(split_input[i + 1]) && !split_input[i + 2])
-					return (print_syntax_error(NULL));
-			}
-			else 
-				return (print_syntax_error(NULL));
-		}
-		if (is_operator(split_input[i]) && !i && !split_input[i + 1])
-			return (print_syntax_error(NULL));
+		if (check_operator_errors(split_input, i))
+			return (1);
 		i++;
 	}
 	return (0);

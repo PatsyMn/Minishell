@@ -1,36 +1,4 @@
- $>
 
-test
-WhatTheShell: syntax error near unexpected token `newline'
+$blablabla
+WhatTheShell: /usr/local/sbin/: Is a directory
 
-=================================================================
-==2658==ERROR: LeakSanitizer: detected memory leaks
-
-Direct leak of 24 byte(s) in 1 object(s) allocated from:
-    #0 0x64d4d42b92a3 in malloc (/home/patsy_mn/Projets 42/Minishell/minishell+0xc82a3) (BuildId: 04d9515f1c3c43d7561a38f93852d68f99db3b71)
-    #1 0x64d4d42f98e8 in create_token /home/patsy_mn/Projets 42/Minishell/parsing/token_utils.c:20:10
-    #2 0x64d4d42ffada in handle_word /home/patsy_mn/Projets 42/Minishell/parsing/lexer_word.c:123:32
-    #3 0x64d4d430150c in tokenize_str /home/patsy_mn/Projets 42/Minishell/parsing/lexer_tokenize.c:51:20
-    #4 0x64d4d4301272 in tokenizer /home/patsy_mn/Projets 42/Minishell/parsing/lexer_tokenize.c:66:8
-    #5 0x64d4d42f800c in handle_tokens /home/patsy_mn/Projets 42/Minishell/parsing/input_handler.c:34:15
-    #6 0x64d4d42f7f2b in handle_input /home/patsy_mn/Projets 42/Minishell/parsing/input_handler.c:77:10
-    #7 0x64d4d42f7c11 in main /home/patsy_mn/Projets 42/Minishell/main.c:60:15
-    #8 0x7d877ae2a1c9 in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
-    #9 0x7d877ae2a28a in __libc_start_main csu/../csu/libc-start.c:360:3
-    #10 0x64d4d421e454 in _start (/home/patsy_mn/Projets 42/Minishell/minishell+0x2d454) (BuildId: 04d9515f1c3c43d7561a38f93852d68f99db3b71)
-
-Indirect leak of 2 byte(s) in 1 object(s) allocated from:
-    #0 0x64d4d42b92a3 in malloc (/home/patsy_mn/Projets 42/Minishell/minishell+0xc82a3) (BuildId: 04d9515f1c3c43d7561a38f93852d68f99db3b71)
-    #1 0x64d4d430bfa7 in ft_strdup /home/patsy_mn/Projets 42/Minishell/Libft/ft_strdup.c:23:9
-    #2 0x64d4d42f9984 in create_token /home/patsy_mn/Projets 42/Minishell/parsing/token_utils.c:33:9
-    #3 0x64d4d42ffada in handle_word /home/patsy_mn/Projets 42/Minishell/parsing/lexer_word.c:123:32
-    #4 0x64d4d430150c in tokenize_str /home/patsy_mn/Projets 42/Minishell/parsing/lexer_tokenize.c:51:20
-    #5 0x64d4d4301272 in tokenizer /home/patsy_mn/Projets 42/Minishell/parsing/lexer_tokenize.c:66:8
-    #6 0x64d4d42f800c in handle_tokens /home/patsy_mn/Projets 42/Minishell/parsing/input_handler.c:34:15
-    #7 0x64d4d42f7f2b in handle_input /home/patsy_mn/Projets 42/Minishell/parsing/input_handler.c:77:10
-    #8 0x64d4d42f7c11 in main /home/patsy_mn/Projets 42/Minishell/main.c:60:15
-    #9 0x7d877ae2a1c9 in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
-    #10 0x7d877ae2a28a in __libc_start_main csu/../csu/libc-start.c:360:3
-    #11 0x64d4d421e454 in _start (/home/patsy_mn/Projets 42/Minishell/minishell+0x2d454) (BuildId: 04d9515f1c3c43d7561a38f93852d68f99db3b71)
-
-SUMMARY: AddressSanitizer: 26 byte(s) leaked in 2 allocation(s).

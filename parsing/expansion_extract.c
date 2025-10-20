@@ -6,11 +6,36 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 10:50:30 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/18 18:02:38 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 12:05:49 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static bool	check_var_syntax(char *var_start, t_expansion *exp)
+{
+	if (!var_start || ft_strncmp(var_start, ">>", 2) == 0
+		|| ft_strncmp(var_start, "<<", 2) == 0 || *var_start == '<'
+		|| *var_start == '|')
+	{
+		printf("WhatTheShell: syntax error near ");
+		printf("unexpected token `newline'\n");
+		return (false);
+	}
+	if (!ft_isalpha(*var_start) && *var_start != '_' && *var_start != '?')
+	{
+		exp->var_name = NULL;
+		return (true);
+	}
+	exp->var_name = extract_var_name(var_start);
+	if (!exp->var_name || exp->var_name[0] == '\0')
+	{
+		printf("WhatTheShell: syntax error near ");
+		printf("unexpected token `newline'\n");
+		return (false);
+	}
+	return (true);
+}
 
 bool	extract_before_and_var(char *token, t_expansion *exp)
 {
@@ -20,27 +45,7 @@ bool	extract_before_and_var(char *token, t_expansion *exp)
 	if (!exp->before)
 		return (false);
 	var_start = token + exp->dollar_pos + 1;
-	printf("%s\n", token + exp->dollar_pos + 1);
-	if ( !var_start /*|| *var_start == '\0'*/ || ft_strncmp(var_start, ">>", 2) == 0
-		|| ft_strncmp(var_start, "<<", 2) == 0 /*|| *var_start == '>'*/
-		|| *var_start == '<' || *var_start == '|')
-	{
-		printf("%d\n", exp->dollar_pos + 1);
-		printf("WhatTheShell: syntax error near unexpected token 1 `newline'\n");
-		return (false);
-	}
-	if (!ft_isalpha(*var_start) && *var_start != '_' && *var_start != '?')
-    {
-        exp->var_name = NULL;
-        return (true);
-    }
-	exp->var_name = extract_var_name(var_start);
-	if (!exp->var_name || exp->var_name[0] == '\0')
-	{
-		printf("WhatTheShell: syntax error near unexpected token `newline'\n");
-		return (false);
-	}
-	return (true);
+	return (check_var_syntax(var_start, exp));
 }
 
 bool	extract_var_value(t_expansion *exp, t_env *env_copy)
