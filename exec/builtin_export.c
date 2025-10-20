@@ -6,11 +6,35 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/17 13:53:01 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 13:33:37 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	dash_before_equal(char *arg)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while(arg[i])
+	{
+		if (arg[i] == '-')
+			break ;
+		i++;
+	}
+	j = 0;
+	while(arg[j])
+	{
+		if (arg[j] == '=')
+			break ;
+		j++;
+	}
+	if (i < j)
+		return (1);
+	return (0);
+}
 
 static int	add_export(t_export *export, t_command *command, int i)
 {
@@ -54,7 +78,7 @@ static int	append_export(t_export *export, t_command *command, int i)
 	return (1);
 }
 
-static void	new_export(t_export *export, t_command *command)
+static int	new_export(t_export *export, t_command *command)
 {
 	int		i;
 	int		j;
@@ -67,13 +91,14 @@ static void	new_export(t_export *export, t_command *command)
 		{
 			if ((command->args[i][j] == '=' && j == 0)
 				|| (command->args[i][j] == '+' 
-					&& command->args[i][j + 1] != '='))
+					&& command->args[i][j + 1] != '=')
+				|| dash_before_equal(command->args[i]))
 			{
 				write(STDERR_FILENO, "WhatTheShell: export: `", 23);
 				write(STDERR_FILENO, command->args[i],
 					ft_strlen(command->args[i]));
 				write(STDERR_FILENO, "': not a valid identifier\n", 26);
-				return ;
+				return (1);
 			}
 			else if (append_export(export, command, i))
 				break ;
@@ -86,6 +111,7 @@ static void	new_export(t_export *export, t_command *command)
 		j = 0;
 		i++;
 	}
+	return (0);
 }
 
 int	builtin_export(t_export *export, t_command *command)
@@ -95,10 +121,7 @@ int	builtin_export(t_export *export, t_command *command)
 	int		i;
 
 	if (command->args[1])
-	{
-		new_export(export, command);
-		return (0);
-	}
+		return (new_export(export, command));
 	export_tab = env_list_to_tab(export->export);
 	sort_env_tab(export_tab);
 	i = 0;
