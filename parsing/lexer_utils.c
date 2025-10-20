@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:40:18 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/18 14:20:53 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:00:30 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,4 @@ void	detect_command_tokens(t_token *tokens)
 		}
 		tokens = tokens->next;
 	}
-}
-
-char	*append_and_free(char *s1, char *s2)
-{
-	char	*new_str;
-
-	new_str = ft_strjoin(s1, s2);
-	free(s1);
-	free(s2);
-	if (!new_str)
-		return (NULL);
-	return (new_str);
 }
