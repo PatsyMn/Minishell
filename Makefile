@@ -6,7 +6,7 @@
 #    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/20 12:57:23 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/10/20 14:10:10 by pmeimoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRCS = main.c \
 	parsing/expand_tokens.c \
 	parsing/expansion_preparation.c \
 	parsing/expansion_extract.c \
+	parsing/expansion_name.c \
 	parsing/quote_utils.c \
 	parsing/init.c \
 	exec/builtin_cd.c \
