@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:52:49 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/20 15:28:57 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:30:03 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	expand_tokens(t_token *tokens, t_env *env_copy)
 			expand_variable_token(tokens, env_copy);
 		else if (tokens->type == T_DOUBLE_QUOTE)
 			process_double_quoted_token(tokens);
-		else if ((tokens->type == T_REDIR_OUT || tokens->type == T_APPEND_OUT) && !tokens->next)
+		else if ((tokens->type == T_REDIR_OUT || tokens->type == T_APPEND_OUT)
+			&& !tokens->next)
 		{
 			g_status = 2;
 			printf("WhatTheShell: syntax error near ");
