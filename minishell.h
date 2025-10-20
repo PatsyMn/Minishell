@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 14:09:48 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:24:04 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ char					*ft_strdup_with_escape(const char *input, int start,
 
 // utiliy_functions2.c
 int						is_operator_char(char c);
-// void					print_token_list(t_token *list);
+void					print_token_list(t_token *list);
 
 // lexer_operator.c
 int						operator_len(char *str);
