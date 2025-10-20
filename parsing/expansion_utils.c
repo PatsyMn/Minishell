@@ -6,7 +6,7 @@
 /*   By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 10:46:10 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/20 16:14:40 by pmeimoun         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:38:28 by pmeimoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	find_dollar(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && str[i + 1] != ' ' && str[i + 1] != '\0')
 			return (i);
 		i++;
 	}
