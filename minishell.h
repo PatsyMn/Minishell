@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 17:45:37 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 18:04:32 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,6 +307,8 @@ int						execute_cmd(t_export *export, t_command *commands,
 char					**env_list_to_tab(t_env *env);
 
 // execute_utils.c
+int						dash_before_equal(char *arg);
+char					*join_path_cmd(char *dir, char *cmd);
 int						env_list_size(t_env *env);
 void					free_tab(char **tab);
 void					free_execute(t_export *export, t_pipex *pipex);

@@ -6,35 +6,11 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 14:42:24 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 18:03:02 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static int	dash_before_equal(char *arg)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while(arg[i])
-	{
-		if (arg[i] == '-' || !ft_isalpha(arg[i]))
-			break ;
-		i++;
-	}
-	j = 0;
-	while(arg[j])
-	{
-		if (arg[j] == '=')
-			break ;
-		j++;
-	}
-	if (i < j)
-		return (1);
-	return (0);
-}
 
 static int	add_export(t_export *export, t_command *command, int i)
 {
@@ -78,37 +54,35 @@ static int	append_export(t_export *export, t_command *command, int i)
 	return (1);
 }
 
+static int	is_invalid_identifier(char *arg)
+{
+	if ((arg[0] == '=') || dash_before_equal(arg))
+		return (1);
+	return (0);
+}
+
 static int	new_export(t_export *export, t_command *command)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 1;
-	j = 0;
 	while (command->args[i])
 	{
+		j = 0;
+		if (is_invalid_identifier(command->args[i]))
+			return (write(2, "WhatTheShell: export: `", 23),
+				write(2, command->args[i], ft_strlen(command->args[i])),
+				write(2, "': not a valid identifier\n", 26), 1);
 		while (command->args[i][j])
 		{
-			if ((command->args[i][j] == '=' && j == 0)
-				|| (command->args[i][j] == '+' 
-					&& command->args[i][j + 1] != '=')
-				|| dash_before_equal(command->args[i]))
-			{
-				write(STDERR_FILENO, "WhatTheShell: export: `", 23);
-				write(STDERR_FILENO, command->args[i],
-					ft_strlen(command->args[i]));
-				write(STDERR_FILENO, "': not a valid identifier\n", 26);
-				return (1);
-			}
-			else if (append_export(export, command, i))
+			if (append_export(export, command, i)
+				|| add_export(export, command, i))
 				break ;
-			else if (add_export(export, command, i))
-				break ;
-			else if (!command->args[i][j + 1])
+			if (!command->args[i][j + 1])
 				my_setenv(&export->export, command->args[i], NULL);
 			j++;
 		}
-		j = 0;
 		i++;
 	}
 	return (0);

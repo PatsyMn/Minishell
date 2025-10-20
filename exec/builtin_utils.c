@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 14:11:36 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 14:43:58 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/20 18:05:41 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,18 @@ void	append_to_envs(t_env **env, char *key, char *new_value)
 {
 	t_env	*tmp;
 	char	*joined;
+	char	*old_value;
 
 	tmp = *env;
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key)) == 0)
 		{
-			joined = ft_strjoin(tmp->content ? tmp->content : "", new_value);
+			old_value = tmp->content;
+			if (old_value)
+				joined = ft_strjoin(old_value, new_value);
+			else
+				joined = ft_strdup(new_value);
 			free(tmp->content);
 			tmp->content = joined;
 			return ;

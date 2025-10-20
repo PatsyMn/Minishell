@@ -15,38 +15,6 @@
 
 #include "../minishell.h"
 
-static char	*join_path_cmd(char *dir, char *cmd)
-{
-	char	*tmp;
-	char	*full;
-
-	tmp = ft_strjoin(dir, "/");
-	if (!tmp)
-		return (NULL);
-	full = ft_strjoin(tmp, cmd);
-	free(tmp);
-	return (full);
-}
-
-static void	check_file(char *cmd, char **env, t_export *export, t_pipex *pipex)
-{
-	struct stat	st;
-
-	if (stat(cmd, &st) == 0)
-	{
-		if (S_ISDIR(st.st_mode))
-		{
-			write(STDERR_FILENO, "WhatTheShell: ", 14);
-			write(STDERR_FILENO, cmd, ft_strlen(cmd));
-			write(STDERR_FILENO, ": Is a directory\n", 17);
-			free(cmd);
-			free_tab(env);
-			free_execute(export, pipex);
-			exit(126);
-		}
-	}
-}
-
 static char	*find_cmd(char *cmd, t_env *env)
 {
 	char	**path;
@@ -71,6 +39,48 @@ static char	*find_cmd(char *cmd, t_env *env)
 	}
 	free_tab(path);
 	return (NULL);
+}
+
+static void	check_file(char *cmd, char **env, t_export *export, t_pipex *pipex)
+{
+	struct stat	st;
+
+	if (stat(cmd, &st) == 0)
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			write(STDERR_FILENO, "WhatTheShell: ", 14);
+			write(STDERR_FILENO, cmd, ft_strlen(cmd));
+			write(STDERR_FILENO, ": Is a directory\n", 17);
+			free(cmd);
+			free_tab(env);
+			free_execute(export, pipex);
+			exit(126);
+		}
+	}
+}
+
+char	*error_exec(t_export *exp, t_command *com, t_pipex *pip, char **env_t)
+{
+	char	*cmd;
+
+	if (com->token_list->value[0] == '\0' && !com->token_list->next)
+	{
+		free_tab(env_t);
+		free_execute(exp, pip);
+		exit (0);
+	}
+	cmd = find_cmd(com->args[0], exp->env);
+	if (!cmd)
+	{
+		write(STDERR_FILENO, "WhatTheShell: ", 14);
+		write(STDERR_FILENO, com->args[0], ft_strlen(com->args[0]));
+		write(STDERR_FILENO, ": command not found\n", 20);
+		free_tab(env_t);
+		free_execute(exp, pip);
+		exit(127);
+	}
+	return (cmd);
 }
 
 char	**env_list_to_tab(t_env *env)
@@ -99,29 +109,6 @@ char	**env_list_to_tab(t_env *env)
 	}
 	env_tab[i] = NULL;
 	return (env_tab);
-}
-
-char	*error_exec(t_export *exp, t_command *com, t_pipex *pip, char **env_t)
-{
-	char *cmd;
-
-	if (com->token_list->value[0] == '\0' && !com->token_list->next)
-	{
-		free_tab(env_t);
-		free_execute(exp, pip);
-		exit (0);
-	}
-	cmd = find_cmd(com->args[0], exp->env);
-	if (!cmd)
-	{
-		write(STDERR_FILENO, "WhatTheShell: ", 14);
-		write(STDERR_FILENO, com->args[0], ft_strlen(com->args[0]));
-		write(STDERR_FILENO, ": command not found\n", 20);
-		free_tab(env_t);
-		free_execute(exp, pip);
-		exit(127);
-	}
-	return (cmd);
 }
 
 int	execute_cmd(t_export *export, t_command *commands, t_pipex *pipex)
