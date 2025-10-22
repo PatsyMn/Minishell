@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 13:28:09 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/22 17:31:30 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/22 18:25:36 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	read_heredoc(char *delimiter, int heredoc_file_fd)
 		line = get_next_line(STDIN_FILENO);
 		if (!line || g_status == 99)
 		{
+			printf("\n");
 			if (line)
 				free(line);
 			break ;
@@ -37,8 +38,6 @@ static void	read_heredoc(char *delimiter, int heredoc_file_fd)
 		write(heredoc_file_fd, line, ft_strlen(line));
 		free(line);
 	}
-	close(heredoc_file_fd);
-	reset_signals_to_default();
 }
 
 void	open_heredoc(t_command *command, t_pipex *pipex)
@@ -46,6 +45,7 @@ void	open_heredoc(t_command *command, t_pipex *pipex)
 	char	*delimiter;
 	int		heredoc_file_fd;
 
+	g_status = 0;
 	delimiter = find_delimiter(&command->token_list);
 	if (!delimiter)
 		return ;
@@ -57,6 +57,8 @@ void	open_heredoc(t_command *command, t_pipex *pipex)
 	}
 	read_heredoc(delimiter, heredoc_file_fd);
 	free(delimiter);
+	close(heredoc_file_fd);
+	init_signals_prompt();
 	if (g_status == 99 || g_status == 130)
 	{
 		unlink("temp");

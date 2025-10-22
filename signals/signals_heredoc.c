@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/22 13:52:45 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/22 18:37:52 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,12 @@ void	handle_signal_heredoc(int signal)
 			close(dev_null);
 		}
 	}
+	// if (signal == SIGQUIT)
+	// 	printf("\e2D  \e2D");
 }
 
 void	init_signals_heredoc(void)
 {
 	signal(SIGINT, handle_signal_heredoc);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	reset_signals_to_default(void)
-{
-	signal(SIGINT, handle_signal_prompt);
 	signal(SIGQUIT, SIG_IGN);
 }
