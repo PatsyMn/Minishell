@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/21 12:46:26 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/22 17:27:21 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ char					*ft_strdup_with_escape(const char *input, int start,
 
 // utiliy_functions2.c
 int						is_operator_char(char c);
+void					print_token_list(t_token *list);
 
 // lexer_operator.c
 int						operator_len(char *str);
@@ -319,8 +320,7 @@ int						fork_and_exec(t_pipex *pipex, t_command *command,
 							t_export *export);
 
 // redirection.c
-int						redirection(t_pipex *pipex, t_command *command,
-							t_export *export);
+int						redirection(t_pipex *pipex, t_command *command);
 
 // pipe_utils.c
 void					safe_close(int *fd);
@@ -329,10 +329,10 @@ int						is_pipeline(t_command *commands, t_pipex *pipex,
 							t_export *export);
 int						check_pipe(t_pipex *pipex, t_command *command,
 							t_export *export);
-char					*find_token(t_token *token_list, t_token_type type);
+char					*find_delimiter(t_token **token_list);
 
 // open_files.c
-void					open_heredoc(t_command *command);
+void					open_heredoc(t_command *command, t_pipex *pipex);
 
 // builtin_utils.c
 void					sort_env_tab(char **env_tab);

@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:39:12 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 16:39:15 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/22 12:36:04 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,29 @@ void	safe_close(int *fd)
 	}
 }
 
-char	*find_token(t_token *token_list, t_token_type type)
+char	*find_delimiter(t_token **token_list)
 {
-	while (token_list)
+	t_token	*prev;
+	t_token	*cur;
+	char	*value;
+
+	prev = NULL;
+	cur = *token_list;
+	while (cur)
 	{
-		if (token_list->type == type)
-			return (token_list->value);
-		token_list = token_list->next;
+		if (cur->type == T_DELIMITER)
+		{
+			value = ft_strdup(cur->value);
+			if (prev)
+				prev->next = cur->next;
+			else
+				*token_list = cur->next;
+			free(cur->value);
+			free(cur);
+			return (value);
+		}
+		prev = cur;
+		cur = cur->next;
 	}
 	return (NULL);
 }
@@ -53,7 +69,7 @@ int	is_pipeline(t_command *commands, t_pipex *pipex, t_export *export)
 {
 	if (!commands->next && is_builtin(commands))
 	{
-		if (redirection(pipex, commands, export))
+		if (redirection(pipex, commands))
 		{
 			if (pipex->output_fd != -1)
 				dup2(pipex->output_fd, STDOUT_FILENO);

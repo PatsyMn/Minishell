@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmeimoun <pmeimoun@student.42nice.fr>      +#+  +:+       +#+         #
+#    By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/24 20:47:21 by pmeimoun          #+#    #+#              #
-#    Updated: 2025/10/21 10:38:53 by pmeimoun         ###   ########.fr        #
+#    Updated: 2025/10/22 17:30:31 by mbores           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ MAKEFLAGS += --no-print-directory
 
 CC = cc
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -I./Libft -I.
-#CFLAGS = -Wall -Wextra -Werror -ggdb -g3 -fsanitize=address -I./Libft -I.
+#CFLAGS = -Wall -Wextra -Werror -I./Libft -I.
+CFLAGS = -Wall -Wextra -Werror -ggdb -g3 -I./Libft -I.
 
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a

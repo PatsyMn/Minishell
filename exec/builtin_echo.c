@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:23:21 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 16:04:18 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/21 18:24:04 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	is_printable_token(t_token *token)
 {
 	if (token->type == T_APPEND_OUT || token->type == T_FILENAME
 		|| token->type == T_HEREDOC || token->type == T_REDIR_IN
-		|| token->type == T_REDIR_OUT)
+		|| token->type == T_REDIR_OUT || token->type == T_DELIMITER)
 		return (0);
 	return (1);
 }

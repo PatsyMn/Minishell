@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:37:20 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 16:32:33 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/22 17:27:01 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,34 +89,34 @@ static int	redir_append(t_pipex *pipex, t_token *token)
 	return (1);
 }
 
-static int	redir_heredoc(t_pipex *pipex, t_command *command, t_export *export)
-{
-	int	status;
+// static int	redir_heredoc(t_pipex *pipex, t_command *command, t_export *export)
+// {
+// 	int	status;
 
-	pipex->pid = fork();
-	if (pipex->pid == -1)
-	{
-		perror("fork heredoc");
-		return (0);
-	}
-	if (pipex->pid == 0)
-	{
-		open_heredoc(command);
-		free_execute(export, pipex);
-		exit(0);
-	}
-	waitpid(pipex->pid, &status, 0);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{
-		write(1, "\n", 1);
-		g_status = 130;
-		unlink("temp");
-		return (0);
-	}
-	return (1);
-}
+// 	pipex->pid = fork();
+// 	if (pipex->pid == -1)
+// 	{
+// 		perror("fork heredoc");
+// 		return (0);
+// 	}
+// 	if (pipex->pid == 0)
+// 	{
+// 		open_heredoc(command);
+// 		free_execute(export, pipex);
+// 		exit(0);
+// 	}
+// 	waitpid(pipex->pid, &status, 0);
+// 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+// 	{
+// 		write(1, "\n", 1);
+// 		g_status = 130;
+// 		unlink("temp");
+// 		return (0);
+// 	}
+// 	return (1);
+// }
 
-int	redirection(t_pipex *pipex, t_command *command, t_export *export)
+int	redirection(t_pipex *pipex, t_command *command)
 {
 	t_token	*tok;
 
@@ -128,9 +128,10 @@ int	redirection(t_pipex *pipex, t_command *command, t_export *export)
 			return (0);
 		if (tok->type == T_HEREDOC && tok->next)
 		{
-			if (!redir_heredoc(pipex, command, export))
+			open_heredoc(command, pipex);
+			if (g_status == 130)
 				return (0);
-			else
+			if (!access("temp", F_OK))
 			{
 				pipex->input_fd = open("temp", O_RDONLY);
 				if (pipex->input_fd == -1)
