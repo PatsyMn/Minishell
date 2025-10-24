@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:58:36 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 17:55:32 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/24 16:08:18 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ int	builtin_cd(t_command *command, t_env **env)
 	if (command->args[2])
 		return (write(2, "WhatTheShell: cd: too many arguments\n", 37), 1);
 	oldpwd = getcwd(NULL, 0);
+	if (!oldpwd)
+	{
+		write(STDERR_FILENO, "pwd: error retrieving current directory: ", 41);
+		write(STDERR_FILENO, "getcwd: cannot access parent directories: ", 42);
+		write(STDERR_FILENO, "No such file or directory\n", 26);
+		return (1);
+	}
 	if (!command->args[1])
 		return (cd_home(env, oldpwd));
 	pwd = my_getenv(*env, "PWD");
