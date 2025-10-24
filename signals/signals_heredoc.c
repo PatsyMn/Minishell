@@ -6,15 +6,15 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/24 14:39:35 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/24 15:35:42 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void disable_ctrl_echo(void)
+void	disable_ctrl_echo(void)
 {
-	struct termios term;
+	struct termios	term;
 
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
 		return ;
@@ -22,9 +22,9 @@ void disable_ctrl_echo(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-void enable_ctrl_echo(void)
+void	enable_ctrl_echo(void)
 {
-	struct termios term;
+	struct termios	term;
 
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
 		return ;

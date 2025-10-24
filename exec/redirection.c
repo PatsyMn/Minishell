@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 13:37:20 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/22 17:27:01 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/24 15:38:26 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,32 +89,25 @@ static int	redir_append(t_pipex *pipex, t_token *token)
 	return (1);
 }
 
-// static int	redir_heredoc(t_pipex *pipex, t_command *command, t_export *export)
-// {
-// 	int	status;
-
-// 	pipex->pid = fork();
-// 	if (pipex->pid == -1)
-// 	{
-// 		perror("fork heredoc");
-// 		return (0);
-// 	}
-// 	if (pipex->pid == 0)
-// 	{
-// 		open_heredoc(command);
-// 		free_execute(export, pipex);
-// 		exit(0);
-// 	}
-// 	waitpid(pipex->pid, &status, 0);
-// 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-// 	{
-// 		write(1, "\n", 1);
-// 		g_status = 130;
-// 		unlink("temp");
-// 		return (0);
-// 	}
-// 	return (1);
-// }
+static int	redir_heredoc(t_pipex *pipex, t_token *token, t_command *command)
+{
+	if (token->type == T_HEREDOC && token->next)
+	{
+		open_heredoc(command, pipex);
+		if (g_status == 130)
+			return (0);
+		if (!access("temp", F_OK))
+		{
+			pipex->input_fd = open("temp", O_RDONLY);
+			if (pipex->input_fd == -1)
+			{
+				perror("open heredoc_tmp");
+				return (0);
+			}
+		}
+	}
+	return (1);
+}
 
 int	redirection(t_pipex *pipex, t_command *command)
 {
@@ -124,23 +117,9 @@ int	redirection(t_pipex *pipex, t_command *command)
 	while (tok)
 	{
 		if (!redir_in(pipex, tok) || !redir_out(pipex, tok)
-			|| !redir_append(pipex, tok))
+			|| !redir_append(pipex, tok)
+			|| !redir_heredoc(pipex, tok, command))
 			return (0);
-		if (tok->type == T_HEREDOC && tok->next)
-		{
-			open_heredoc(command, pipex);
-			if (g_status == 130)
-				return (0);
-			if (!access("temp", F_OK))
-			{
-				pipex->input_fd = open("temp", O_RDONLY);
-				if (pipex->input_fd == -1)
-				{
-					perror("open heredoc_tmp");
-					return (0);
-				}
-			}
-		}
 		tok = tok->next;
 	}
 	return (1);

@@ -119,7 +119,6 @@ int	execute_cmd(t_export *export, t_command *commands, t_pipex *pipex)
 	env_tab = env_list_to_tab(export->env);
 	cmd = error_exec(export, commands, pipex, env_tab);
 	check_file(cmd, env_tab, export, pipex);
-	//reset_signals_to_default();
 	signal(SIGQUIT, NULL);
 	execve(cmd, commands->args, env_tab);
 	perror("WhatTheShell");

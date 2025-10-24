@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/24 14:07:06 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/24 15:39:21 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <termios.h>
-
 
 # ifndef ECHOCTL
 #  define ECHOCTL 0001000
