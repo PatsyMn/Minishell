@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:35:10 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/22 18:25:47 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/24 14:07:06 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <termios.h>
+
+
+# ifndef ECHOCTL
+#  define ECHOCTL 0001000
+# endif
 
 typedef enum e_token_type
 {
@@ -297,6 +303,8 @@ void					handle_signal_prompt(int sig);
 void					init_signals_prompt(void);
 
 // signals_heredoc.c
+void					disable_ctrl_echo(void);
+void					enable_ctrl_echo(void);
 void					handle_signal_heredoc(int sig);
 void					init_signals_heredoc(void);
 

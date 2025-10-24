@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:39:12 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/22 12:36:04 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/24 14:49:11 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,13 @@ char	*find_delimiter(t_token **token_list)
 int	restore_prompt(t_pipex *pipex)
 {
 	if (pipex->output_fd >= 0)
-	{
 		dup2(pipex->saved_stdout, STDOUT_FILENO);
-		safe_close(&pipex->saved_stdout);
-	}
 	if (pipex->input_fd >= 0)
-	{
 		dup2(pipex->saved_stdin, STDIN_FILENO);
-		safe_close(&pipex->saved_stdin);
-	}
 	safe_close(&pipex->input_fd);
 	safe_close(&pipex->output_fd);
+	safe_close(&pipex->saved_stdout);
+	safe_close(&pipex->saved_stdin);
 	return (0);
 }
 

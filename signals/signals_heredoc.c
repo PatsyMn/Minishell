@@ -6,11 +6,31 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:02:26 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/22 18:37:52 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/24 14:39:35 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void disable_ctrl_echo(void)
+{
+	struct termios term;
+
+	if (tcgetattr(STDIN_FILENO, &term) == -1)
+		return ;
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+void enable_ctrl_echo(void)
+{
+	struct termios term;
+
+	if (tcgetattr(STDIN_FILENO, &term) == -1)
+		return ;
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
 
 void	handle_signal_heredoc(int signal)
 {
@@ -27,8 +47,6 @@ void	handle_signal_heredoc(int signal)
 			close(dev_null);
 		}
 	}
-	// if (signal == SIGQUIT)
-	// 	printf("\e2D  \e2D");
 }
 
 void	init_signals_heredoc(void)

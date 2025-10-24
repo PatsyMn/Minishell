@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 13:28:09 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/22 18:25:36 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/24 14:08:17 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void	read_heredoc(char *delimiter, int heredoc_file_fd)
 		write(heredoc_file_fd, line, ft_strlen(line));
 		free(line);
 	}
+	enable_ctrl_echo();
 }
 
 void	open_heredoc(t_command *command, t_pipex *pipex)
@@ -55,6 +56,7 @@ void	open_heredoc(t_command *command, t_pipex *pipex)
 		perror("open heredoc");
 		return ;
 	}
+	disable_ctrl_echo();
 	read_heredoc(delimiter, heredoc_file_fd);
 	free(delimiter);
 	close(heredoc_file_fd);

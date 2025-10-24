@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:24:58 by mbores            #+#    #+#             */
-/*   Updated: 2025/10/20 18:03:02 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/24 14:15:36 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ static int	add_export(t_export *export, t_command *command, int i)
 	if (!equal)
 		return (0);
 	key_value = ft_split(command->args[i], '=');
-	if (!key_value || !key_value[0])
+	if (!key_value)
 		return (0);
 	key = ft_strdup(key_value[0]);
 	value = NULL;
 	if (key_value[1])
 		value = ft_strdup(key_value[1]);
+	else
+		value = ft_strdup("");
 	add_to_envs(export, key, value);
 	free_key_value(key_value);
 	free(key);
