@@ -6,7 +6,7 @@
 /*   By: mbores <mbores@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:30:09 by pmeimoun          #+#    #+#             */
-/*   Updated: 2025/10/22 14:38:51 by mbores           ###   ########.fr       */
+/*   Updated: 2025/10/24 17:02:25 by mbores           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ int	init_pipex(t_pipex *pipex, t_command *commands)
 	return (1);
 }
 
+static void	init_env(t_shell *shell, char **envp)
+{
+	int		shlvl;
+
+	shell->export->env = copy_env_chained(envp);
+	shell->export->export = copy_env_chained(envp);
+	shlvl = ft_atoi(my_getenv(shell->export->env, "SHLVL"));
+	shlvl++;
+	my_setenv(&shell->export->env, "SHLVL", ft_itoa(shlvl));
+	my_setenv(&shell->export->export, "SHLVL", ft_itoa(shlvl));
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
@@ -45,8 +57,7 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	shell.ret = 1;
 	shell.prompt = PINK "WhatTheShell" RESET "$ \001\002";
-	shell.export->env = copy_env_chained(envp);
-	shell.export->export = copy_env_chained(envp);
+	init_env(&shell, envp);
 	g_status = 0;
 	while (shell.ret)
 	{
